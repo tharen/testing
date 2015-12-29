@@ -16,11 +16,11 @@ python:
 #    - unixodbc-dev
 #    - python3-numpy
 
-env:
-  global:
-    - BUILD_ROOT=$PWD/$REPO/bin
-    - PROJ_ROOT=$PWD/$REPO
-    - F2PY=f2py
+#env:
+#  global:
+#    - BUILD_ROOT=$PWD/$REPO/bin
+#    - PROJ_ROOT=$PWD/$REPO
+#    - F2PY=f2py
 #    - MSYSTEM=MINGW64
     
 script:
