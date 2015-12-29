@@ -3,8 +3,9 @@ install:
     - set MSYSTEM=MINGW64
 
 build_script:
-    ps: bash -c @"
-      cd ./build
-      cmake -g \"MSYS Makefiles\" .
-      make
+    ps: >-
+      bash -c @"
+        cd ./build
+        cmake -g \"MSYS Makefiles\" .
+        make
       "@
