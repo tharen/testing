@@ -24,5 +24,6 @@ python:
 #    - MSYSTEM=MINGW64
     
 script:
-  - cd ./build && cmake -g \"Unix Makefiles\" . -DCMAKE_SYSTEM_NAME=Linux
+  - cd ./build
+  - cmake -g \"Unix Makefiles\" . -DCMAKE_SYSTEM_NAME=Linux
   - make
