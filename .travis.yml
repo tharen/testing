@@ -1,0 +1,28 @@
+language: python
+
+python:
+  - "3.5"
+    
+#addons:
+#  apt:
+#    sources:
+#    - george-edison55-precise-backports
+#    - kubuntu-backports
+
+#    packages:
+#    - cmake
+#    - gfortran
+#    - unixodbc
+#    - unixodbc-dev
+#    - python3-numpy
+
+env:
+  global:
+    - BUILD_ROOT=$PWD/$REPO/bin
+    - PROJ_ROOT=$PWD/$REPO
+    - F2PY=f2py
+#    - MSYSTEM=MINGW64
+    
+script:
+  - cd ./build && cmake -g \"Unix Makefiles\" . -DCMAKE_SYSTEM_NAME=Linux
+  - make
