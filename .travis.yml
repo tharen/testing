@@ -12,8 +12,8 @@ addons:
     packages:
     - cmake
     - gfortran
-#    - unixodbc
-#    - unixodbc-dev
+    - unixodbc
+    - unixodbc-dev
 #    - python3-numpy
 
 #env:
