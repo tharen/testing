@@ -6,9 +6,10 @@ python:
 addons:
   apt:
     sources:
-    - george-edison55-precise-backports
-    - kubuntu-backports
-
+    - george-edison55-precise-backports  # Provides unixodbc, unixodbc-dev
+    - kubuntu-backports  # Provides CMake 3.2
+    
+    # Add packages not included in the base system
     packages:
     - cmake
     - gfortran
