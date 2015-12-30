@@ -6,8 +6,8 @@ python:
 addons:
   apt:
     sources:
-    - george-edison55-precise-backports
-#    - kubuntu-backports
+#    - george-edison55-precise-backports
+    - kubuntu-backports
 
     packages:
     - cmake
