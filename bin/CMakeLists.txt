@@ -67,7 +67,7 @@ foreach (sourceList ${tobuild})
   string(REPLACE "FVS" "" varName ${prgName})
 
   file(STRINGS ${sourceList}  sourceListStrings  NEWLINE_CONSUME)
-  string(REPLACE "../" "../../" newsourceList ${sourceListStrings})
+  string(REPLACE "../" "/c/projects/testing/" newsourceList ${sourceListStrings})
 
   file(STRINGS CMakeLists.txt cmakelistin NEWLINE_CONSUME)
 
