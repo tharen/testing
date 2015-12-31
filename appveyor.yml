@@ -1,11 +1,14 @@
 install:
     - set "PATH=C:\msys64\usr\bin;C:\msys64\mingw64\bin;C:\Windows\System32;C:\Windows;%PATH%"
     - set MSYSTEM=MINGW64
-
+    - pacman --noconfirm -Sy
+    - pacman --noconfirm --needed -S pacman-mirrors
+    - pacman --noconfirm -Sy
+    - pacman --noconfirm --needed -S mingw-w64-x86_64-cmake
+    
 build_script:
     ps: >-
       bash -c @"
-        which cmake
         ./configure_appveyor.sh
         make -f makefile_all all
         make -f makefile_all bundle
