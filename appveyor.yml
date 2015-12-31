@@ -12,6 +12,7 @@ build_script:
     ps: >-
       bash -c @"
         ./configure_appveyor.sh
+        ls -lah
         cd bin
         make -f makefile_all all
         make -f makefile_all bundle
