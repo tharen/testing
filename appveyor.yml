@@ -1,7 +1,7 @@
 install:
     - set "PATH=C:\msys64\usr\bin;C:\msys64\mingw64\bin;C:\Windows\System32;C:\Windows;%PATH%"
     - set MSYSTEM=MINGW64
-    - pacman --noconfirm -Syu
+    # - pacman --noconfirm -Syu
     # - pacman --noconfirm --needed -Sy bash pacman pacman-mirrors msys2-runtime msys2-runtime-devel
     # - pacman --noconfirm -Su
     - pacman --noconfirm -S mingw-w64-x86_64-gcc
