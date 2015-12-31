@@ -1,0 +1,23 @@
+language: python
+
+python:
+  - "2.7"
+    
+addons:
+  apt:
+    sources:
+    - george-edison55-precise-backports
+    - kubuntu-backports
+
+    packages:
+    - cmake
+    - gfortran
+    - unixodbc
+    - unixodbc-dev
+    - p7zip-full
+    
+script:
+  - cd bin
+  - cmake -G"Unix Makefiles" . -DCMAKE_SYSTEM_NAME=Linux -DMAKE_JOBS=2
+  - make -f makefile_all all
+  - make -f makefile_all bundle
