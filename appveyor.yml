@@ -8,7 +8,8 @@ install:
     # - pacman --noconfirm --needed -Sy bash pacman pacman-mirrors msys2-runtime msys2-runtime-devel
     # - pacman --noconfirm -Su
     # - pacman --noconfirm -S mingw-w64-x86_64-gcc
-    # - pacman --noconfirm -S mingw-w64-x86_64-gcc-fortran
+    - pacman --noconfirm -Sy
+    - pacman --noconfirm -S mingw-w64-x86_64-gcc-fortran
     # - pacman --noconfirm -S mingw-w64-x86_64-cmake
     
 build_script:
