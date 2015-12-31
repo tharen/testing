@@ -3,7 +3,7 @@ version: 0.0.{build}
 install:
     - set "PATH=C:\msys64\usr\bin;C:\msys64\mingw64\bin;C:\Windows\System32;C:\Windows;%PATH%"
     - set MSYSTEM=MINGW64
-    # - set CHERE_INVOKING=1
+    - set CHERE_INVOKING=1
     # - pacman --noconfirm -Syu
     # - pacman --noconfirm --needed -Sy bash pacman pacman-mirrors msys2-runtime msys2-runtime-devel
     # - pacman --noconfirm -Su
