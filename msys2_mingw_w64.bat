@@ -3,6 +3,8 @@
 
 set proj_root=%~dp0
 
+set PATH=C:\progs\cmake\bin
+
 ::set PATH=C:\progs\msys64\usr\bin;C:\progs\msys64\MINGW64\bin;C:\Windows\System32;C:\Windows
 ::set PATH=C:\Anaconda3;C:\Anaconda3\DLLs;C:\Anaconda3\Scripts;%PATH%
 
