@@ -153,7 +153,7 @@ file(APPEND ${top_make} "\tdone\n")
 
 # Configure targets for each variant
 foreach (var ${all_vars})
-  file(APPEND ${top_make} "\n${var}:\n\t\$(MAKE) -C FVS${var}_CmakeDir\n")
+  file(APPEND ${top_make} "\n${var}:\n\t\$(MAKE) -j${MAKE_JOBS} -C FVS${var}_CmakeDir\n")
 endforeach ()
 
 return()
