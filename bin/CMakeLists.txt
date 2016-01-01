@@ -147,8 +147,7 @@ file(APPEND ${top_make} "\nbundle: \$(ALL_VARIANTS)\n\tmkdir -p $(BUNDLE_DIR)\n"
 file(APPEND ${top_make} "\tfor var in \$(ALL_VARIANTS); do \\\n")
 file(APPEND ${top_make} "\t\tcp FVS\$\${var}_CmakeDir/FVS\$\${var}\$(EXE_SUFFIX) \$(BUNDLE_DIR); \\\n")
 file(APPEND ${top_make} "\t\tcp FVS\$\${var}_CmakeDir/libFVS_\$\${var}\$(SO_SUFFIX) \$(BUNDLE_DIR); \\\n")
-file(APPEND ${top_make} "\t\tcp FVS\$\${var}_CmakeDir/libFVSfofem\$(SO_SUFFIX) \$(BUNDLE_DIR); \\\n")
-file(APPEND ${top_make} "\t\tcp FVS\$\${var}_CmakeDir/libFVSsql\$(SO_SUFFIX) \$(BUNDLE_DIR); \\\n")
+file(APPEND ${top_make} "\t\tcp FVS\$\${var}_CmakeDir/libFVS_\$\${var}.a \$(BUNDLE_DIR); \\\n")
 file(APPEND ${top_make} "\tdone\n")
 
 # Configure targets for each variant
@@ -291,6 +290,15 @@ set_target_properties(${prgName} PROPERTIES
     LINKER_LANGUAGE Fortran
     LINK_FLAGS "-static")
     
+set_target_properties(FVS_${varName} PROPERTIES
+    LINKER_LANGUAGE Fortran
+    LINK_FLAGS "-static")
+
+set_target_properties(FVS_${varName}_static PROPERTIES
+    LINKER_LANGUAGE Fortran
+    OUTPUT_NAME FVS_${varName}
+    LINK_FLAGS "-static")
+
 # set up function alias for DLL containing CPP code
 
 if (CMAKE_GENERATOR MATCHES "MinGW Makefiles")
