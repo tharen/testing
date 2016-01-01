@@ -1,5 +1,9 @@
 version: 0.0.{build}
 
+init:
+  # Display remote desktop details
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 install:
     - set "PATH=C:\msys64\usr\bin;C:\msys64\mingw64\bin;C:\Windows\System32;C:\Windows;%PATH%"
     - set MSYSTEM=MINGW64
@@ -24,4 +28,7 @@ build_script:
     # ps: bash ./configure_appveyor.sh
     - bash ./configure_appveyor.sh
     - bash -c "cd bin && make -f makefile_all all"
-    
+
+on_finish:
+  # Pause the build for remote desktop access
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
