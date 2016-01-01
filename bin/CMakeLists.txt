@@ -278,7 +278,6 @@ add_library(FVSsql SHARED ${CsourceSQL})
 add_library(FVSfofem SHARED ${CsourceFFE})
 ##add_library(FVScfim SHARED ${CsourceCFIM})
 add_library(FVS_${varName} SHARED ${FsourceFVS})
-set_target_properties(FVS_${varName} LINK_FLAGS -static-libgfortran -static-libquadmath)
 add_executable (${prgName} ${FsourceMAIN})
 
 target_link_libraries(${prgName} FVS_${varName} FVSsql FVSfofem)
@@ -287,6 +286,7 @@ target_link_libraries(FVS_${varName} FVSfofem FVSsql)
 add_dependencies(FVS_${varName} dbstypedefs)
 
 set_target_properties(${prgName} PROPERTIES LINKER_LANGUAGE Fortran)
+set_target_properties(FVS_${varName} LINK_FLAGS "-static-libgfortran -static-libquadmath")
 
 # set up function alias for DLL containing CPP code
 
