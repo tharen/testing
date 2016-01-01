@@ -209,6 +209,8 @@ if (CMAKE_COMPILER_IS_GNUCC)
   set (CMAKE_CXX_FLAGS "-cpp -w ${CMAKE_CXX_FLAGS}")
   set (CMAKE_C_FLAGS "-cpp -w ${CMAKE_C_FLAGS}")
   set (CMAKE_Fortran_FLAGS "-cpp -w -fno-align-commons ${CMAKE_Fortran_FLAGS}")
+  set (CMAKE_EXE_LINKER_FLAGS "-static ${CMAKE_EXE_LINKER_FLAGS}")
+  set (CMAKE_SHARED_LINKER_FLAGS "-static ${CMAKE_SHARED_LINKER_FLAGS}")
 endif ()
 
 set (OUTPUT_NAME ${prgName})
