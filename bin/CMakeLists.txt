@@ -286,7 +286,7 @@ target_link_libraries(FVS_${varName} FVSfofem FVSsql)
 add_dependencies(FVS_${varName} dbstypedefs)
 
 set_target_properties(${prgName} PROPERTIES LINKER_LANGUAGE Fortran)
-set_target_properties(FVS_${varName} LINK_FLAGS "-static-libgfortran -static-libquadmath")
+set_target_properties(FVS_${varName} PROPERTIES LINK_FLAGS -static-libgfortran -static-libquadmath)
 
 # set up function alias for DLL containing CPP code
 
