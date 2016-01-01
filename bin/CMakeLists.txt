@@ -206,9 +206,9 @@ endif ()
 
 if (CMAKE_COMPILER_IS_GNUCC)
   add_definitions(-DCMPgcc)
-  set (CMAKE_CXX_FLAGS "-cpp ${CMAKE_CXX_FLAGS}")
-  set (CMAKE_C_FLAGS "-cpp ${CMAKE_C_FLAGS}")
-  set (CMAKE_Fortran_FLAGS "-cpp -fno-align-commons ${CMAKE_Fortran_FLAGS}")
+  set (CMAKE_CXX_FLAGS "-cpp -w ${CMAKE_CXX_FLAGS}")
+  set (CMAKE_C_FLAGS "-cpp -w ${CMAKE_C_FLAGS}")
+  set (CMAKE_Fortran_FLAGS "-cpp -w -fno-align-commons ${CMAKE_Fortran_FLAGS}")
 endif ()
 
 set (OUTPUT_NAME ${prgName})
