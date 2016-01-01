@@ -32,8 +32,8 @@ after_build:
 
 artifacts:
     - path: bin\open-fvs.zip
-    - name: open-fvs
-    - type: zip
+      name: open-fvs
+      type: zip
     
 # on_finish:
   # # Pause the build for remote desktop access
