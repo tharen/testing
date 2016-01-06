@@ -18,5 +18,5 @@ addons:
     
 script:
   - mkdir -p bin/build
-  - cd bin/build && cmake -G"Unix Makefiles" .. -DFVS_VARIANTS="pnc;wcc" -DWITH_PYMOD=Yes -DCMAKE_SYSTEM_NAME=Linux
-  - cd bin/build && make -j2
+  - cd ${TRAVIS_BUILD_DIR}/bin/build && cmake -G"Unix Makefiles" .. -DFVS_VARIANTS="pnc;wcc" -DWITH_PYMOD=Yes -DCMAKE_SYSTEM_NAME=Linux
+  - cd ${TRAVIS_BUILD_DIR}/bin/build && make -j2
