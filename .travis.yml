@@ -19,6 +19,6 @@ addons:
 script:
   - ls -lah
   - cd bin
-  - cmake -G"Unix Makefiles" . -DCMAKE_SYSTEM_NAME=Linux -DMAKE_JOBS=2
-  - make -f makefile_all all
-  - make -f makefile_all bundle
+  - mkdir build
+  - cmake -G"Unix Makefiles" .. -DFVS_VARIANTS="pnc;wcc" -DWITH_PYMOD=Yes -DCMAKE_SYSTEM_NAME=Linux
+  - make -j2

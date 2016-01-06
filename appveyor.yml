@@ -37,12 +37,12 @@ install:
     - "set PATH=%PATH%;C:\\Windows\\System32;C:\\Windows"
     - "set PATH=%PATH%;C:\\Program Files\\7-Zip"
     - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-    - "conda create -q -y -n pyfvs_python --file c:\\projects\\testing\\requirements.txt"
+    - "conda create -q -y -n pyfvs_python --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
     - "activate pyfvs_python"
     
 build_script:
-    - bash --login .appveyor/configure.sh
-    - bash --login .appveyor/build.sh
+    - "bash --login ${APPVEYOR_BUILD_FOLDER}/.appveyor/configure.sh"
+    - "bash --login ${APPVEYOR_BUILD_FOLDER}/.appveyor/build.sh"
 
 after_build:
     - pushd bin
