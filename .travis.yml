@@ -4,6 +4,7 @@ python:
 env:
   global:
   - FVS_STATUS=alpha
+  - BUILD_ROOT=${TRAVIS_BUILD_DIR}/bin/build
   
 addons:
   apt:
@@ -18,22 +19,23 @@ addons:
     - p7zip-full
 
 script:
-- mkdir -p bin/build
-- cd ${TRAVIS_BUILD_DIR}/bin/build && cmake -G"Unix Makefiles" .. -DFVS_VARIANTS=pnc
+- mkdir -p ${BUILD_ROOT}
+- cd ${BUILD_ROOT} && cmake -G"Unix Makefiles" .. -DFVS_VARIANTS=pnc
   -DWITH_PYMOD=Yes -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_INSTALL_PREFIX=Open-FVS
-- cd ${TRAVIS_BUILD_DIR}/bin/build && make -j2
-- cd ${TRAVIS_BUILD_DIR}/bin/build && make install
+- cd ${BUILD_ROOT} && make -j2
+- cd ${BUILD_ROOT} && make install
 
 after_success:
-- cd ${TRAVIS_BUILD_DIR}/bin && 7z a -bd open-fvs_${TRAVIS_TAG}-${FVS_STATUS}.zip Open-FVS/*
-- ls ${TRAVIS_BUILD_DIR}/bin
+- cd ${BUILD_ROOT} && 7z a -bd open-fvs_${TRAVIS_TAG}-${FVS_STATUS}.zip Open-FVS/*
+- ls ${BUILD_ROOT}
+- ls ${BUILD_ROOT}/Open-FVS
 
 deploy:
   provider: releases
   skip_cleanup: true
   api_key:
     secure: tBbPX/kELwmJlxO/2YgqZfYM80DMnTr2z+pz0ukCR7hBakxkHnrJXrfsm479kStdEmOAekxHB7K3PiDNq+gVzj0xJBcGy8uAmh7LAGfdjLV7YGzfAFTYzCFOFu6Fc9dU8o+cn4nP33sePzbJ7HEyS8GMLWsLEDYGCeE1s0TF8tUF0zo+YdkAeZSno0zvZh5EvzUdB7j6XCJzYRYzzTvz0k2i8wgdc4sOty82yCECBuNsbxnHz3GzZ/HBOd9vTEFERDPOeyhJsXbjOQgfjK+gpeWYkFSR2B8YUqvk7jJhUqRtR3Ti9HlPRFx9uuTcRSEAF8WcdMzYXIf6kfh1wKEzsU4heZRaPB6aLHeQhy9bfWEeE550XYOskLQQZOGfA76Vts00sp8Z361CYOhiyY0WCYLzrLjH0Q2NtFhduBl3xmHt3+jXDA1zFrEhc4Ur1fdvAwjoJkupdXZtRHXn8Q+N7+QRV3NEAEMI2XtfAcT8IwHREyGEqQtKERwAFJFuU0/nKcxCJE1nDxO/MvJAKtSIjFovZMMidaJBnJpP8m710gHjvecbSNkKdcGQlT+Yx61WTP8tURrLgLoS4hqHfHsIeJI6R+mknUUlC8HBGdpjRl0eL7+TCm4IMsF6B2O5Iy/QBRuPKZ+HkHUy4ZJAAeaMAGLRByMyXY850YWiRLs08eg=
-  file: ${TRAVIS_BUILD_DIR}/bin/open-fvs_${TRAVIS_TAG}-${FVS_STATUS}.zip
+  file: ${BUILD_ROOT}/open-fvs_${TRAVIS_TAG}-${FVS_STATUS}.zip
   on:
     repo: tharen/testing
     tags: true
