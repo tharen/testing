@@ -280,7 +280,7 @@ set(dbstypedefs_f77 "${CMAKE_CURRENT_BINARY_DIR}/DBSTYPEDEFS.F77")
 # Execute the DBSTYPEDEFS.F77 generator.
 add_custom_command(
         OUTPUT ${dbstypedefs_f77}
-        COMMAND mkdbsTypeDefs
+        COMMAND $<TARGET_FILE:mkdbsTypeDefs>
         DEPENDS mkdbsTypeDefs)
 
 # Create a dummy target so the DBSTYPEDEFS.F77 generator will be called.
@@ -684,10 +684,10 @@ if (WITH_PYMOD)
             )
     
     if (WIN32)
-        set(pymod_fn "${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.pyd")
+        file(GLOB pymod_fn "${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}*.pyd")
     else ()
         # FIXME: Extension naming is different with Python 3
-        set(pymod_fn "${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.so")
+        file(GLOB pymod_fn "${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}*.so")
     endif()
 
     install(FILES "${pymod_fn}"
