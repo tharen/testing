@@ -17,8 +17,6 @@ addons:
     - p7zip-full
     
 script:
-  - ls -lah
-  - cd bin
-  - mkdir build
-  - cmake -G"Unix Makefiles" .. -DFVS_VARIANTS="pnc;wcc" -DWITH_PYMOD=Yes -DCMAKE_SYSTEM_NAME=Linux
-  - make -j2
+  - mkdir -p bin/build
+  - cd bin/build && cmake -G"Unix Makefiles" .. -DFVS_VARIANTS="pnc;wcc" -DWITH_PYMOD=Yes -DCMAKE_SYSTEM_NAME=Linux
+  - cd bin/build && make -j2

@@ -7,8 +7,8 @@ init:
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 environment:
-  global:
-    MSYSTEM: "MINGW64"
+  # global:
+    # MSYSTEM: "MINGW64"
     
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
     # /E:ON and /V:ON options are not enabled in the batch script intepreter
@@ -33,7 +33,8 @@ environment:
       # PYTHON_ARCH: "64"
       
 install:
-    - "set PATH=C:\\msys64\\usr\\bin;C:\\msys64\\mingw64\\bin"
+    # - "set PATH=C:\\msys64\\usr\\bin;C:\\msys64\\mingw64\\bin"
+    - "set PATH=C:\\msys64\\mingw64\\bin"
     - "set PATH=%PATH%;C:\\Windows\\System32;C:\\Windows"
     - "set PATH=%PATH%;C:\\Program Files\\7-Zip"
     - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
@@ -41,9 +42,11 @@ install:
     - "activate pyfvs_python"
     
 build_script:
-    - "bash --login ${APPVEYOR_BUILD_FOLDER}/.appveyor/configure.sh"
-    - "bash --login ${APPVEYOR_BUILD_FOLDER}/.appveyor/build.sh"
-
+    # - bash --login -c "cd ${APPVEYOR_BUILD_FOLDER} && .appveyor/configure.sh"
+    # - bash --login -c "cd ${APPVEYOR_BUILD_FOLDER} && .appveyor/build.sh"
+    - ${APPVEYOR_BUILD_FOLDER}/.appveyor/configure.bat
+    - ${APPVEYOR_BUILD_FOLDER}/.appveyor/build.bat
+    
 after_build:
     - pushd bin
     - 7z a -bd open-fvs.zip Open-FVS\*
