@@ -34,3 +34,4 @@ deploy:
   file: bin/open-fvs_${TRAVIS_TAG}-${FVS_STATUS}.zip
   on:
     repo: tharen/testing
+    tags: true
