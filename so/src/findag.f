@@ -1,8 +1,12 @@
       SUBROUTINE FINDAG(I,ISPC,D1,D2,H,SITAGE,SITHT,AGMAX1,HTMAX1,
      &                  HTMAX2,DEBUG)
-      IMPLICIT NONE
+      use contrl_mod
+      use plot_mod
+      use arrays_mod
+      use prgprm_mod
+      implicit none
 C----------
-C  **FINDAG--SO  DATE OF LAST REVISION:  08/19/15
+C  **FINDAG--SO  DATE OF LAST REVISION:  01/12/11
 C----------
 C  THIS ROUTINE FINDS EFFECTIVE TREE AGE BASED ON INPUT VARIABLE(S)
 C  CALLED FROM **COMCUP
@@ -11,19 +15,6 @@ C  CALLED FROM **HTGF
 C----------
 C
 C  COMMONS
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-COMMONS
 C
 C----------
 C  DECLARATIONS
@@ -55,7 +46,7 @@ C----------
       TOLER=2.0
       SINDX = SITEAR(ISPC)
       AGMAX1 = AGMAX(ISPC)
-      IF(IFOR.GT.3 .AND. IFOR.LT.10) AGMAX1=400.
+      IF(IFOR .GT. 3) AGMAX1=400.
       HTMAX1 = HTMAX(ISPC)
       AG = 2.0
 C----------

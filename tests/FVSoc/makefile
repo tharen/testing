@@ -1,7 +1,5 @@
 
-#all : oct01
 all : oct01 oct02
-
 
 oct01 : 
 	@echo Test oct01, basic functionality 

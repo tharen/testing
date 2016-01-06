@@ -1,5 +1,8 @@
       SUBROUTINE BWEPPPT (WK3, IPNT, ILIMIT, IB)
-      IMPLICIT NONE
+      use contrl_mod
+      use metric_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  **BWEPPPT                DATE OF LAST REVISION:  10/15/14
 C----------
@@ -48,14 +51,11 @@ C----------
 
 C.... Parameter include files.
 
-      INCLUDE 'PRGPRM.F77'
-      INCLUDE 'METRIC.F77'
       INCLUDE 'PPEPRM.F77'
 
 C.... Common include files.
 
       INCLUDE 'PPCNTL.F77'
-      INCLUDE 'CONTRL.F77'
       INCLUDE 'BWEBOX.F77'
       INCLUDE 'BWECM2.F77'
       INCLUDE 'BWECOM.F77'
@@ -72,7 +72,7 @@ C
 C.... Variable declarations.
 C.... Parameter statements.
       INTEGER LNCBUF, MXI, MXL, MXR
-      
+
       PARAMETER (MXL=21,MXI=86,MXR=918)
       PARAMETER (LNCBUF=IRECLN*4)
 
@@ -109,25 +109,25 @@ C---- from common BWEBOX ------------
       LOGICS(2)  = LTEMP1(2)
       LOGICS(3)  = LTEMP1(3)
       LOGICS(4)  = LTEMP1(4)
-      LOGICS(5)  = LP1      
-      LOGICS(6)  = LP2      
-      LOGICS(7)  = LP3      
-      LOGICS(8)  = LP4      
-      LOGICS(9)  = LP5      
-      LOGICS(10) = LP6      
-      LOGICS(11) = LP7      
-      LOGICS(12) = LP8      
+      LOGICS(5)  = LP1
+      LOGICS(6)  = LP2
+      LOGICS(7)  = LP3
+      LOGICS(8)  = LP4
+      LOGICS(9)  = LP5
+      LOGICS(10) = LP6
+      LOGICS(11) = LP7
+      LOGICS(12) = LP8
 C---- from common BWECM2 ------------
-      LOGICS(13) = LBUDL    
-      LOGICS(14) = LFIRST   
-      LOGICS(15) = LREGO    
-      LOGICS(16) = LSPRAY   
+      LOGICS(13) = LBUDL
+      LOGICS(14) = LFIRST
+      LOGICS(15) = LREGO
+      LOGICS(16) = LSPRAY
 C---- from common BWECOM ------------
-      LOGICS(17) = LBWDAM   
-      LOGICS(18) = LBWPDM   
-      LOGICS(19) = LCALBW   
-      LOGICS(20) = LDEFOL   
-      LOGICS(21) = LTOPK    
+      LOGICS(17) = LBWDAM
+      LOGICS(18) = LBWPDM
+      LOGICS(19) = LCALBW
+      LOGICS(20) = LDEFOL
+      LOGICS(21) = LTOPK
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: LOGICS=',
      >            LOGICS
@@ -139,82 +139,82 @@ C
 C.... Load integer scalars into INTS array.
 C
 C---- from common BWEBOX ------------
-      INTS(1)  = IBUDYR     
-      INTS(2)  = IBWOPT     
-      INTS(3)  = IDEFPR     
-      INTS(4)  = IDEFSP(1)  
-      INTS(5)  = IDEFSP(2)  
-      INTS(6)  = IDEFSP(3)  
-      INTS(7)  = IDEFSP(4)  
-      INTS(8)  = IDEFSP(5)  
-      INTS(9)  = IFLAG      
-      INTS(10) = IOBACT     
+      INTS(1)  = IBUDYR
+      INTS(2)  = IBWOPT
+      INTS(3)  = IDEFPR
+      INTS(4)  = IDEFSP(1)
+      INTS(5)  = IDEFSP(2)
+      INTS(6)  = IDEFSP(3)
+      INTS(7)  = IDEFSP(4)
+      INTS(8)  = IDEFSP(5)
+      INTS(9)  = IFLAG
+      INTS(10) = IOBACT
       INTS(11) = IOBSCH(1,1)
       INTS(12) = IOBSCH(1,2)
       INTS(13) = IOBSCH(2,1)
       INTS(14) = IOBSCH(2,2)
       INTS(15) = IOBSCH(3,1)
       INTS(16) = IOBSCH(3,2)
-      INTS(17) = IPARA      
-      INTS(18) = IQUALD     
-      INTS(19) = IQUALW     
-      INTS(20) = ISTN       
-      INTS(21) = ISTNUM     
-      INTS(22) = ITEMP(1)   
-      INTS(23) = ITEMP(2)   
-      INTS(24) = ITEMP(3)   
-      INTS(25) = ITEMP(4)   
-      INTS(26) = ITEMP(5)   
-      INTS(27) = IWSRC      
-      INTS(28) = JOWE       
-      INTS(29) = NEVENT     
-      INTS(30) = NOBDON     
-      INTS(31) = NOBSCH     
-      INTS(32) = NUMCOL     
+      INTS(17) = IPARA
+      INTS(18) = IQUALD
+      INTS(19) = IQUALW
+      INTS(20) = ISTN
+      INTS(21) = ISTNUM
+      INTS(22) = ITEMP(1)
+      INTS(23) = ITEMP(2)
+      INTS(24) = ITEMP(3)
+      INTS(25) = ITEMP(4)
+      INTS(26) = ITEMP(5)
+      INTS(27) = IWSRC
+      INTS(28) = JOWE
+      INTS(29) = NEVENT
+      INTS(30) = NOBDON
+      INTS(31) = NOBSCH
+      INTS(32) = NUMCOL
 C---- from common BWECM2 ------------
-      INTS(33) = ILOBYR     
+      INTS(33) = ILOBYR
       INTS(34) = INSTSP
-      INTS(35) = IOBDUR     
-      INTS(36) = IOBLOC     
-      INTS(37) = IOBOPT     
-      INTS(38) = ISPRAY     
-      INTS(39) = ISPVAR     
+      INTS(35) = IOBDUR
+      INTS(36) = IOBLOC
+      INTS(37) = IOBOPT
+      INTS(38) = ISPRAY
+      INTS(39) = ISPVAR
       INTS(40) = ISPYR(1)
       INTS(41) = ISPYR(2)
       INTS(42) = ISPYR(3)
       INTS(43) = ISPYR(4)
       INTS(44) = ISPYR(5)
-      INTS(45) = IWOPT      
-      INTS(46) = IWYR       
+      INTS(45) = IWOPT
+      INTS(46) = IWYR
       INTS(47) = IYRCNT
-      INTS(48) = IYRECV     
-      INTS(49) = IYREND     
+      INTS(48) = IYRECV
+      INTS(49) = IYREND
       INTS(50) = IYRNG(1)
       INTS(51) = IYRNG(2)
-      INTS(52) = IYROBL     
-      INTS(53) = IYRSRC     
-      INTS(54) = IYRST      
-      INTS(55) = JOBWP1     
-      INTS(56) = JOBWP2     
-      INTS(57) = JOBWP3     
-      INTS(58) = JOBWP4     
-      INTS(59) = JOBWP5     
-      INTS(60) = JOBWP6     
-      INTS(61) = JOBWP7     
-      INTS(62) = JOBWP8     
-      INTS(63) = KRECVR     
-      INTS(64) = LIMITS     
-      INTS(65) = LOWYRS     
-      INTS(66) = NSPRAY     
-      INTS(67) = NUMAPP     
+      INTS(52) = IYROBL
+      INTS(53) = IYRSRC
+      INTS(54) = IYRST
+      INTS(55) = JOBWP1
+      INTS(56) = JOBWP2
+      INTS(57) = JOBWP3
+      INTS(58) = JOBWP4
+      INTS(59) = JOBWP5
+      INTS(60) = JOBWP6
+      INTS(61) = JOBWP7
+      INTS(62) = JOBWP8
+      INTS(63) = KRECVR
+      INTS(64) = LIMITS
+      INTS(65) = LOWYRS
+      INTS(66) = NSPRAY
+      INTS(67) = NUMAPP
 C---- from common BWECOM ------------
-      INTS(68) = IBWYR1     
-      INTS(69) = IBWYR2     
-      INTS(70) = ICUMYR     
-      INTS(71) = IPRBYR     
-      INTS(72) = ITODO      
-      INTS(73) = IYRCUR     
-      INTS(74) = JOWSBW     
+      INTS(68) = IBWYR1
+      INTS(69) = IBWYR2
+      INTS(70) = ICUMYR
+      INTS(71) = IPRBYR
+      INTS(72) = ITODO
+      INTS(73) = IYRCUR
+      INTS(74) = JOWSBW
       INTS(75) = NCROWN
       INTS(76) = NCUMYR
       INTS(77) = NHOSTS
@@ -240,7 +240,7 @@ C.... Write larger integer arrays from buffer
 C
 C     Note on processing arrays:
 C     When handling a 2-dimensional array, consider a string of values a
-C     complete column of the array and the length of the array as the 
+C     complete column of the array and the length of the array as the
 C     number of rows. So, a call to IFREAD or BFREAD will process 1 column
 C     of the specified number of rows (length) in a 2-dimensional array.
 C
@@ -257,18 +257,18 @@ C     .....................................................................
 
 C.... Load real scalars then arrays into the REALS array.
 C     Scalars and small one-dimensional arrays are handled first
-C     for ease of indexing. 
+C     for ease of indexing.
 C
 C BWEBOX.F77 - BWBOX
-      REALS(1)  = RAINDM    
-      REALS(2)  = RAINDS    
-      REALS(3)  = RAINM(1)  
-      REALS(4)  = RAINM(2)  
-      REALS(5)  = RAINM(3)  
-      REALS(6)  = RAINS(1)  
-      REALS(7)  = RAINS(2)  
-      REALS(8)  = RAINS(3)  
-      REALS(9)  = WHOTM     
+      REALS(1)  = RAINDM
+      REALS(2)  = RAINDS
+      REALS(3)  = RAINM(1)
+      REALS(4)  = RAINM(2)
+      REALS(5)  = RAINM(3)
+      REALS(6)  = RAINS(1)
+      REALS(7)  = RAINS(2)
+      REALS(8)  = RAINS(3)
+      REALS(9)  = WHOTM
       REALS(10) = WHOTSD
 C BWECM2.F77 - BLCOMN
       REALS(11) = DEFYRS(1)
@@ -556,10 +556,10 @@ C.... IIX at 174
 
       DO IIA = 1,3
         DO IIB = 1,6
-          IIX = IIX + 1
+            IIX = IIX + 1
           REALS(IIX) = OBTABL(IIA,IIB)    ! PHENOL(3,6) BWECM2.F77
+          END DO
         END DO
-      END DO
 C.... IIX ends at 192
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 2 - REALS=',
@@ -621,8 +621,8 @@ C.... Third dimension (IIC) 11-20, part 2.
             IIX = IIX + 1
             REALS(IIX) = OUT3(IIA,IIB,IIC) ! OUT3(9,6,20) BWECM2.F77
           END DO
+          END DO
         END DO
-      END DO
 C.... IIX ends at 540
 
       IF (PDEBUG) WRITE (JOPPRT,*) 'IN BWEPPPT: 4B - REALS=',
@@ -645,7 +645,7 @@ C.... IIX at 54
 
       DO IIA = 1,9
         DO IIB = 1,6
-          IIX = IIX + 1
+              IIX = IIX + 1
           REALS(IIX) = A2(IIA,IIB)    ! A2(9,6) BWECM2.F77
         END DO
       END DO
@@ -741,7 +741,7 @@ C.... IIX at 660
 
       DO IIA = 1,2
         DO IIB = 1,4
-          IIX = IIX + 1
+            IIX = IIX + 1
           REALS(IIX) = STARVX(IIA,IIB)    ! STARVX(2,4) BWECM2.F77
         END DO
       END DO
@@ -767,27 +767,27 @@ C.... Load next real array(s) into REALS.
       IIX = 0
       DO IIA = 1,10
         DO IIB = 1,4
-          IIX = IIX + 1
+            IIX = IIX + 1
           REALS(IIX) = BWEATH(IIA,IIB)    ! BWEATH(10,4) BWECM2.F77
         END DO
       END DO
 C.... IIX at 40
 
       DO IIA = 1,10
-        IIX = IIX + 1
+          IIX = IIX + 1
         REALS(IIX) = SPEFFS(IIA)         ! SPEFFS(10) BWECM2.F77
       END DO
 C.... IIX at 50
 
       DO IIA = 1,10
-        IIX = IIX + 1
+          IIX = IIX + 1
         REALS(IIX) = SPINST(IIA)         ! SPINST(10) BWECM2.F77
       END DO
 C.... IIX at 60
 
       DO IIA = 1,11
         DO IIB = 1,50
-          IIX = IIX + 1
+        IIX = IIX + 1
           REALS(IIX) = BWPRMS(IIA,IIB)   ! BWPRMS(11,50) BWECM2.F77
         END DO
       END DO
@@ -849,7 +849,7 @@ C.... IIX at 255
       DO IIA = 1,6
         DO IIB = 1,3
           DO IIC = 1,5
-            IIX = IIX + 1
+          IIX = IIX + 1
             REALS(IIX) = CUMDEF(IIA,IIB,IIC)   ! CUMDEF(6,3,5) BWESTD.F77
           END DO
         END DO
@@ -858,7 +858,7 @@ C.... IIX at 345
 
       DO IIA = 1,9
         DO IIB = 1,6
-          IIX = IIX + 1
+            IIX = IIX + 1
           REALS(IIX) = FNEW(IIA,IIB)   ! FNEW(9,6) BWESTD.F77
         END DO
       END DO
@@ -912,7 +912,7 @@ C.... Load next real array(s) into REALS.
       DO IIA = 1,6
         DO IIB = 1,9
           DO IIC = 1,4
-            IIX = IIX + 1
+          IIX = IIX + 1
             REALS(IIX) = FOLPOT(IIA,IIB,IIC)   ! FOLPOT(6,9,4) BWESTD.F77
           END DO
         END DO
@@ -929,7 +929,7 @@ C.... IIX at 270
 
       DO IIA = 1,6
         DO IIB = 1,3
-          IIX = IIX + 1
+        IIX = IIX + 1
           REALS(IIX) = PEDDS(IIA,IIB)   ! PEDDS(6,3) BWESTD.F77
         END DO
       END DO
@@ -937,7 +937,7 @@ C.... IIX at 288
 
       DO IIA = 1,6
         DO IIB = 1,3
-          IIX = IIX + 1
+        IIX = IIX + 1
           REALS(IIX) = PEHTG(IIA,IIB)   ! PEHTG(6,3) BWESTD.F77
         END DO
       END DO
@@ -946,7 +946,7 @@ C.... IIX at 306
       DO IIA = 1,6
         DO IIB = 1,9
           DO IIC = 1,4
-            IIX = IIX + 1
+        IIX = IIX + 1
             REALS(IIX) = POFPOT(IIA,IIB,IIC)   ! POFPOT(6,9,4) BWESTD.F77
           END DO
         END DO
@@ -1045,7 +1045,7 @@ C
 C     --- from BWEBOX ---
 C     CHARACTER*4 MGMIDB
 C     CHARACTER*8 DEFLAB,DLABS(5)
-C     CHARACTER*12 STATES(10,2)    -- Static 
+C     CHARACTER*12 STATES(10,2)    -- Static
 C     CHARACTER*16 WSLOOK(100,10)  -- Static
 C     CHARACTER*20 TEMPS2(3)       -- Static
 C     CHARACTER*40 OUTNAM(8)       -- Static

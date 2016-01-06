@@ -1,5 +1,8 @@
       SUBROUTINE BWEPPGT (WK3, IPNT, ILIMIT, IB)
-      IMPLICIT NONE
+      use contrl_mod
+      use metric_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  **BWEPPGT                DATE OF LAST REVISION:  10/15/14
 C----------
@@ -49,14 +52,11 @@ C----------
 
 C.... Parameter include files.
 
-      INCLUDE 'PRGPRM.F77'
-      INCLUDE 'METRIC.F77'
       INCLUDE 'PPEPRM.F77'
 
 C.... Common include files.
 
       INCLUDE 'PPCNTL.F77'
-      INCLUDE 'CONTRL.F77'
       INCLUDE 'BWEBOX.F77'
       INCLUDE 'BWECM2.F77'
       INCLUDE 'BWECOM.F77'
@@ -76,7 +76,7 @@ C.... Parameter statements.
 
       PARAMETER (MXL=21,MXI=86,MXR=918)
       PARAMETER (LNCBUF=IRECLN*4)
- 
+
       CHARACTER CBUFF(LNCBUF)
 
       LOGICAL LOGICS(MXL)
@@ -241,7 +241,7 @@ C.... Read larger integer arrays from buffer
 C
 C     Note on processing arrays:
 C     When handling a 2-dimensional array, consider a string of values a
-C     complete column of the array and the length of the array as the 
+C     complete column of the array and the length of the array as the
 C     number of rows. So, a call to IFREAD or BFREAD will process 1 column
 C     of the specified number of rows (length) in a 2-dimensional array.
 C
@@ -265,7 +265,7 @@ C.... Read real varaibles (scalars and arrays) from buffer.
 
 C.... Load real scalars then arrays from the REALS array.
 C     Scalars and small one-dimensional arrays are handled first
-C     for ease of indexing. 
+C     for ease of indexing.
 C
       RAINDM     = REALS(1)
       RAINDS     = REALS(2)
@@ -561,10 +561,10 @@ C.... IIX at 174
 
       DO IIA = 1,3
         DO IIB = 1,6
-          IIX = IIX + 1
+            IIX = IIX + 1
           OBTABL(IIA,IIB) = REALS(IIX)    ! PHENOL(3,6) BWECM2.F77
+          END DO
         END DO
-      END DO
 C.... IIX ends at 192
 
 C.... Read next real array(s) from buffer.
@@ -624,8 +624,8 @@ C.... Third dimension (IIC) 11-20, part 2.
             IIX = IIX + 1
             OUT3(IIA,IIB,IIC) = REALS(IIX) ! OUT3(9,6,20) BWECM2.F77
           END DO
+          END DO
         END DO
-      END DO
 C.... IIX ends at 540
 
 C.... Read next real array(s) from buffer.
@@ -646,7 +646,7 @@ C.... IIX at 54
 
       DO IIA = 1,9
         DO IIB = 1,6
-          IIX = IIX + 1
+              IIX = IIX + 1
           A2(IIA,IIB) = REALS(IIX)    ! A2(9,6) BWECM2.F77
         END DO
       END DO
@@ -742,7 +742,7 @@ C.... IIX at 660
 
       DO IIA = 1,2
         DO IIB = 1,4
-          IIX = IIX + 1
+            IIX = IIX + 1
           STARVX(IIA,IIB) = REALS(IIX)    ! STARVX(2,4) BWECM2.F77
         END DO
       END DO
@@ -767,27 +767,27 @@ C.... Load next real array(s) from REALS.
       IIX = 0
       DO IIA = 1,10
         DO IIB = 1,4
-          IIX = IIX + 1
+            IIX = IIX + 1
           BWEATH(IIA,IIB) = REALS(IIX)    ! BWEATH(10,4) BWECM2.F77
         END DO
       END DO
 C.... IIX at 40
 
       DO IIA = 1,10
-        IIX = IIX + 1
+          IIX = IIX + 1
         SPEFFS(IIA) = REALS(IIX)         ! SPEFFS(10) BWECM2.F77
       END DO
 C.... IIX at 50
 
       DO IIA = 1,10
-        IIX = IIX + 1
+          IIX = IIX + 1
         SPINST(IIA) = REALS(IIX)         ! SPINST(10) BWECM2.F77
       END DO
 C.... IIX at 60
 
       DO IIA = 1,11
         DO IIB = 1,50
-          IIX = IIX + 1
+        IIX = IIX + 1
           BWPRMS(IIA,IIB) = REALS(IIX)   ! BWPRMS(11,50) BWECM2.F77
         END DO
       END DO
@@ -849,7 +849,7 @@ C.... IIX at 255
       DO IIA = 1,6
         DO IIB = 1,3
           DO IIC = 1,5
-            IIX = IIX + 1
+          IIX = IIX + 1
             CUMDEF(IIA,IIB,IIC) = REALS(IIX)   ! CUMDEF(6,3,5) BWESTD.F77
           END DO
         END DO
@@ -858,7 +858,7 @@ C.... IIX at 345
 
       DO IIA = 1,9
         DO IIB = 1,6
-          IIX = IIX + 1
+            IIX = IIX + 1
           FNEW(IIA,IIB) = REALS(IIX)   ! FNEW(9,6) BWESTD.F77
         END DO
       END DO
@@ -913,7 +913,7 @@ C.... Load next real array(s) from REALS.
       DO IIA = 1,6
         DO IIB = 1,9
           DO IIC = 1,4
-            IIX = IIX + 1
+          IIX = IIX + 1
             FOLPOT(IIA,IIB,IIC) = REALS(IIX)   ! FOLPOT(6,9,4) BWESTD.F77
           END DO
         END DO
@@ -930,7 +930,7 @@ C.... IIX at 270
 
       DO IIA = 1,6
         DO IIB = 1,3
-          IIX = IIX + 1
+        IIX = IIX + 1
           PEDDS(IIA,IIB) = REALS(IIX)   ! PEDDS(6,3) BWESTD.F77
         END DO
       END DO
@@ -947,7 +947,7 @@ C.... IIX at 306
       DO IIA = 1,6
         DO IIB = 1,9
           DO IIC = 1,4
-            IIX = IIX + 1
+        IIX = IIX + 1
             POFPOT(IIA,IIB,IIC) = REALS(IIX)   ! POFPOT(6,9,4) BWESTD.F77
           END DO
         END DO
@@ -1038,7 +1038,7 @@ C
 C     --- from BWEBOX ---
 C     CHARACTER*4 MGMIDB
 C     CHARACTER*8 DEFLAB,DLABS(5)
-C     CHARACTER*12 STATES(10,2)    -- Static 
+C     CHARACTER*12 STATES(10,2)    -- Static
 C     CHARACTER*16 WSLOOK(100,10)  -- Static
 C     CHARACTER*20 TEMPS2(3)       -- Static
 C     CHARACTER*40 OUTNAM(8)       -- Static

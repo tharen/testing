@@ -1,5 +1,10 @@
       SUBROUTINE RDINIT
-      IMPLICIT NONE
+      use contrl_mod
+      use metric_mod
+      use plot_mod
+      use arrays_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  **RDINIT--CA      LAST REVISION:  03/24/15
 C----------
@@ -14,7 +19,7 @@ C
 C  Calls :
 C     none
 C
-C  Local Variables : 
+C  Local Variables :
 C     I      - INT
 C              counter
 C     ICYLS  - INT
@@ -37,10 +42,10 @@ C     J      - INT
 C              Counter
 C     KSP    - INT
 C              Counter to loop through tree species.
-C     NC     - INT 
+C     NC     - INT
 C              Number of centers.
 C     NCCS   - INT
-C              Counter for number of centers in spread rate 
+C              Counter for number of centers in spread rate
 C              simulation.
 C     TEMP1  - REAL
 C              Temporary array used to initialize DECFN.
@@ -53,18 +58,18 @@ C              Temporary array used to initialize HABFAC.
 C     TEMP5  - REAL
 C              Temporary array used to initialize PCOLO.
 C     TEMP6  - REAL
-C              Temporary array used to initialize PKILLS. 
+C              Temporary array used to initialize PKILLS.
 C     TEMP7  - REAL
-C              Temporary array used to initialize PNINF. 
-C     TEMP8  - REAL 
+C              Temporary array used to initialize PNINF.
+C     TEMP8  - REAL
 C              Temporary array used to initialize RROBMR.
-C     TEMP9  - REAL 
+C     TEMP9  - REAL
 C              Temporary array used to initialize RROBOL.
-C     TEMP10 - REAL 
+C     TEMP10 - REAL
 C              Temporary array used to initialize RROBRD.
-C     TEMP11 - REAL 
+C     TEMP11 - REAL
 C              Temporary array used to initialize RROBSC.
-C     TEMP12 - REAL 
+C     TEMP12 - REAL
 C              Temporary array used to initialize RROBTS.
 C     TEMP13 - REAL
 C              Temporary array used to initialize RSLOP.
@@ -83,8 +88,8 @@ C  Revision History
 C     05/22/97 - Matt Thompson (FHTET)
 C                Added initialization for almost all of the variables
 C                that were set in the block data file RDBLK1.  The RDBLK1
-C                block data file only initializes constants.  This was 
-C                done so that the Root Disease model could be run 
+C                block data file only initializes constants.  This was
+C                done so that the Root Disease model could be run
 C                on multiple stands during one execution of the model.
 C  26-MAR-2002 Lance R. David (FHTET)
 C     Changed initial value of IRINIT from 13500 to 10*MAXTRE.
@@ -106,18 +111,13 @@ C----------------------------------------------------------------------
 
 C.... Parameter include files.
 
-      INCLUDE 'PRGPRM.F77'
       INCLUDE 'RDPARM.F77'
-      INCLUDE 'METRIC.F77'
 
 C.... Common include files.
 
       INCLUDE 'RDCOM.F77'
       INCLUDE 'RDCRY.F77'
       INCLUDE 'RDARRY.F77'
-      INCLUDE 'CONTRL.F77'
-      INCLUDE 'ARRAYS.F77'
-      INCLUDE 'PLOT.F77'
       INCLUDE 'RDADD.F77'
 
 C.... Local variable declarations.
@@ -157,14 +157,14 @@ C.... 2 = non-resinous
 
 C.... Data for array IDITYP.
 C.... IDITYP is an array that holds the Annosus disease type for
-C.... each tree species.       
+C.... each tree species.
 C.... 0 = Non-host
 C.... 1 = P-type Annosus.
 C.... 2 = S-type Annosus.
 C
 C     The array ITEMP2 was modified to specify non-host for entries
-C     18 (OH), 19 (OH) and 29 (BO), (RNH June98) 
-C     
+C     18 (OH), 19 (OH) and 29 (BO), (RNH June98)
+C
 C....
 C.... 3 = Armillaria, 4=Phellinus (both are posible for all species so
 C....     not included here).
@@ -215,17 +215,17 @@ C.... Last half:   habitat=2
      &     1.75,  1.0,  1.5, 1.75,  1.5,  1.5,  1.5,  1.0, 99.0,  1.0,
      &      1.0,  1.0,  1.0, 99.0,  1.0,  0.5,  1.0, 1.75, 99.0,  1.0,
      &      0.5, 99.0,  1.0,  1.5,  2.0,  1.5,  1.0,  1.5,  1.5, 99.0,
-     &     99.0,  1.5,  1.5,  1.5,  1.5,  1.0, 
+     &     99.0,  1.5,  1.5,  1.5,  1.5,  1.0,
      &      1.0,  1.0,  1.0,  1.5, 1.75,  1.0,  1.5,  1.0,  1.5,  0.5,
      &     1.75,  1.0,  1.5, 1.75,  1.5,  1.5,  1.5,  1.0, 99.0,  1.0,
      &      1.0,  1.0,  1.0, 99.0,  1.0,  0.5,  1.0, 1.75, 99.0,  1.0,
      &      0.5, 99.0,  1.0,  1.5,  2.0,  1.5,  1.0,  1.5,  1.5, 99.0,
-     &     99.0,  1.5,  1.5,  1.5,  1.5,  1.0, 
+     &     99.0,  1.5,  1.5,  1.5,  1.5,  1.0,
      &      1.8,  2.0,  1.0, 0.75,  0.9,  1.2,  1.8,  1.1, 0.75,  1.8,
      &      0.9,  1.8, 0.75,  0.9, 0.75, 0.75,  1.8,  0.9,  0.9,  1.1,
      &     0.75,  1.8,  1.8,  0.9,  1.1,  0.9, 0.75,  0.9,  0.9,  0.9,
      &      1.8,  0.9,  0.9,  0.2, 10.0,  1.1, 10.0,  0.2, 0.75, 99.0,
-     &      1.2, 0.75,  1.8,  1.8,  1.8,  1.1,  
+     &      1.2, 0.75,  1.8,  1.8,  1.8,  1.1,
      &      3.0,  1.5,  1.0,  1.0,  1.5, 10.0,  3.0,  1.1,  1.0,  3.0,
      &      1.5,  3.0,  1.0,  1.5,  1.0,  1.0,  3.0,  1.5,  1.5,  1.1,
      &      1.0,  3.0,  3.0,  1.5,  1.1,  1.5,  1.0,  1.5,  1.5,  1.5,
@@ -235,17 +235,17 @@ C.... Last half:   habitat=2
      &     1.75,  1.0,  1.5, 1.75,  1.5,  1.5,  1.5,  1.0, 99.0,  1.0,
      &      1.0,  1.0,  1.0, 99.0,  1.0,  0.5,  1.0, 1.75, 99.0,  1.0,
      &      0.5, 99.0,  1.0,  1.5,  2.0,  1.5,  1.0,  1.5,  1.5, 99.0,
-     &     99.0,  1.5,  1.5,  1.5,  1.5,  1.0, 
+     &     99.0,  1.5,  1.5,  1.5,  1.5,  1.0,
      &      1.0,  1.0,  1.0,  1.5, 1.75,  1.0,  1.5,  1.0,  1.5,  0.5,
      &     1.75,  1.0,  1.5, 1.75,  1.5,  1.5,  1.5,  1.0, 99.0,  1.0,
      &      1.0,  1.0,  1.0, 99.0,  1.0,  0.5,  1.0, 1.75, 99.0,  1.0,
      &      0.5, 99.0,  1.0,  1.5,  2.0,  1.5,  1.0,  1.5,  1.5, 99.0,
-     &     99.0,  1.5,  1.5,  1.5,  1.5,  1.0, 
+     &     99.0,  1.5,  1.5,  1.5,  1.5,  1.0,
      &      1.8,  2.0,  1.0, 0.75,  0.9,  1.2,  1.8,  1.1, 0.75,  1.8,
      &      0.9,  1.8, 0.75,  0.9, 0.75, 0.75,  1.8,  0.9,  0.9,  1.1,
      &     0.75,  1.8,  1.8,  0.9,  1.1,  0.9, 0.75,  0.9,  0.9,  0.9,
      &      1.8,  0.9,  0.9,  0.2, 10.0,  1.1, 10.0,  0.2, 0.75, 99.0,
-     &      1.2, 0.75,  1.8,  1.8,  1.8,  1.1,  
+     &      1.2, 0.75,  1.8,  1.8,  1.8,  1.1,
      &      3.0,  1.5,  1.0,  1.0,  1.5, 10.0,  3.0,  1.1,  1.0,  3.0,
      &      1.5,  3.0,  1.0,  1.5,  1.0,  1.0,  3.0,  1.5,  1.5,  1.1,
      &      1.0,  3.0,  3.0,  1.5,  1.1,  1.5,  1.0,  1.5,  1.5,  1.5,
@@ -309,7 +309,7 @@ C.... blk4 : Phellinus.
      &     0.85, 0.75,  0.8,  0.6,  0.8, 0.85, 0.85, 0.65,  0.6, 0.85,
      &      0.8, 0.85,  0.6,  0.8,  0.6,  0.6, 0.85,  0.8,  0.8, 0.65,
      &      0.6, 0.85, 0.85,  0.8, 0.65,  0.8,  0.6,  0.8,  0.8,  0.8,
-     &     0.85,  0.8,  0.8, 0.85, 0.85,  0.8, 0.85, 0.85,  0.6,  1.0 
+     &     0.85,  0.8,  0.8, 0.85, 0.85,  0.8, 0.85, 0.85,  0.6,  1.0
      &      0.8,  0.6,  0.8,  0.8,  0.8,  0.6 /
 
 C.... Data for array PNINF.
@@ -374,8 +374,8 @@ C.... Data for array YYINF.
 
 C.... Initialize common block variables.
 
-      DO 400 ICYLS = 1, 3 
-         DO 300 ISCL = 1, 5 
+      DO 400 ICYLS = 1, 3
+         DO 300 ISCL = 1, 5
             DO 200 IWOOD = 1, 2
                DO 100 IDI = 1, ITOTRR
                   STOUT(IDI, IWOOD, ISCL, ICYLS)  = 0.0
@@ -400,7 +400,7 @@ C.... Initialize common block variables.
       DO 650 I = 1, 3
          LSPFLG(I) = .FALSE.
          ISDATE(I) = 0
-  650 CONTINUE 
+  650 CONTINUE
 
       DO 700 IDI = 1, ITOTRR
          AREANU(IDI) = 0.0
@@ -427,9 +427,9 @@ C.... Initialize common block variables.
          SPYTK(IDI)  = 3.0
          SPTRAN(IDI) = 0.5
   700 CONTINUE
- 
+
 C.... The arrays ANUINF, IRDPLT, and MCRATE are not related (The
-C.... dimension of 50 is not related between the 3 arrays.)  
+C.... dimension of 50 is not related between the 3 arrays.)
 
       DO 900 I = 1, 50
          DO 800 IDI = 1, ITOTRR
@@ -449,7 +449,7 @@ C.... dimension of 50 is not related between the 3 arrays.)
 
       DO 1400 J = 1, 2
          DO 1300 I = 1, 2
-            DO 1200 IDI = 1, ITOTRR 
+            DO 1200 IDI = 1, ITOTRR
                DECFN(IDI, I, J) = TEMP1(IDI, I, J)
                YRSITF(IDI, I, J) = TEMP2(IDI, I, J)
  1200       CONTINUE
@@ -457,10 +457,10 @@ C.... dimension of 50 is not related between the 3 arrays.)
  1400 CONTINUE
 
 C.... The arrays RSITFN, CORINF, and EXPINF are not related (The
-C.... dimension of 2 is not related between the 3 arrays.)  
+C.... dimension of 2 is not related between the 3 arrays.)
 
       DO 1600 I = 1, 2
-         DO 1500 IDI = 1, ITOTRR 
+         DO 1500 IDI = 1, ITOTRR
             CORINF(IDI, I) = 0.0
             EXPINF(IDI, I) = 0.0
             RSITFN(IDI, I) = TEMP3(IDI, I)
@@ -499,7 +499,7 @@ C.... dimension of 2 is not related between the 3 arrays.)
  1900    CONTINUE
  2000 CONTINUE
 
-      DO 2400 ICYLS = 1, 41 
+      DO 2400 ICYLS = 1, 41
          DO 2300 ISCL = 1, 5
             DO 2200 IWOOD = 1, 2
                DO 2100 IDI = 1, ITOTRR
@@ -636,7 +636,7 @@ C.... dimension of 2 is not related between the 3 arrays.)
       DO 4400 I = 1, 4
          ROOT4(I) = 0.0
          TXP12(I) = 0.0
- 4400 CONTINUE 
+ 4400 CONTINUE
 
       DO 4500 NCCS = 1, 50
          RRSDBH(NCCS) = 0.0
@@ -649,7 +649,7 @@ C.... dimension of 2 is not related between the 3 arrays.)
          DO 4600 I = 1, MAXSP
             WINDSP(I,J) = 0.0
  4600    CONTINUE
- 4700 CONTINUE 
+ 4700 CONTINUE
 
       DO 4800 I = 1, 82
          PROP1(I) = 0.0
@@ -675,7 +675,7 @@ C.... dimension of 2 is not related between the 3 arrays.)
             FFPROB(I,J) = 0.0
  5300    CONTINUE
  5400 CONTINUE
- 
+
 
       AGECUR  = 0.0
 
@@ -687,11 +687,11 @@ C.... dimension of 2 is not related between the 3 arrays.)
 
       CURAGE  = 0.0
 
-      DEDAGE(1) = 5 
+      DEDAGE(1) = 5
       DEDAGE(2) = 10
-      DEDAGE(3) = 15 
-      DEDAGE(4) = 15 
-      DEDAGE(5) = 15 
+      DEDAGE(3) = 15
+      DEDAGE(4) = 15
+      DEDAGE(5) = 15
 
       DGTOT  = 0.0
 
@@ -737,8 +737,8 @@ C     time step.
       JRSIT  = 0
 
       LBBON     = .TRUE.
-      LBORAX(1) = .FALSE. 
-      LBORAX(2) = .FALSE. 
+      LBORAX(1) = .FALSE.
+      LBORAX(2) = .FALSE.
       LMTRIC    = .FALSE.
       LPLINF    = .FALSE.
       LRTYPE    = .FALSE.
@@ -781,10 +781,10 @@ C     time step.
       SDISLP = -0.0033
       SDNORM = 369.0
 
-      SPINF(1) = 0.1 
-      SPINF(2) = 0.1 
-      SPINF(3) = 0.0 
-      SPINF(4) = 0.0 
+      SPINF(1) = 0.1
+      SPINF(2) = 0.1
+      SPINF(3) = 0.0
+      SPINF(4) = 0.0
 
       TNJUMP(1) = 0.0
       TNJUMP(2) = 0.0

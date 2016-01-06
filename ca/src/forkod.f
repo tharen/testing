@@ -1,25 +1,14 @@
       SUBROUTINE FORKOD
-      IMPLICIT NONE
+      use contrl_mod
+      use plot_mod
+      use prgprm_mod
+      implicit none
 C----------
 C CA $Id$
 C----------
 C
 C     TRANSLATES FOREST CODE INTO A SUBSCRIPT, IFOR, AND IF
 C     KODFOR IS ZERO, THE ROUTINE RETURNS THE DEFAULT CODE.
-C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-COMMONS
 C
       INTEGER JFOR(11),KFOR(11),NUMFOR
 C----------

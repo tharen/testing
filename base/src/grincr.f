@@ -1,6 +1,16 @@
       SUBROUTINE GRINCR (DEBUG,IPMODI,LTMGO,LMPBGO,LDFBGO,
      1                   LBWEGO,LCVATV,LBGCGO)
-      IMPLICIT NONE
+      use tree_data, only: save_tree_data,copy_tree_data,copy_cuts_data
+     &                     ,copy_mort_data
+      use plot_mod
+      use arrays_mod
+      use contrl_mod
+      use eshap_mod
+      use outcom_mod
+      use pden_mod
+      use varcom_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -9,37 +19,7 @@ C     COMPUTES GROWTH AND MORTALITY ON EACH TREE RECORD.
 C
 C     CALLED FROM: PPMAIN AND TREGRO.
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'PDEN.F77'
-C
-C
-      INCLUDE 'OUTCOM.F77'
-C
-C
       INCLUDE 'STDSTK.F77'
-C
-C
-      INCLUDE 'ESHAP.F77'
-C
-C
-      INCLUDE 'VARCOM.F77'
-C
-C
-COMMONS
 C
       REAL PRM(6)
       INTEGER MYACTS(3)
@@ -193,6 +173,12 @@ C
         ENDIF
         CALL RCON
       ENDIF
+
+      ! Copy tree attributes for the start of the period
+      if (save_tree_data) then
+        call copy_tree_data()
+      endif
+
 C
 C     WESTERN ROOT DISEASE VER. 3.0 MODEL PROJECTION SETUP.
 C
@@ -275,6 +261,12 @@ C
       IF (DEBUG) WRITE(JOSTND,20) ICYC
    20 FORMAT(' CALLING CUTS, CYCLE=',I2)
       CALL CUTS
+
+      ! Copy cut TPA to the tree_data arrays
+      if (save_tree_data) then
+          call copy_cuts_data()
+      endif
+
 C
 C     STORE THE REMOVED TPA IN WK4 FOR USE IN THE SECOND CALL TO THE
 C     EVENT MONITOR (SPMCDBH INVOLVING CUT TREES).
@@ -520,6 +512,12 @@ C
       IF (DEBUG) WRITE(JOSTND,160) ICYC
   160 FORMAT(' CALLING MORTS, CYCLE=',I2)
       CALL MORTS
+
+      ! Copy the mortality estimate to tree_data prior to tripling
+      if (save_tree_data) then
+          call copy_mort_data()
+      endif
+
 C
 C     NOW TRIPLE RECORDS AND REALLIGN POINTERS IF TRIPLING OPTION IS
 C     SET.

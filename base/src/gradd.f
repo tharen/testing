@@ -1,6 +1,12 @@
       SUBROUTINE GRADD (DEBUG,IPMODI,LTMGO,LMPBGO,LDFBGO,
      1                  LBWEGO,LCVATV,LBGCGO)
-      IMPLICIT NONE
+      use plot_mod
+      use arrays_mod
+      use contrl_mod
+      use coeffs_mod
+      use outcom_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -11,31 +17,7 @@ C     END-OF-CYCLE STATISTICS.
 C
 C     CALLED FROM: TREGRO AND PPMAIN
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'COEFFS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'OUTCOM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
       INCLUDE 'OPCOM.F77'
-C
-C
-COMMONS
 C
       LOGICAL LTMGO,LMPBGO,LDFBGO,LBWEGO,LCVATV,LBGCGO,DEBUG
 C
@@ -84,7 +66,8 @@ C
          BARK=BRATIO(IS,D,HT(I))
          IF(DG(I) .GT. 0.) THEN
            DDS=(DG(I)*(2.0*BARK*D+DG(I)))*SCALE
-           DG(I)=SQRT((D*BARK)**2+DDS)-BARK*D
+!           DG(I)=SQRT((D*BARK)**2+DDS)-BARK*D
+           DG(I)=SQRT(((D*BARK)*(D*BARK))+DDS)-BARK*D
          ELSE
            DG(I)=0.0
          ENDIF

@@ -1,5 +1,9 @@
       SUBROUTINE TRIPLE
-      IMPLICIT NONE
+      use estree_mod
+      use contrl_mod
+      use arrays_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -10,20 +14,6 @@ C  DIAMETER GROWTH IN REGENT).  DBH IS ALSO TRIPPLED IN **DGDRIV**.
 C  NOW, OTHER TREE ATTRIBUTES ARE COPIED TO THE TRIPLES.
 C----------
 COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'ESTREE.F77'
-C
-C
       INCLUDE 'STDSTK.F77'
 C
 COMMONS
@@ -97,7 +87,7 @@ C----------
       CALL RDTRIP (ITFN,I,WEIGHT)
       CALL BRTRIP (ITFN,I,WEIGHT)
       CALL BMTRIP (ITFN,I,WEIGHT)
-      CALL FMTRIP (ITFN,I,WEIGHT)      
+      CALL FMTRIP (ITFN,I,WEIGHT)
       IF(WEIGHT.LT.0.2) GO TO 20
 C----------
 C  REASSIGN WEIGHT AND ITFN FOR THIRD TRIPLE.
@@ -128,7 +118,7 @@ C----------
 C----------
 C     CALL FIRE MODEL TO TRIPLE ITS PARAMETERS
 C----------
-      CALL FMTRIP (ITFN,I,0.6)      
+      CALL FMTRIP (ITFN,I,0.6)
    30 CONTINUE
 C----------
 C  UPDATE MULTIPLIER WHICH INFLATES PROB FOR SAMPLE TREE DISPLAY.

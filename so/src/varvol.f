@@ -1,7 +1,12 @@
         SUBROUTINE VARVOL
-        IMPLICIT NONE
+      use contrl_mod
+      use volstd_mod
+      use plot_mod
+      use arrays_mod
+      use prgprm_mod
+      implicit none
 C----------
-C  **VARVOL--SO    DATE OF LAST REVISION:   08/20/15
+C  **VARVOL--SO    DATE OF LAST REVISION:   09/27/12
 C----------
 C
 C  THIS SUBROUTINE CALLS THE APPROPRIATE VOLUME CALCULATION ROUTINE
@@ -9,26 +14,6 @@ C  FROM THE NATIONAL CRUISE SYSTEM VOLUME LIBRARY FOR METHB OR METHC
 C  EQUAL TO 6.  IT ALSO CONTAINS ANY OTHER SPECIAL VOLUME CALCULATION
 C  METHOD SPECIFIC TO A VARIANT (METHB OR METHC = 8)
 C----------
-C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'VOLSTD.F77'
-C
-C
-COMMONS
 C
 C----------
       REAL LOGLEN(20),BOLHT(21),SCALEN(20),TVOL(15)
@@ -75,7 +60,7 @@ C----------
 C  FOR REGION 5 FORESTS, BRANCH TO R5 LOGIC.
 C  FOR INDUSTRY, USE R5 LOGIC.
 C----------
-      IF(IFOR.GT.3 .AND. IFOR.LT.10) GO TO 100
+      IF(IFOR.GT.3) GO TO 100
 C----------
 C  R6 VOLUME LOGIC
 C----------
@@ -116,11 +101,9 @@ C----------
       PROD='  '
 C----------
 C  CONSTANT INTEGER ARGUMENTS
-C  SET WARM SPRINGS TO USE DESCHUTES
 C----------
       I1= 1
       IREGN= 6
-      IF(KODFOR .EQ. 799)FORST='01'
       IF(VEQNNC(ISPC)(4:4).EQ.'F')THEN
 C
         IF(DEBUG)WRITE(JOSTND,*)' CALLING PROFILE CF ISPC,ARGS = ',
@@ -141,7 +124,7 @@ C
           IF(IT.GT.0)HT2TD(IT,2)=X02
         ELSE
           IF(IT.GT.0)HT2TD(IT,2)=0.
-        ENDIF        
+        ENDIF
 C
         IF(DEBUG)WRITE(JOSTND,*)' AFTER PROFILE CF TVOL= ',TVOL
       ELSE
@@ -227,11 +210,9 @@ C----------
         PROD='  '
 C----------
 C  CONSTANT INTEGER ARGUMENTS
-C  SET WARM SPRINGS TO USE DESCHUTES
 C----------
         I1= 1
         IREGN= 6
-        IF(KODFOR .EQ. 799)FORST='01'
 C----------
 C  USE PROFILE EQUATIONS OR BRANCH TO R6VOLE EQS.
 C----------
@@ -316,7 +297,6 @@ C----------
 C
       RETURN
 C
-C
   100 CONTINUE
 C----------
 C  SET PARAMETERS & CALL PROFILE OR R5HARV TO COMPUTE R5 VOLUMES.
@@ -379,7 +359,7 @@ C
           IF(IT.GT.0)HT2TD(IT,2)=X02
         ELSE
           IF(IT.GT.0)HT2TD(IT,2)=0.
-        ENDIF        
+        ENDIF
 C
         IF(DEBUG)WRITE(JOSTND,*)' AFTER PROFILE CF TVOL= ',TVOL
       ELSE
@@ -493,7 +473,6 @@ C----------
 C
       RETURN
 C
-C
 C----------
 C  ENTER ANY OTHER CUBIC HERE
 C----------
@@ -505,7 +484,6 @@ C----------
       CTKFLG = .FALSE.
       RETURN
 C
-C
 C----------
 C  ENTER ANY OTHER BOARD HERE.
 C----------
@@ -514,7 +492,6 @@ C----------
       BBFV=0.
       BTKFLG = .FALSE.
       RETURN
-C
 C
 C----------
 C  ENTRY POINT FOR SENDING VOLUME EQN NUMBER TO THE FVS-TO-NATCRZ ROUTINE

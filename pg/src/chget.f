@@ -1,5 +1,11 @@
       SUBROUTINE CHGET
-      IMPLICIT NONE
+      use plot_mod
+      use arrays_mod
+      use contrl_mod
+      use outcom_mod
+      use volstd_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -8,44 +14,16 @@ C     READ THE ALL-DATA CHARACTER DATA FROM THE DA FILE.
 C
 C     PART OF THE PARALLEL PROCESSING EXTENSION OF PROGNOSIS SYSTEM.
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
       INCLUDE 'CALDEN.F77'
-C
 C
       INCLUDE 'OPCOM.F77'
 C
-C
-      INCLUDE 'OUTCOM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
       INCLUDE 'DBSTK.F77'
-C
 C
       INCLUDE 'GGCOM.F77'
 C
-C
-      INCLUDE 'VOLSTD.F77'
-C
-C
-COMMONS
-C
-C
       INTEGER LNCBUF,IRECLN
-      PARAMETER (IRECLN=1024)      
+      PARAMETER (IRECLN=1024)
       PARAMETER (LNCBUF=IRECLN*4)
       CHARACTER CBUFF(LNCBUF),CDMB*1
       INTEGER K,J,I,IPNT
@@ -97,7 +75,7 @@ C
       CALL CHREAD(CBUFF,IPNT,LNCBUF,IOSPMO(J)(I:I),2)
    50 CONTINUE
    60 CONTINUE
-   
+
 C
       DO 80 J=1,6
       DO 70 I=1,3

@@ -1,5 +1,18 @@
       SUBROUTINE INITRE
-      IMPLICIT NONE
+      use htcal_mod
+      use multcm_mod
+      use plot_mod
+      use arrays_mod
+      use workcm_mod
+      use contrl_mod
+      use coeffs_mod
+      use econ_mod
+      use outcom_mod
+      use volstd_mod
+      use prgprm_mod
+      use varcom_mod
+      use screen_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -7,61 +20,13 @@ C
 C  THIS ROUTINE PROCESSES OPTIONS AND INITIATES THE
 C  PROGNOSIS RUN.  CALLED FROM **MAIN**.
 C
-COMMONS
-C
-C
-      INCLUDE  'PRGPRM.F77'
-C
-C
-      INCLUDE  'ARRAYS.F77'
-C
-C
-      INCLUDE  'COEFFS.F77'
-C
-C
-      INCLUDE  'CONTRL.F77'
-C
-C
-      INCLUDE  'PLOT.F77'
-C
-C
-      INCLUDE  'OUTCOM.F77'
-C
-C
-      INCLUDE  'HTCAL.F77'
-C
-C
-      INCLUDE  'ECON.F77'
-C
-C
       INCLUDE  'KEYCOM.F77'
-C
-C
-      INCLUDE  'MULTCM.F77'
-C
-C
-      INCLUDE  'VOLSTD.F77'
-C
-C
-      INCLUDE  'SCREEN.F77'
-C
 C
       INCLUDE  'SNCOM.F77'
 C
-C
-      INCLUDE  'VARCOM.F77'
-C
-C
       INCLUDE  'CWDCOM.F77'
 C
-C
       INCLUDE  'CALCOM.F77'
-C
-C
-      INCLUDE  'WORKCM.F77'
-C
-C
-COMMONS
 C
       INTEGER IDUM1,IDUM2,IDUM3,IHAB,NEWYR,ISPEC,IFOREST,INTDIST,IFORST
       INTEGER IREGN,IRDUM,INUM,IDFLG,IDTYPE,IXF,IXTMP,ITB,ITC,JJTAB
@@ -239,7 +204,7 @@ C----------
      >      11100,11200,11300,11400,11500,11600,11700,11800,11900,12000,
      >      12100,12200,12300,12400,12500,12600,12700,12800,12900,13000,
      >      13100,13200,13300,13400,13500,13600,13700,13800,13900,14000,
-     >      14100,14200,14300,14400)
+     >      14100,14200,14300)
      >   , NUMBER
 C
 C  ==========  OPTION NUMBER 1: PROCESS  ============================PROCESS
@@ -2169,7 +2134,6 @@ C
 C
 C  ==========  OPTION NUMBER 49: SPECPREF  ==========================SPECPREF
 C
-C
  5100 CONTINUE
       IDT=1
       IF(LNOTBK(1)) IDT=IFIX(ARRAY(1))
@@ -2867,7 +2831,7 @@ C
          IF(.NOT.LNOTBK(4))ARRAY(4)=0.
          IF(.NOT.LNOTBK(5))ARRAY(5)=999.
          IF ((ARRAY(3) .GT. 1) .AND. (ARRAY(6) .LT. 3)) ARRAY(3) = 1.0
-         IF ((ARRAY(3) .LT. 0) .AND. (ARRAY(6) .LT. 3)) ARRAY(3) = 0.0              
+         IF ((ARRAY(3) .LT. 0) .AND. (ARRAY(6) .LT. 3)) ARRAY(3) = 0.0
          ILEN=3
          IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
          IF(LKECHO)WRITE(JOSTND,9030) KEYWRD,IDT,KARD(2)(1:ILEN),
@@ -4844,7 +4808,7 @@ C  ==========  OPTION NUMBER 130: VOLEQNUM ========================VOLEQNUM
 C
 13000 CONTINUE
 C
-C  IF WE DONT HAVE A KODFOR VALUE YET SET REGION BASED ON VARIANT 'VAR'
+C  IF WE DONT HAVE A KODFOR VALUE YET SET REGION BASED ON VRAIANT 'VAR'
 C
       IF(KODFOR.LE.0)THEN
         SELECT CASE(VVER(:2))
@@ -4893,7 +4857,6 @@ C  USE SPECIAL FORESTS FOR BIA AND PRIVATE VOLUME EQS.
 C  PN-QUINAULT IR (FC=800 USES OLYMIC 609)
 C  NC SIMPSOM TIMBER (FC=800 USES R5 SAY 510)
 C  SO INDUSTRY LANDS (FC=701 USES R5 SAY 505)
-C  SO WARM SPRINGS (FC=799 USES R6 FC=601)
 C
         IF(VVER(:2).EQ.'PN' .OR. VVER(:2).EQ.'OP')THEN
           IF(IREGN.EQ.8)THEN
@@ -4913,14 +4876,8 @@ C
           ENDIF
         ELSEIF(VVER(:2).EQ.'SO')THEN
           IF(IREGN.EQ.7)THEN
-            SELECT CASE (KODFOR)
-            CASE (701)
-              IRDUM=5
-              FORDUM='05'
-            CASE (799)
-              IRDUM=6
-              FORDUM='01'
-            END SELECT
+            IRDUM=5
+            FORDUM='05'
           ELSE
             IRDUM=IREGN
             FORDUM=FORST
@@ -5781,12 +5738,12 @@ C
 C
       IF (LNOTBK(2))PRMS(1)=ARRAY(2)       ! LOWER DBH
       IF (LNOTBK(3))PRMS(2)=ARRAY(3)       ! UPPER DBH
-      IF (LNOTBK(5))PRMS(4)=ARRAY(5)  ! Q FACTOR        
+      IF (LNOTBK(5))PRMS(4)=ARRAY(5)  ! Q FACTOR
       IF (LNOTBK(6))PRMS(5)=ARRAY(6)  ! DIA. CLASS WIDTH
-      IF (LNOTBK(7))PRMS(6)=ARRAY(7)  ! TARGET TPA, BA, or SDI 
+      IF (LNOTBK(7))PRMS(6)=ARRAY(7)  ! TARGET TPA, BA, or SDI
 C
 C  THE SWITCH TO SET THE UNITS FOR THE TARGET ARE ON A SECOND RECORD
-C  OF THE THINQFA KEYWORD 
+C  OF THE THINQFA KEYWORD
 C  <= 0 - TPA TARGET
 C  <= 1 - BA TARGET
 C  >  1 - SDI TARGET
@@ -5940,68 +5897,6 @@ C----------
 14315   FORMAT (/,A8,'   ORGANON KEYWORDS NOT RECOGNIZED IN THIS',
      &  ' VARIANT')
       ENDIF
-      GOTO 10
-C
-C  ==========  OPTION NUMBER 49: SPLEAVE ============================SPLEAVE
-C
-14400 CONTINUE
-      IDT=1
-      IF(LNOTBK(1)) IDT=IFIX(ARRAY(1))
-C
-C     IF THE KEYWORD RECORD HAS THE 'PARMS' OPTION, CALL OPNEWC
-C     TO PROCESS IT.
-C
-      IF (IPRMPT.GT.0) THEN
-         IF (IPRMPT.NE.2) THEN
-            CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
-            CALL ERRGRO (.TRUE.,25)
-         ELSE
-            CALL OPNEWC (KODE,JOSTND,IREAD,IDT,206,KEYWRD,KARD,
-     >                      IPRMPT,IRECNT,ICYC)
-            CALL fvsGetRtnCode(IRTNCD)
-            IF (IRTNCD.NE.0) RETURN
-         ENDIF
-         GOTO 10
-      ENDIF
-C
-C     IF THE SELECTION VALUE IS NOT PRESENT;
-C     THEN:  WRITE ERROR MSG AND SKIP PROCESSING KEYWORD CARD.
-C
-      IF (.NOT.LNOTBK(2)) THEN
-        CALL KEYDMP (JOSTND,IRECNT,KEYWRD,ARRAY,KARD)
-        CALL ERRGRO (.TRUE.,4)
-        GOTO 10
-      ENDIF
-C
-C     SPECIES CODE PROCESSING.
-C
-      CALL SPDECD (2,IS,NSP(1,1),JOSTND,IRECNT,KEYWRD,
-     &             ARRAY,KARD)
-      IF (IS.EQ.-999) GOTO 10
-      PRMS(1)=IS
-C
-C  DEFAULT IS LEAVE THE SPECIES PRMS(2)=1.
-C
-      PRMS(2)=1.
-      IF (LNOTBK(3))PRMS(2)=ARRAY(3)
-C
-C     SCHEDULE THE ACTIVITY
-C
-      CALL OPNEW(KODE,IDT,206,2,PRMS)
-      IF (KODE .GT. 0) GOTO 10
-      ILEN=3
-      IF(IS.LT.0)ILEN=ISPGRP(-IS,52)
-      IF(PRMS(2).GT.0)THEN
-        IF(LKECHO)WRITE(JOSTND,14410) KEYWRD,IDT,KARD(2)(1:ILEN),IS
-      ELSE
-        IF(LKECHO)WRITE(JOSTND,14420) KEYWRD,IDT,KARD(2)(1:ILEN),IS
-      ENDIF
-14410 FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES= ',A,' (CODE=',
-     >           I3,'); WILL NOT BE INCLUDED IN THE FOLLOWING',
-     >           ' THINNING ACTIVITIES')
-14420 FORMAT (/A8,'   DATE/CYCLE=',I5,'; SPECIES= ',A,' (CODE=',
-     >           I3,'); WILL BE INCLUDED IN THE FOLLOWING',
-     >           ' THINNING ACTIVITIES')
       GOTO 10
 C
       END

@@ -1,5 +1,15 @@
       SUBROUTINE REGENT(LESTB,ITRNIN)
-      IMPLICIT NONE
+      use htcal_mod
+      use multcm_mod
+      use pden_mod
+      use arrays_mod
+      use contrl_mod
+      use coeffs_mod
+      use outcom_mod
+      use plot_mod
+      use varcom_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  **REGENT--WC   DATE OF LAST REVISION:  02/08/13
 C----------
@@ -18,45 +28,10 @@ C  **SMHGDG IS CALLED TO CALCULATE SMALL TREE HEIGHT AND DIAMETER
 C  INCREMENT
 C----------
 COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
       INCLUDE 'CALCOM.F77'
-C
-C
-      INCLUDE 'COEFFS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'OUTCOM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'HTCAL.F77'
-C
-C
-      INCLUDE 'MULTCM.F77'
-C
 C
       INCLUDE 'ESTCOR.F77'
 C
-C
-      INCLUDE 'PDEN.F77'
-C
-C
-      INCLUDE 'VARCOM.F77'
-C
-C
-COMMONS
 C----------
 C  DIMENSIONS FOR INTERNAL VARIABLES:
 C
@@ -213,6 +188,7 @@ C----------
       BARK=BRATIO(ISPC,D,H)
       IF(LSKIPH) THEN
         HTG(K)=0.0
+        DGR=0.0
         GO TO 4
       ENDIF
 C----------
@@ -245,7 +221,7 @@ C-----------
       HK=H+HTGR
       DK=D+DGR
       IF(DEBUG) WRITE(JOSTND,*)' 2ND-K,ISPC,HTGR,DGR,DK,HK= ',
-     &K,ISPC,HTGR,DGR,DK,HK 
+     &K,ISPC,HTGR,DGR,DK,HK
     3 CONTINUE
       ZZRAN = 0.0
       IF(DGSD.GE.1.0) ZZRAN=BACHLO(0.0,1.0,RANN)
@@ -474,9 +450,9 @@ C----------
       IF(CORNEW.LE.0.0) CORNEW=1.0E-4
       HCOR(ISPC)=ALOG(CORNEW)
 C----------
-C  TRAP CALIBRATION VALUES OUTSIDE 2.5 STANDARD DEVIATIONS FROM THE 
+C  TRAP CALIBRATION VALUES OUTSIDE 2.5 STANDARD DEVIATIONS FROM THE
 C  MEAN. IF C IS THE CALIBRATION TERM, WITH A DEFAULT OF 1.0, THEN
-C  LN(C) HAS A MEAN OF 0.  -2.5 < LN(C) < 2.5 IMPLIES 
+C  LN(C) HAS A MEAN OF 0.  -2.5 < LN(C) < 2.5 IMPLIES
 C  0.0821 < C < 12.1825
 C----------
       IF(CORNEW.LT.0.0821 .OR. CORNEW.GT.12.1825) THEN

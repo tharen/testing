@@ -1,32 +1,29 @@
       SUBROUTINE GRINIT
-      IMPLICIT NONE
+      use htcal_mod
+      use multcm_mod
+      use plot_mod
+      use arrays_mod
+      use workcm_mod
+      use contrl_mod
+      use coeffs_mod
+      use econ_mod
+      use volstd_mod
+      use metric_mod
+      use varcom_mod
+      use prgprm_mod
+      implicit none
 C----------
-C  ON  $ID
+C  **GRINIT--ON  DATE OF LAST REVISION:  07/21/11
 C    ON: 05/06/04
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
 C
-COMMONS
-C
-      INCLUDE 'PRGPRM.F77'
-      INCLUDE 'ARRAYS.F77'
-      INCLUDE 'COEFFS.F77'
-      INCLUDE 'CONTRL.F77'
       INCLUDE 'OPCOM.F77'
-      INCLUDE 'WORKCM.F77'
-      INCLUDE 'PLOT.F77'
-      INCLUDE 'HTCAL.F77'
-      INCLUDE 'ECON.F77'
-      INCLUDE 'MULTCM.F77'
       INCLUDE 'SUMTAB.F77'
-      INCLUDE 'VOLSTD.F77'
-      INCLUDE 'VARCOM.F77'
       INCLUDE 'CWDCOM.F77'
       INCLUDE 'CALCOM.F77'
-      INCLUDE 'METRIC.F77'
 C
-COMMONS
 C----------
       INTEGER I,J,K
       CHARACTER*26 DBLK
@@ -114,14 +111,13 @@ C    70 = WHITE PINE PLANTATION (WP) - 16 CM
 C    71 = WHITE SPRUCE PLANTATION (SP) - 10 CM
 C    72 = BLACK SPRUCE PLANTATION (BP) - 10 CM
 C
-C
 C	DATA ONMTD /
 C     >  10., 10., 16., 16., 16., 10., 10., 10., 10., 10.,
-C     >  10., 16., 10., 10., 20., 20., 20., 20., 20., 20., 
-C     >  20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 
-C     >  20., 20., 20., 20., 20., 20., 20., 20., 20., 16., 
-C     >  16., 16., 16., 20., 20., 20., 20., 20., 20., 20., 
-C     >  20., 20., 20., 20., 20., 20., 20., 20., 20., 20., 
+C     >  10., 16., 10., 10., 20., 20., 20., 20., 20., 20.,
+C     >  20., 20., 20., 20., 20., 20., 20., 20., 20., 20.,
+C     >  20., 20., 20., 20., 20., 20., 20., 20., 20., 16.,
+C     >  16., 16., 16., 20., 20., 20., 20., 20., 20., 20.,
+C     >  20., 20., 20., 20., 20., 20., 20., 20., 20., 20.,
 C     >  20., 20., 20., 20., 20., 20., 20., 20., 10., 16.,
 C     >  10., 10. /
 	DATA ONMTD / MAXSP * 0.0 /
@@ -176,7 +172,6 @@ C----------
       SIZCAP(I,3) = 0.
       SIZCAP(I,4) = 999.
       JSPIN(I)=1
-      LEAVESP(I)=.FALSE.
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
@@ -308,7 +303,7 @@ C----------
       DLOMSB=0.
       DHIMSB=999.
       MFLMSB=1
-      DBHSDI=0.      
+      DBHSDI=0.
 C
       DO 30 J=1,9
       DO 20 K=1,MAXSP

@@ -1,38 +1,21 @@
       SUBROUTINE ESINIT
-      IMPLICIT NONE
+      use esparm_mod
+      use contrl_mod
+      use prgprm_mod
+      use escomn_mod
+      use esrncm_mod
+      use eshap_mod
+      implicit none
 C----------
 C   **ESINIT--CI DATE OF LAST REVISION:   02/16/12
 C----------
 C     CALLED FROM INITRE, ONLY ONCE, TO INITIALIZE REGEN. MODEL.
 C----------
 COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'ESPARM.F77'
-C
-C
-      INCLUDE 'ESCOMN.F77'
-C
-C
-      INCLUDE 'ESHAP.F77'
-C
-C
       INCLUDE 'ESHAP2.F77'
-C
-C
-      INCLUDE 'ESRNCM.F77'
-C
 C
       INCLUDE 'ESWSBW.F77'
 C
-C
-COMMONS
 C----------
       EQUIVALENCE (NSTK,SUMPRB)
       LOGICAL LTEMP,LKECHO

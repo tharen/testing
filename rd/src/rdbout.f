@@ -1,11 +1,16 @@
       SUBROUTINE RDBOUT
-      IMPLICIT NONE
+      use contrl_mod
+      use metric_mod
+      use plot_mod
+      use arrays_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  **RDBOUT      LAST REVISION:  03/24/15
 C----------
 C
 C  Purpose :
-C     Produces optional output (in a separate file) of mortality due to 
+C     Produces optional output (in a separate file) of mortality due to
 C     bark beetles.
 C
 C  Called By :
@@ -30,7 +35,7 @@ C              DSII/DSIU/DSO, for each record.
 C     RROBNK - total number of trees killed by bark beetles, for each
 C              tree species.
 C
-C  Local Variables : 
+C  Local Variables :
 C     CLKILL - REAL
 C              Total number of trees killed in each type, by 5 inch
 C              DBH size classes.
@@ -38,7 +43,7 @@ C     CMC    - CHARACTER
 C              Name of output file.
 C     IBBOUT - INTEGER
 C              Unit number of output file.
-C     NOKILL - LOGICAL 
+C     NOKILL - LOGICAL
 C              FLAG - .TRUE. if there were no beetles active this year.
 C     ROWSUM - REAL
 C              Total number of trees killed in each type (inside,
@@ -46,7 +51,7 @@ C              I-uninf, outsied)
 C     SUMLIV - REAL
 C              Total number of trees alive in each type, before bark
 C              beetles attacked.
-C     TOLDYR - LOGICAL 
+C     TOLDYR - LOGICAL
 C              FLAG - .TRUE. if other species this year are already
 C              printed.
 C     TOTSPC - REAL
@@ -76,18 +81,13 @@ C----------------------------------------------------------------------
 
 C.... Parameter include files.
 
-      INCLUDE 'PRGPRM.F77'
       INCLUDE 'RDPARM.F77'
 
 C.... Common include files.
 
-      INCLUDE 'CONTRL.F77'
-      INCLUDE 'PLOT.F77'
       INCLUDE 'RDCOM.F77'
       INCLUDE 'RDADD.F77'
       INCLUDE 'RDARRY.F77'
-      INCLUDE 'ARRAYS.F77'
-      INCLUDE 'METRIC.F77'
 
 C.... Local variable declarations.
 
@@ -137,13 +137,13 @@ C
 
           WRITE (IBBOUT,1120) IDRDOUT(3)
       ENDIF
-      
+
       IF (IROOT .EQ. 0) GOTO 1000
-      
+
       JYR = IY(ISTEP)
       NOKILL = .TRUE.
       TOLDYR = .FALSE.
-      
+
       DO 22 I=1,3
          DO 11 J=1,MAXSP
             ROWSUM(I,J) = 0.0
@@ -155,7 +155,7 @@ C
    10       CONTINUE
    11    CONTINUE
    22 CONTINUE
-    
+
       IDI = MAXRR
 
       DO 66 I=1,ITRN
@@ -173,10 +173,10 @@ C
          SUMLIV(3,SP) = SUMLIV(3,SP) + PROBIU(I)
          SUMLIV(1,SP) = SUMLIV(1,SP) + FPROB(I) * (SAREA - PAREA(IDI))
    66 CONTINUE
-   
+
       IDI = MAXRR
 
-      DO 99 SP=1,MAXSP 
+      DO 99 SP=1,MAXSP
          IF (RROBNK(SP) .LE. 0.0) GOTO 99
          NOKILL = .FALSE. 
          
@@ -215,17 +215,17 @@ C            TOTSPC(SP) = TOTSPC(SP) + ROWSUM(1,SP)
             IF (PAREA(IDI) .LT. SAREA)
      &         CLKILL(1,SP,ICL) = CLKILL(1,SP,ICL)/(SAREA-PAREA(IDI))
    88    CONTINUE
-         
+
          IF (LMTRIC) THEN
-            IF (TOLDYR) THEN         
+            IF (TOLDYR) THEN
                WRITE(IBBOUT,2011) IDRDOUT(3), JSP(SP),
      &                            (CLKILL(2,SP,I)/ACRtoHA,I=1,7),
-     &                            ROWSUM(2,SP)/ACRtoHA, 
+     &                            ROWSUM(2,SP)/ACRtoHA,
      &                            SUMLIV(2,SP)/ACRtoHA
             ELSE
-               WRITE(IBBOUT,2001) IDRDOUT(3), JYR, JSP(SP), 
+               WRITE(IBBOUT,2001) IDRDOUT(3), JYR, JSP(SP),
      &                           (CLKILL(2,SP,I)/ACRtoHA,I=1,7),
-     &                            ROWSUM(2,SP)/ACRtoHA, 
+     &                            ROWSUM(2,SP)/ACRtoHA,
      &                            SUMLIV(2,SP)/ACRtoHA
                TOLDYR = .TRUE.
             ENDIF
@@ -241,7 +241,7 @@ C            TOTSPC(SP) = TOTSPC(SP) + ROWSUM(1,SP)
      &                         SUMLIV(1,SP)/ACRtoHA
             WRITE(IBBOUT,1111) IDRDOUT(3)
          ELSE
-            IF (TOLDYR) THEN         
+            IF (TOLDYR) THEN
                WRITE(IBBOUT,2011) IDRDOUT(3),
      &                            JSP(SP), (CLKILL(2,SP,I),I=1,7),
      &                            ROWSUM(2,SP), SUMLIV(2,SP)
@@ -316,6 +316,6 @@ C.... Headers used when running the metric version.
      &        '     Row     Species   Total')
  1235 FORMAT (1X,I5,1X,'(year)',20X,'    0-<13    13-<25 ',
      &        '   25-<38    38-<51    51-<64    64-<76       76+',
-     &        '                        Attack') 
+     &        '                        Attack')
 
       END

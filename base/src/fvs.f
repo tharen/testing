@@ -1,5 +1,13 @@
       SUBROUTINE FVS(IRTNCD)
-      IMPLICIT NONE
+      use pden_mod
+      use arrays_mod
+      use workcm_mod
+      use contrl_mod
+      use econ_mod
+      use outcom_mod
+      use plot_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -18,37 +26,14 @@ C
 C     PHONE (208) 882-3557
 C----------
 COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'OUTCOM.F77'
-C
-C
-      INCLUDE 'PDEN.F77'
-C
-C
-      INCLUDE 'ECON.F77'
-C
-C
-      INCLUDE 'WORKCM.F77'
-C
-C
-COMMONS
-C
 
+!Python F2PY Interface Directives
+!f2py intent(out) :: irtncd
+
+#ifdef _WINDLL
 !DEC$ ATTRIBUTES DLLEXPORT, C, DECORATE, ALIAS : "FVS" :: FVS
 !DEC$ ATTRIBUTES REFERENCE :: IRTNCD
+#endif
 
       INTEGER I,IA,N,K,NTODO,ITODO,IACTK,IDAT,NP
       REAL STAGEA,STAGEB

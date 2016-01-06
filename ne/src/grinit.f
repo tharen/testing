@@ -1,63 +1,30 @@
       SUBROUTINE GRINIT
-      IMPLICIT NONE
+      use htcal_mod
+      use multcm_mod
+      use plot_mod
+      use arrays_mod
+      use workcm_mod
+      use contrl_mod
+      use coeffs_mod
+      use econ_mod
+      use volstd_mod
+      use varcom_mod
+      use prgprm_mod
+      implicit none
 C----------
 C NE $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'COEFFS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
       INCLUDE 'OPCOM.F77'
-C
-C
-      INCLUDE 'WORKCM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'HTCAL.F77'
-C
-C
-      INCLUDE 'ECON.F77'
-C
-C
-      INCLUDE 'MULTCM.F77'
-C
 C
       INCLUDE 'SUMTAB.F77'
 C
-C
-      INCLUDE 'VOLSTD.F77'
-C
-C
-      INCLUDE 'VARCOM.F77'
-C
-C
       INCLUDE 'CWDCOM.F77'
-C
 C
       INCLUDE 'CALCOM.F77'
 C
-C
-      INCLUDE 'TWIGCOM.F77'
-C
-C
-COMMONS
 C----------
       INTEGER I,J,K
       CHARACTER*26 DBLK
@@ -115,7 +82,6 @@ C----------
       SIZCAP(I,3) = 0.
       SIZCAP(I,4) = 999.
       JSPIN(I)=3
-      LEAVESP(I)=.FALSE.
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
@@ -312,12 +278,6 @@ C----------
       SITETR(I,J)=0.
    74 CONTINUE
    75 CONTINUE
-C
-C  BAU CARRIED IN TWIGCOM.F77
-C
-      DO I=1,50
-        BAU(I)=0.
-      ENDDO
 C
       RETURN
       END

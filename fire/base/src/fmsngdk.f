@@ -1,5 +1,9 @@
       SUBROUTINE FMSNGDK(VVER,KSP,D,DKTIME)
-      IMPLICIT NONE
+      use fmcom_mod
+      use plot_mod
+      use fmparm_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -24,21 +28,6 @@ C     D:       Diameter of current snag pool/record.
 C     DKTIME:  Years, since death, for snag to become soft.
 C     KSP:     Species number for current snag pool/record.
 C----------
-C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-      INCLUDE 'FMPARM.F77'
-C
-C
-      INCLUDE 'FMCOM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-COMMONS
 C
       CHARACTER VVER*7
       INTEGER JADJ, JSML, JYRSOFT, KSP
@@ -68,14 +57,13 @@ C----------
           CALL FMR6SDCY(KSP, D, JYRSOFT, JADJ, JSML)
           DKTIME = JYRSOFT * DECAYX(KSP)
         CASE('SO')
-          SELECT CASE (KODFOR)
-          CASE (601,602,620,799)                     !OREGON
+          IF ( (KODFOR .GE. 600) .AND. (KODFOR .LT. 700)) THEN  ! OREGON
             CALL FMR6SDCY(KSP, D, JYRSOFT, JADJ, JSML)
             DKTIME = JYRSOFT * DECAYX(KSP)
-          CASE DEFAULT                               !CALIFORNIA
+          ELSE
             DKTIME = (1.24 * DECAYX(KSP) * D) + (13.82 * DECAYX(KSP))
             DKTIME = DKTIME * XMOD
-          END SELECT
+          ENDIF
         CASE DEFAULT
           DKTIME = (1.24 * DECAYX(KSP) * D) + (13.82 * DECAYX(KSP))
           DKTIME = DKTIME * XMOD

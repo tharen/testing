@@ -1,5 +1,9 @@
       SUBROUTINE FMSSUM (IYR)
-      IMPLICIT NONE
+      use fmcom_mod
+      use plot_mod
+      use fmparm_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -7,17 +11,6 @@ C
 C  Purpose:
 C     Reports a summary of snag statistics for all years that
 C     coinside with a FVS cycle boundary.
-C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-      INCLUDE 'FMPARM.F77'
-      INCLUDE 'FMCOM.F77'
-      INCLUDE 'PLOT.F77'
-C
-C
-COMMONS
 C
       INTEGER I, II, JOUT, K
       REAL    THD(7),TSF(7),THDSF

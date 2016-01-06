@@ -1,63 +1,32 @@
       SUBROUTINE GRINIT
-      IMPLICIT NONE
+      use htcal_mod
+      use multcm_mod
+      use plot_mod
+      use arrays_mod
+      use workcm_mod
+      use contrl_mod
+      use coeffs_mod
+      use econ_mod
+      use volstd_mod
+      use varcom_mod
+      use prgprm_mod
+      implicit none
 C----------
 C CR $Id$
 C----------
 C
 C  INITIALIZE PROGNOSIS MODEL VARIABLES
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'COEFFS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
       INCLUDE 'OPCOM.F77'
-C
-C
-      INCLUDE 'WORKCM.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
 C
       INCLUDE 'GGCOM.F77'
 C
-C
-      INCLUDE 'HTCAL.F77'
-C
-C
-      INCLUDE 'ECON.F77'
-C
-C
-      INCLUDE 'MULTCM.F77'
-C
-C
       INCLUDE 'SUMTAB.F77'
-C
-C
-      INCLUDE 'VOLSTD.F77'
-C
-C
-      INCLUDE 'VARCOM.F77'
-C
 C
       INCLUDE 'CWDCOM.F77'
 C
-C
       INCLUDE 'CALCOM.F77'
 C
-C
-COMMONS
 C----------
       CHARACTER*26 DBLK
       CHARACTER*4 NONE
@@ -121,7 +90,6 @@ C
       SIZCAP(I,3) = 0.
       SIZCAP(I,4) = 999.
       JSPIN(I)=3
-      LEAVESP(I)=.FALSE.
     5 CONTINUE
       LFLAGV = .FALSE.
       LBAMAX = .FALSE.
@@ -320,23 +288,6 @@ C----------
       SITETR(I,J)=0.
    74 CONTINUE
    75 CONTINUE
-C----------
-C     INITIALIZE VARIABLES CARRIED IN GGCOM.
-C----------
-      DO I=1,MAXSP
-      TBA(I) = 0.0
-      DO J=1,41
-      IF(I .EQ. 1) BAU(J) = 0.0
-      BCLAS(I,J) = 0.0
-      TCLAS(I,J) = 0.0
-      ENDDO
-      ENDDO
-      AGERNG=0.
-      SEEDS=0.
-      BARK1=0.
-      BARK2=0.
-      TPAT=0.
-      DSTAG=0.
 C
       RETURN
       END

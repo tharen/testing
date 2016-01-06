@@ -1,4 +1,7 @@
       SUBROUTINE MSPPPT (WK3, IPNT, ILIMIT)
+      use contrl_mod
+      use prgprm_mod
+      implicit none
 ***********************************************************************
 *  **MSPPPT--MS  DATE OF LAST REVISION:  06/25/13
 *----------------------------------------------------------------------
@@ -52,7 +55,7 @@
 *
 *  Revision History :
 *  01-MAR-95  Lance R. David (MAG)
-*     Storage of DMGMLT (from MISCOM; user-adjustable diameter 
+*     Storage of DMGMLT (from MISCOM; user-adjustable diameter
 *     growth multiplier) removed due to change of MISTGMOD keyword.
 *     This variable is no longer used.
 *  10-MAR-08; Lance R. David (FHTET)
@@ -66,7 +69,6 @@
 *     Corrected write of MISCYC array, only 1 dimension being processed.
 *
 ***********************************************************************
-      IMPLICIT NONE
 
 C.... Parameter statements for numeric variable processing.
       INTEGER MXI,MXL,MXR
@@ -74,11 +76,9 @@ C.... Parameter statements for numeric variable processing.
 
 C.... Parameter include files.
 
-      INCLUDE 'PRGPRM.F77'
 
 C.... Common include files.
 
-      INCLUDE 'CONTRL.F77'
       INCLUDE 'MISCOM.F77'
 
 C.... Variable declarations.
@@ -142,6 +142,7 @@ C.... Note that MISCYC, PRFMST, PMCSP, and DGPDMR are 2-d arrays.
       END
 
       SUBROUTINE MSCHPUT (CBUFF, IPNT, LNCBUF)
+      use prgprm_mod
       IMPLICIT NONE
 C----------
 C  **MSCHPUT--MS  DATE OF LAST REVISION:  07/10/15
@@ -152,12 +153,6 @@ C  This is part of the Stop/Restart utility.
 C
 C
 COMMONS
-C
-C
-C.... Parameter include files.
-
-      INCLUDE 'PRGPRM.F77'
-
 C.... Common include files.
 
       INCLUDE 'MISCOM.F77'

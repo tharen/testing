@@ -1,5 +1,12 @@
       SUBROUTINE SVCWD(IYEAR)
-      IMPLICIT NONE
+      use arrays_mod
+      use fmcom_mod
+      use fmparm_mod
+      use contrl_mod
+      use svdata_mod
+      use fmsvcm_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -42,32 +49,7 @@ C   Common variable definitions:
 C     V2T:     Volume (cuft) to Tons conversion factor (in /FMCOM/)
 C----------
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-      INCLUDE 'FMPARM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'FMCOM.F77'
-C
-C
-      INCLUDE 'SVDATA.F77'
-C
-C
       INCLUDE 'SVDEAD.F77'
-C
-C
-      INCLUDE 'FMSVCM.F77'
-C
-C  
-COMMONS
 C
       INTEGER CWDDL1, CWDDL2, I, IBP, ICWD, ID, IH, IP, IPC, IPCNT,
      &        IPS, IPUT, IOBJ, ISVOBJ, ISZCLS, IYEAR, J, JBP, KSP,
@@ -84,7 +66,6 @@ C
 C
 C     Upper breakpoints for TCWD3 fuel size categories:
       DATA BP   / 0.000, 3.000, 6.000, 12.000, 999.000 /
-C
 C
 C----------
 C  Check for debug:
@@ -123,10 +104,9 @@ C     11:  Duff
 C    (  -,  -,1:2,  -) 1 = SOFT, 2 = HARD
 C    (  -,  -,  -,1:4) 1 = V.Slow,..., 4 = Fast decay rate
 C
-C  The "Litter", "Duff", "0-0.25", and "0.25-1.0" categories of the 
-C  base CWD array are ignored,since they can potentially generate a 
-C  very large number of SVS objects that can potentially displace 
-C  more significant SVS objects.
+C  The "Litter" and "Duff" categories of the base CWD array are ignored,
+C  since they can potentially generate a very large number of SVS
+C  objects that can potentially displace more significant SVS objects.
 C----------
 
       DO IP=1,3
@@ -137,7 +117,9 @@ C----------
       DO IP=1,3
         DO IH=1,2
           DO ID=1,4
-            TCWD3(IP,1) = TCWD3(IP,1) + CWD(IP,3,IH,ID)
+            TCWD3(IP,1) = TCWD3(IP,1) + CWD(IP,1,IH,ID)
+     &                                + CWD(IP,2,IH,ID)
+     &                                + CWD(IP,3,IH,ID)
             TCWD3(IP,2) = TCWD3(IP,2) + CWD(IP,4,IH,ID)
             TCWD3(IP,3) = TCWD3(IP,3) + CWD(IP,5,IH,ID)
             TCWD3(IP,4) = TCWD3(IP,4) + CWD(IP,6,IH,ID) +CWD(IP,7,IH,ID)
@@ -498,7 +480,7 @@ C----------
 
           NSVCWD(IPS,ISZCLS) = 0
           DO ISVOBJ=1,MXSVOB
-            IF (IOBJTP(ISVOBJ).NE.4) CYCLE 
+            IF (IOBJTP(ISVOBJ).NE.4) CYCLE
             IF ( CWDPIL(IS2F(ISVOBJ)) .EQ. (IPS-1) .AND.
      &           CWDDIA(IS2F(ISVOBJ)) .LE. BP(ISZCLS) .AND.
      &           CWDDIA(IS2F(ISVOBJ)) .GT. BP(ISZCLS-1) ) THEN
@@ -729,7 +711,7 @@ C----------
       DO ISZCLS=1,4
         NSVNEW(IPS,ISZCLS) = 0
         DO ISVOBJ=1,MXSVOB
-          IF (IOBJTP(ISVOBJ).NE.4) CYCLE  
+          IF (IOBJTP(ISVOBJ).NE.4) CYCLE
           IF ( CWDPIL(IS2F(ISVOBJ)) .EQ. (IPS-1) .AND.
      &         CWDDIA(IS2F(ISVOBJ)) .LE. BP(ISZCLS) .AND.
      &         CWDDIA(IS2F(ISVOBJ)) .GT. BP(ISZCLS-1) ) THEN

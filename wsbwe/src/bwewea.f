@@ -1,5 +1,7 @@
       SUBROUTINE BWEWEA
-      IMPLICIT NONE
+      use contrl_mod
+      use prgprm_mod
+      implicit none
 C-----------
 C **BWEWEA                  DATE OF LAST REVISION:  09/19/14
 C-----------
@@ -46,14 +48,12 @@ C   WRAIND - EFFECT OF HEAVY PPT. ON BW SURVIVAL DURING L2 EMERGENCE
 C
 C  SET WEATHER-RELATED PARAMETERS
 C
-C
 C Revision History:
 C   17-MAY-2005 Lance R. David (FHTET)
 C      Added FVS parameter file PRGPRM.F77.
 C   30-AUG-2006 Lance R. David (FHTET)
 C      Changed array orientation of IEVENT from (4,250) to (250,4).
 C   14-JUL-2010 Lance R. David (FMSC)
-C      Added IMPLICIT NONE and declared variables as needed.
 C   28-AUG-2013 Lance R. David (FMSC)
 C      Added weather year (if using RAWS) to special events table.
 C   19-SEP-2014 Lance R. David (FMSC)
@@ -61,8 +61,6 @@ C      Changed variable named INDEX to INDX.
 C
 C----------
 C
-      INCLUDE 'PRGPRM.F77'
-      INCLUDE 'CONTRL.F77'
       INCLUDE 'BWECM2.F77'
       INCLUDE 'BWEBOX.F77'
       INCLUDE 'BWECOM.F77'
@@ -99,7 +97,6 @@ C    BWERAN, 2 USES OF THE SEED PER CALL).
 C IF IWSRC=2, USER HAS SUPPLIED ACTUAL DATA (1 LINE PER YEAR). READ
 C CURRENT YEAR & STORE IN BWEATH(X,1); IWOPT IS SET TO 2 TEMPORARILY.
 C
-C
 C     RESTORE SEED VALUE FOR WEATHER RANDOM NUMBER SERIES USED IN FUNCTION BWENOR
       CALL BWERPT(WSEED)
 
@@ -107,7 +104,7 @@ C     RESTORE SEED VALUE FOR WEATHER RANDOM NUMBER SERIES USED IN FUNCTION BWENO
      &  'IN BWEWEA: IWOPT, IWSRC, WSEED=',IWOPT,IWSRC,WSEED
 
       IF (IWOPT .EQ. 1 .OR. IWSRC .EQ. 2) THEN
- 
+
          AMIN=0.8
          IF (IYRCUR .GT. IWYR+1 .AND. IWYR .LT. 3000) THEN
    20        IWYR=IWYR+1
@@ -138,7 +135,7 @@ C               WRITE (16,*) 'IN BWEWEA: REWIND JOWE'             ! TEMP DEBUG
              IF (DBUG) WRITE (JOSTND,*)'IN BWEWEA: IBUDYR=',IBUDYR
              IF (IWYR .LT. IYRCUR-1) GOTO 20
          ENDIF
-         IWYR=IWYR+1    
+         IWYR=IWYR+1
 C
 C IF IWSRC=2, READ IN DATA FROM FILE SUPPLIED BY USER, THEN SKIP REST
 C   OF THIS SECTION
@@ -147,22 +144,22 @@ C
    44       READ (JOWE,45,IOSTAT=IOS) DAYS(1),DAYS(2),DAYS(3),WHOTF,
      &        DFLUSH,TREEDD,RAIN(1),RAIN(2),RAIN(3),WRAIND
    45       FORMAT(5X,10F7.1)
-            IF (IOS .EQ. -1) THEN 
+            IF (IOS .EQ. -1) THEN
                REWIND (JOWE)
                GOTO 44
             ENDIF
             AMIN=0.8
             AMULT=1.0
-            IF (WHOTF .GT. WHOTM) 
+            IF (WHOTF .GT. WHOTM)
      &        CALL BWEMUL(WHOTM,WHOTSD,WHOTF,AMIN,AMULT)
             WHOTF=AMULT
             AMULT=1.0
-            IF (WRAIND .GT. RAINDM) 
+            IF (WRAIND .GT. RAINDM)
      &        CALL BWEMUL(RAINDM,RAINDS,WRAIND,AMIN,AMULT)
             WRAIND=AMULT
             DO 46 I=1,3
                AMULT=1.0
-               IF (RAIN(I) .GT. RAINM(I)) 
+               IF (RAIN(I) .GT. RAINM(I))
      &           CALL BWEMUL(RAINM(I),RAINS(I),RAIN(I),AMIN,AMULT)
                WRAINA(I)=AMULT
                WRAINB(I)=AMULT
@@ -173,7 +170,7 @@ C
             WCOLDW=1.0
          ENDIF
          IF (IWSRC .EQ. 2) GO TO 300                             ! RETURN
- 
+
          TREEDD=BWENOR(BWEATH(6,1),BWEATH(6,2))
          PICK=BWENOR(BWEATH(4,1),BWEATH(4,2))
 
@@ -189,7 +186,7 @@ C        WRITE (16,*) 'IN BWEWEA: PICK, BWEATH(4,1)=',PICK,BWEATH(4,1)
          IF (LP4 .AND. AMULT-AMIN .LE. 0.02) THEN
             NEVENT=NEVENT+1
             IF (NEVENT.GT.250) THEN
-              WRITE (JOBWP4,8250) 
+              WRITE (JOBWP4,8250)
               LP4 = .FALSE.
             ELSE
               IEVENT(NEVENT,1)=IYRCUR
@@ -214,7 +211,7 @@ C             so IEVENT(x,5) is set to 0 here.
          IF (LP4 .AND. AMULT-AMIN .LE. 0.02) THEN
             NEVENT=NEVENT+1
             IF (NEVENT.GT.250) THEN
-              WRITE (JOBWP4,8250) 
+              WRITE (JOBWP4,8250)
               LP4 = .FALSE.
             ELSE
               IEVENT(NEVENT,1)=IYRCUR
@@ -249,7 +246,7 @@ C             so IEVENT(x,5) is set to 0 here.
          IF (LP4 .AND. AMULT-AMIN .LE. 0.02) THEN
             NEVENT=NEVENT+1
             IF (NEVENT.GT.250) THEN
-              WRITE (JOBWP4,8250) 
+              WRITE (JOBWP4,8250)
  8250         FORMAT ('********   ERROR - WSBW: MORE THAN 250 ENTRIES!')
               LP4 = .FALSE.
             ELSE
@@ -304,14 +301,15 @@ C     RETRIEVE SEED VALUE FOR WEATHER RANDOM NUMBER SERIES.
 C----------------------------------------------------------------------
 
       FUNCTION BWENOR(AVE,SD)
+      implicit none
 C-----------
 C **BWENOR      LAST REVISED: 2/25/97
 C-----------
 C
 C  THIS FUNCTION FIRST CALCULATES A NORMALLY DISTRIBUTED DEVIATE WITH
 C  ZERO MEAN AND UNIT VARIANCE, USING BWERAN AS THE SOURCE FOR A UNIFORM
-C  DEVIATE.  SOURCE: PRESS, WILLIAM H.; TEUKOLSKY, SAUL A.; VETTERLING, 
-C  WILLIAM T.; FLANNERY, BRIAN P.  1992.  NUMERICAL RECIPES IN FORTRAN, 
+C  DEVIATE.  SOURCE: PRESS, WILLIAM H.; TEUKOLSKY, SAUL A.; VETTERLING,
+C  WILLIAM T.; FLANNERY, BRIAN P.  1992.  NUMERICAL RECIPES IN FORTRAN,
 C  2ND EDITION.  CAMBRIDGE UNIVERSITY PRESS, PORT CHESTER, NEW YORK. 963 P.
 C
 C  NEXT, THE DEVIATE IS SCALED TO THE AVERAGE (AVE) AND STANDARD DEVIATION
@@ -326,7 +324,6 @@ C
 C      BWERAN
 C
 C   PARAMETERS:
-C
 C
       DATA ISET/0/
 C
@@ -366,13 +363,14 @@ C    &                                BWENOR, AVE, GASDEV, SD, ISET
 C----------------------------------------------------------------------
 
       SUBROUTINE BWEMUL(AVE,SD,PICK,AMIN,AMULT)
+      implicit none
 C-----------
 C **BWEMUL      LAST REVISED: 2/25/97
 C-----------
 C
 C  THIS SUBROUTINE IS USED TO SCALE A NORMALY-DISTR. RANDOM
 C  NUMBER (PICK) FOR A MULTIPLIER THAT IS SET TO A MAXIMUM OF
-C  1.0 AND A MINIMUM OF AMIN.  
+C  1.0 AND A MINIMUM OF AMIN.
 C
 C  K.A. SHEEHAN  USDA-FS, R6-NATURAL RESOURCES, PORTLAND, OR
 C

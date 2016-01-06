@@ -1,35 +1,17 @@
       SUBROUTINE ESINIT
-      IMPLICIT NONE
+      use esparm_mod
+      use prgprm_mod
+      use escomn_mod
+      use esrncm_mod
+      use eshap_mod
+      use contrl_mod, only : kwdfil
+      implicit none
 C----------
 C   **ESINIT DATE OF LAST REVISION:   01/06/09
 C----------
 C     CALLED FROM INITRE, ONLY ONCE, TO INITIALIZE REGEN. MODEL.
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'ESPARM.F77'
-C
-C
-      INCLUDE 'ESCOMN.F77'
-C
-C
-      INCLUDE 'ESHAP.F77'
-C
-C
-      INCLUDE 'ESRNCM.F77'
-C
-C
       INCLUDE 'ESWSBW.F77'
-C
-C
-COMMONS
 C
       INTEGER NSTK,I,KODE,JSTND
       REAL SUMPRB,X

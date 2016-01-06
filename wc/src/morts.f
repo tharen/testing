@@ -1,5 +1,15 @@
       SUBROUTINE MORTS
-      IMPLICIT NONE
+      use multcm_mod
+      use plot_mod
+      use arrays_mod
+      use workcm_mod
+      use contrl_mod
+      use coeffs_mod
+      use pden_mod
+      use estree_mod
+      use prgprm_mod
+      use varcom_mod, only : ptbalt
+      implicit none
 C----------
 C  **MORTS--WC  DATE OF LAST REVISION:  08/13/15
 C----------
@@ -24,41 +34,8 @@ C  PY:                                 USE PY FROM SW ORGANON
 C  DG, HT, CH:                         USE DG FROM NW ORGANON
 C----------
 COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
       INCLUDE 'CALCOM.F77'
 C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'COEFFS.F77'
-C
-C
-      INCLUDE 'ESTREE.F77'
-C
-C
-      INCLUDE 'MULTCM.F77'
-C
-C
-      INCLUDE 'PDEN.F77'
-C
-C
-      INCLUDE 'WORKCM.F77'
-C
-C
-      INCLUDE 'VARCOM.F77'
-C
-COMMONS
 C----------
 C  DEFINITIONS:
 C
@@ -226,7 +203,7 @@ C FOR MODELING CLIMATE CHANGE.
 C----------
       CALL SDICAL(SDIMAX)
       IF(DEBUG)WRITE(JOSTND,*)'IN MORTS CYCLE= ',ICYC,'  BAMAX= ',
-     &BAMAX,'  SDIMAX= ',SDIMAX 
+     &BAMAX,'  SDIMAX= ',SDIMAX
 C----------
 C  ESTIMATE QUADRATIC MEAN DIAMETER 10 YEARS HENCE.
 C----------
@@ -253,7 +230,6 @@ C----------
      &SUMDR10,G
       T=T+P
    20 CONTINUE
-      IF(T. EQ. 0.0) T= 0.0001
       DQ10=SQRT(SD2SQ/T)
       IF(LZEIDE)THEN
         DQ10=(SUMDR10/T)**(1/1.605)
@@ -332,7 +308,16 @@ C SMALL TREES USE EQUATIONS BY GOULD AND HARRINGTON
 C----------
       CR=ICR(I)*0.01
       BAL=(1.0 - (PCT(I)/100.)) * BA
-      CRADJ=1.0-EXP(-(25.0*CR)**2.0)
+
+      ! For CR >=20% CRADJ is effectively 1.0
+      ! When CR exceeds about 30% the exp function underflows
+      !   this was makes debugging difficult
+      IF (CR>=0.2) THEN
+        CRADJ = 1.0
+      ELSE
+        CRADJ=1.0-EXP(-(25.0*CR)**2.0)
+      END IF
+
       XSITE2=SITEAR(19)
       XSITE1=SITEAR(16)
 C----------
@@ -376,7 +361,7 @@ C
       END SELECT
 C----------
 C SMALL-TREE MORTALITY MODEL DEVELOPED BY GOULD AND HARRINGTON
-C----------  
+C----------
       IF (D .LT. 3.0) THEN
         RELHT = 0.0
         IF(AVH .GT. 0.0) RELHT=HT(I)/AVH
@@ -517,7 +502,6 @@ C  COMPUTE THE CLIMATE-PREDICTED MORTALITY RATES BY SPECIES
 C---------
       CALL CLMORTS
 C
-C
 C----------
 C  COMPUTE THE FIXMORT OPTION.  LOOP OVER ALL SCHEDULED FIXMORT'S
 C  LINCL IS USED TO INDICATE WHETHER A TREE GETS AFFECTED OR NOT
@@ -540,7 +524,7 @@ C----------
             IF(PRM(5).LT.3.)THEN
                IF(PRM(2).GT. 1.0)PRM(2)=1.0
                IF(PRM(2).LT. 0.0)PRM(2)=0.0
-            ENDIF 
+            ENDIF
             IF (PRM(5).EQ.1.0) THEN
                IP=2
             ELSEIF (PRM(5).EQ.2.0) THEN

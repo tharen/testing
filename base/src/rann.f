@@ -1,5 +1,6 @@
       SUBROUTINE RANN(SEL)
-      IMPLICIT NONE
+      use rancom_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -26,16 +27,10 @@ C     OCT 1982, FROM THE ALGORITHM PUBLISHED IN THE IMSL MANUAL AND
 C     TESTED BY COMPAIRING THE FIRST 10000 DRAWS FORM THIS VERSION AND
 C     AND THE GENERATOR 'GGUBS' IN THE 1981 EDITION OF IMSL.
 C
-C
-COMMONS
-C
-C
-      INCLUDE 'RANCOM.F77'
-C
-C
-COMMONS
-C
-C
+
+!Python F2PY Interface Directives
+!f2py intent(out) :: sel
+
       REAL SEL,SEED
       DOUBLE PRECISION PASSS0
       LOGICAL LSET
@@ -49,6 +44,9 @@ C     REAL WITH LSET=TRUE; IF LSET=FALSE, A CALL TO RANSED WILL
 C     CAUSE THE RANDOM NUMBER GENERATOR TO START OVER.
 C
       ENTRY RANSED (LSET,SEED)
+!Python F2PY Interface Directives
+!f2py intent(in) :: lset
+!f2py intent(inout) :: seed
       IF (LSET) GOTO 10
       SEED=SS
       S0=SEED
@@ -60,10 +58,14 @@ C
       RETURN
 C
       ENTRY RANNGET (PASSS0)
+!Python F2PY Interface Directives
+!f2py intent(out) :: passs0
       PASSS0=S0
       RETURN
 C
       ENTRY RANNPUT (PASSS0)
+!Python F2PY Interface Directives
+!f2py intent(in) :: passs0
       S0=PASSS0
       RETURN
       END

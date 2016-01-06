@@ -1,5 +1,11 @@
       SUBROUTINE FMSADD (YEAR,ITYP)
-      IMPLICIT NONE
+      use arrays_mod
+      use fmcom_mod
+      use fmparm_mod
+      use contrl_mod
+      use fmfcom_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -49,19 +55,7 @@ C     YEAR:   the year of death of all the snags to be added during this
 C             subroutine call (during initialization, this may be more than
 C             one year before the next year that will be simulated).
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-      INCLUDE 'FMPARM.F77'
 
-      INCLUDE 'CONTRL.F77'
-      INCLUDE 'ARRAYS.F77'
-      INCLUDE 'FMCOM.F77'
-      INCLUDE 'FMFCOM.F77'
-C
-C
-COMMONS
 C
       REAL    DENJ, MIDHT(MAXSP,19), MINDEN, TOTDEN, UNFIRE
       REAL    ABIO, MBIO, RBIO, XDCAY
@@ -327,31 +321,13 @@ C       0 height).
         IF (RECORD(SPCL,DBHCL,HTCL) .EQ. 0) GOTO 50
 
 C       Average the new snags in with others in their class.  Sum the
-C       densities last. If snag is truncated on FVS input, set height
-C       at death to NORMAL (FVS dubbed) height.
+C       densities last.
 
         X = RECORD(SPCL,DBHCL,HTCL)
         TOTDEN    = DEND(X) + SNGNEW(I)
-        IF(ITYP.EQ.3)THEN
-          HTDEAD(X) = (HTDEAD(X) * DEND(X) +
-     &              MAX(HT(I),NORMHT(I)*.01) * SNGNEW(I)) / TOTDEN
-        ELSE
-          HTDEAD(X) = (HTDEAD(X) * DEND(X) + HT(I) * SNGNEW(I)) / TOTDEN
-        ENDIF
+        HTDEAD(X) = (HTDEAD(X) * DEND(X) + HT(I) * SNGNEW(I)) / TOTDEN
         DBHS(X)   = (DBHS(X) * DEND(X) + DBH(I) * SNGNEW(I)) / TOTDEN
         DEND(X)   = TOTDEN
-C
-C      If snag is truncated on input to FVS, set actual height here
-C
-        IF (ITYP.EQ.3) THEN
-          IF(ITRUNC(I).GT.0)THEN
-            HTIH(X) = ITRUNC(I)*.01
-            HTIS(X) = ITRUNC(I)*.01
-          ELSE
-            HTIH(X) = HTDEAD(X)
-            HTIS(X) = HTDEAD(X)
-          ENDIF
-        ENDIF
 
 C       Zero out the temporary snag array (This probably isn't really
 c       necessary to do here once we get the get and put running, but
@@ -410,14 +386,8 @@ C     of snags. (Note that PSOFT is now by species (Feb 2002))
             X = RECORD(SPCL,DBHCL,HTCL)
             IF (X .GT. 0) THEN
               IF (DEND(X) .GT. 0) THEN
-
-C     If snag initalized from FVS treelist current height
-C     may be different from ht at death
-
-                IF(ITYP.NE.3)THEN
-                  HTIH(X)  = HTDEAD(X)
-                  HTIS(X)  = HTDEAD(X)
-                ENDIF
+                HTIH(X)  = HTDEAD(X)
+                HTIS(X)  = HTDEAD(X)
                 DENIH(X) = (1.0 - PSOFT(SPCL)) * DEND(X)
                 DENIS(X) = PSOFT(SPCL) * DEND(X)
                 IF (DEBUG) WRITE (JOSTND,170) X,DEND(X),DENIH(X),
@@ -425,8 +395,8 @@ C     may be different from ht at death
   170           FORMAT (' IN FMSADD, X=',I5,' DEND=',F10.3,
      >                  ' DENIH=',F10.3,' DENIS=',F10.3)
 
-C               Note that if this was entered via keyword
-C               then current ht may be different from ht at death:
+C               Note that if this was entered via keyword, then
+C               current ht may be different from ht at death:
 
                 IF (ITYP .LT. 0) THEN
                   HTIH(X) = PRMS(4)

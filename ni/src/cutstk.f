@@ -1,26 +1,15 @@
       SUBROUTINE CUTSTK
-      IMPLICIT NONE
+      use contrl_mod
+      use plot_mod
+      use arrays_mod
+      use prgprm_mod
+      implicit none
 C----------
-C  NI  $ID
+C  **CUTSTK--NI   DATE OF LAST REVISION:  04/09/08
 C----------
 C  THIS SUBROUTINE CONTAINS ENTRY POINTS FOR CALCULATING STOCKING
 C  LEVELS FOR VARIOUS THINNING OPTIONS.
 C----------
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
 COMMONS
 C----------
       LOGICAL LINCL
@@ -76,14 +65,13 @@ C----------
       IF(JPNUM.GT.0 .AND. ITRE(IC).NE.JPNUM)GO TO 100
 C
       LINCL = .FALSE.
-      IF((JSPCUT.EQ.0 .OR. JSPCUT.EQ.ISP(IC)).AND.
-     &    .NOT.LEAVESP(ISP(IC)))THEN
+      IF(JSPCUT.EQ.0 .OR. JSPCUT.EQ.ISP(IC))THEN
         LINCL = .TRUE.
       ELSEIF(JSPCUT.LT.0)THEN
         IGRP = -JSPCUT
         IULIM = ISPGRP(IGRP,1)+1
         DO 60 IG=2,IULIM
-        IF((ISP(IC) .EQ. ISPGRP(IGRP,IG)).AND..NOT.LEAVESP(ISP(IC)))THEN
+        IF(ISP(IC) .EQ. ISPGRP(IGRP,IG))THEN
           LINCL = .TRUE.
           GO TO 61
         ENDIF

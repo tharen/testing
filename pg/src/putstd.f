@@ -1,5 +1,26 @@
-      SUBROUTINE PUTSTD 
-      IMPLICIT NONE
+      SUBROUTINE PUTSTD
+      use htcal_mod
+      use multcm_mod
+      use fvsstdcm_mod
+      use plot_mod
+      use arrays_mod
+      use esparm_mod
+      use rancom_mod
+      use estree_mod
+      use screen_mod
+      use contrl_mod
+      use svdata_mod
+      use coeffs_mod
+      use econ_mod
+      use eshap_mod
+      use outcom_mod
+      use pden_mod
+      use volstd_mod
+      use esrncm_mod
+      use escomn_mod
+      use varcom_mod
+      use prgprm_mod
+      implicit none
 C----------
 C  $Id$
 C----------
@@ -11,118 +32,35 @@ C     MXI      Maximum number of integer scalars to be written.
 C     MXL      Maximum number of logical scalars to be written.
 C     MXR      Maximum number of real scalars to be written.
 C
-COMMONS
-C
-C
-      INCLUDE 'PRGPRM.F77'
-C
-C
       INCLUDE 'PPDNCM.F77'
-C
-C
-      INCLUDE 'ESPARM.F77'
-C
-C
-      INCLUDE 'ARRAYS.F77'
-C
-C
-      INCLUDE 'COEFFS.F77'
-C
-C
-      INCLUDE 'CONTRL.F77'
-C
 C
       INCLUDE 'CALCOM.F77'
 C
-C
       INCLUDE 'CALDEN.F77'
-C
-C
-      INCLUDE 'ECON.F77'
-C
-C
-      INCLUDE 'ESHAP.F77'
-C
 C
       INCLUDE 'ESHAP2.F77'
 C
-C
-      INCLUDE 'ESCOMN.F77'
-C
-C
       INCLUDE 'ESCOM2.F77'
-C
 C
       INCLUDE 'ESTCOR.F77'
 C
-C
-      INCLUDE 'ESTREE.F77'
-C
-C
-      INCLUDE 'HTCAL.F77'
-C
-C
-      INCLUDE 'MULTCM.F77'
-C
-C
       INCLUDE 'OPCOM.F77'
-C
-C
-      INCLUDE 'OUTCOM.F77'
-C
-C
-      INCLUDE 'PDEN.F77'
-C
-C
-      INCLUDE 'PLOT.F77'
-C
-C
-      INCLUDE 'VOLSTD.F77'
-C
-C
-      INCLUDE 'ESRNCM.F77'
-C
-C
-      INCLUDE 'RANCOM.F77'
-C
 C
       INCLUDE 'DBSTK.F77'
 C
-C
-      INCLUDE 'VARCOM.F77'
-C
-C
       INCLUDE 'SUMTAB.F77'
-C
 C
       INCLUDE 'SSTGMC.F77'
 C
-C
       INCLUDE 'STDSTK.F77'
-C
-C
-      INCLUDE 'SVDATA.F77'
-C
 C
       INCLUDE 'SVDEAD.F77'
 C
-C
       INCLUDE 'SVRCOM.F77'
-C
 C
       INCLUDE 'CWDCOM.F77'
 C
-C
-      INCLUDE 'FVSSTDCM.F77'
-C
-C
       INCLUDE 'GGCOM.F77'
-C
-C
-      INCLUDE 'SCREEN.F77'
-C
-C
-COMMONS
 C
 C     WRITE ALL INTEGER VARIABLES WITH IFWRIT, LOGICAL VARIABLES
 C     WITH LFWRIT, AND REAL VARIABLES WITH BFWRIT.  ONE EXCEPTION
@@ -139,15 +77,17 @@ C
       REAL REALS(MXR), ROSUM(20,MAXCY1),
      >          RSEED(2), ESSEED(2), RDTREE(MAXTRE),
      >          SVSED0(2),SVSED1(2)
-      EQUIVALENCE (ROSUM,IOSUM),(RSEED,S0),(ESSEED,ESS0),(WK6,REALS),
-     >            (WK6,LOGICS),(WK6,INTS),(IDTREE,RDTREE),
-     >            (SVSED0,SVS0),(SVSED1,SVS1)
+!      EQUIVALENCE (ROSUM,IOSUM),(RSEED,S0),(ESSEED,ESS0),(WK6,REALS),
+!     >            (WK6,LOGICS),(WK6,INTS),(IDTREE,RDTREE),
+!     >            (SVSED0,SVS0),(SVSED1,SVS1)
 C
       if (itable(2) .eq. 0) then
         itable(2) = 1
         print *,"FVS turned off the example tree table output."
-      endif      
+      endif
       ILIMIT=IRECLN
+
+      ! FIXME: LOGICS,REALS,INTS transfer needs to be set up.
 C
 C     STORE THE INTEGER SCALARS IN THE ARRAY INTS.
 C
@@ -431,7 +371,6 @@ C
       CALL LFWRIT (WK3,IPNT,ILIMIT,LTSTV5, ITST5,  2)
       CALL LFWRIT (WK3,IPNT,ILIMIT,LSPCWE,MAXSP,   2)
       CALL LFWRIT (WK3,IPNT,ILIMIT,LREG  ,MXLREG,  2)
-      CALL LFWRIT (WK3,IPNT,ILIMIT,LEAVESP,MAXSP,  2)
 C
 C     STORE THE REAL SCALARS IN THE ARRAY REALS.
 C
@@ -638,6 +577,7 @@ C
       CALL BFWRIT (WK3,IPNT,ILIMIT,DGIO,   6,         2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,DIFH,   MAXSP,     2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,ESB1,   MAXPLT,    2)
+      esseed = transfer(ess0,esseed)
       CALL BFWRIT (WK3,IPNT,ILIMIT,ESSEED, 2,         2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,FL,     MAXSP,     2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,FM,     MAXSP,     2)
@@ -721,8 +661,10 @@ C
       CALL BFWRIT (WK3,IPNT,ILIMIT,RHCON,  MAXSP,     2)
       K=ICYC+1
       DO 20 I=1,K
+      rosum = transfer(iosum(1,i),rosum(1,i))
       CALL BFWRIT (WK3,IPNT,ILIMIT,ROSUM(1,I),20,     2)
    20 CONTINUE
+      rseed = transfer(s0,rseed)
       CALL BFWRIT (WK3,IPNT,ILIMIT,RSEED,   2,        2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,SDIDEF, MAXSP,     2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,SIGMA,  MAXSP,     2)
@@ -756,7 +698,9 @@ C
       CALL BFWRIT (WK3,IPNT,ILIMIT,XRHMLT, MAXSP,     2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,ZRAND,  ITRN,      2)
 C
+      svsed0 = transfer(svs0,svsed0)
       CALL BFWRIT (WK3,IPNT,ILIMIT,SVSED0, 2,         2)
+      svsed1 = transfer(svs1,svsed1)
       CALL BFWRIT (WK3,IPNT,ILIMIT,SVSED1, 2,         2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,CRNDIA, NDEAD,     2)
       CALL BFWRIT (WK3,IPNT,ILIMIT,CRNRTO, NDEAD,     2)
