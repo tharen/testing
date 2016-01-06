@@ -700,9 +700,6 @@ if (WITH_PYMOD)
             ")
     endif()
 
-    install(FILES "${pymod_fn}"
-            DESTINATION python
-            )
     # List output files to be cleaned
     set_directory_properties(
             PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
