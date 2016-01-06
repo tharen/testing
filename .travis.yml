@@ -25,9 +25,7 @@ script:
 - cd ${TRAVIS_BUILD_DIR}/bin/build && make install
 
 after_success:
-- cd ${TRAVIS_BUILD_DIR}/bin
-- ls Open-FVS
-- 7z a -bd open-fvs_${TRAVIS_TAG}-${FVS_STATUS}.zip Open-FVS/*
+- cd ${TRAVIS_BUILD_DIR}/bin && 7z a -bd open-fvs_${TRAVIS_TAG}-${FVS_STATUS}.zip Open-FVS/*
 
 deploy:
   provider: releases
