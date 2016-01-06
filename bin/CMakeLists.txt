@@ -684,10 +684,20 @@ if (WITH_PYMOD)
             )
     
     if (WIN32)
-        file(GLOB pymod_fn "${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}*.pyd")
+        install(CODE "
+            file(GLOB pymod_fn \"${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}*.pyd\")
+            file(INSTALL DESTINATION python
+                TYPE FILE
+                FILES \${pymod_fn})
+            ")
     else ()
         # FIXME: Extension naming is different with Python 3
-        file(GLOB pymod_fn "${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}*.so")
+        install(CODE "
+            file(GLOB pymod_fn \"${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}*.so\")
+            file(INSTALL DESTINATION python
+                TYPE FILE
+                FILES \${pymod_fn})
+            ")
     endif()
 
     install(FILES "${pymod_fn}"
