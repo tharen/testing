@@ -44,8 +44,8 @@ install:
 build_script:
     # - bash --login -c "cd ${APPVEYOR_BUILD_FOLDER} && .appveyor/configure.sh"
     # - bash --login -c "cd ${APPVEYOR_BUILD_FOLDER} && .appveyor/build.sh"
-    - %APPVEYOR_BUILD_FOLDER%\.appveyor\configure.bat
-    - %APPVEYOR_BUILD_FOLDER%\.appveyor\build.bat
+    - %APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat
+    - %APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat
     
 after_build:
     - pushd bin
