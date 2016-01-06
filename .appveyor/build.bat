@@ -1,3 +1,3 @@
-pushd ${APPVEYOR_BUILD_FOLDER}\bin\build
-mingw32-make
+pushd bin\build
+mingw32-make install
 popd

@@ -33,10 +33,7 @@ environment:
       # PYTHON_ARCH: "64"
       
 install:
-    # - "set PATH=C:\\msys64\\usr\\bin;C:\\msys64\\mingw64\\bin"
-    - "set PATH=C:\\msys64\\mingw64\\bin"
-    - "set PATH=%PATH%;C:\\Windows\\System32;C:\\Windows"
-    - "set PATH=%PATH%;C:\\Program Files\\7-Zip"
+    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
     - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
     - "conda create -q -y -n pyfvs_python --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
     - "activate pyfvs_python"
