@@ -29,9 +29,9 @@ environment:
       # PYTHON_ARCH: "64"
       
 install:
-    - "set PATH=C:\msys64\usr\bin;C:\msys64\mingw64\bin"
-    - "set PATH=%PATH%;C:\Windows\System32;C:\Windows"
-    - "set PATH=%PATH%;C:\Program Files\7-Zip"
+    - "set PATH=C:\\msys64\\usr\\bin;C:\\msys64\\mingw64\\bin"
+    - "set PATH=%PATH%;C:\\Windows\\System32;C:\\Windows"
+    - "set PATH=%PATH%;C:\\Program Files\\7-Zip"
     - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
     - "pip install --disable-pip-version-check --user --upgrade pip"
     - "%CMD_IN_ENV% pip install -r requirements.txt"
