@@ -1,14 +1,44 @@
-version: 0.0.{build}
+# Drawing from: https://github.com/ogrisel/python-appveyor-demo/blob/master/appveyor.yml
+
+version: 0.0.{build}-alpha
 
 init:
   # Display remote desktop details
   - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
+environment:
+  global:
+    MSYSTEM: "MINGW64"
+    
+    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
+    # /E:ON and /V:ON options are not enabled in the batch script intepreter
+    # See: http://stackoverflow.com/a/13751649/163740
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\.appveyor\\run_with_env.cmd"
+
+  matrix:
+    - PYTHON: "C:\\Python35-x64"
+      PYTHON_VERSION: "3.5.x"
+      PYTHON_ARCH: "64"
+
+    # - PYTHON: "C:\\Python27"
+      # PYTHON_VERSION: "2.7.x"
+      # PYTHON_ARCH: "32"
+
+    # - PYTHON: "C:\\Python27-x64"
+      # PYTHON_VERSION: "2.7.x"
+      # PYTHON_ARCH: "64"
+      
 install:
-    - set PATH=C:\MinGW\bin;C:\7z\bin;C:\Windows\System32;C:\Windows
+    - "set PATH=C:\msys64\usr\bin;C:\msys64\mingw64\bin"
+    - "set PATH=%PATH%;C:\Windows\System32;C:\Windows"
+    - "set PATH=%PATH%;C:\Program Files\7-Zip"
+    - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+    - "pip install --disable-pip-version-check --user --upgrade pip"
+    - "%CMD_IN_ENV% pip install -r requirements.txt"
     
 build_script:
-    - .appveyor\configure_appveyor.bat
+    - bash --login .appveyor/configure.sh
+    - bash --login .appveyor/build.sh
 
 after_build:
     - pushd bin
