@@ -37,7 +37,7 @@ install:
     - "set PATH=%PATH%;C:\\Windows\\System32;C:\\Windows"
     - "set PATH=%PATH%;C:\\Program Files\\7-Zip"
     - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-    - "conda create -q -y -n pyfvs_python --file c:\projects\testing\requirements.txt"
+    - "conda create -q -y -n pyfvs_python --file c:\\projects\\testing\\requirements.txt"
     - "activate pyfvs_python"
     
 build_script:
