@@ -35,7 +35,7 @@ environment:
 install:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
     - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-    - "rm C:\msys64\Mingw64\bin\python.exe"
+    - "rm C:\\msys64\\Mingw64\\bin\\python.exe"
     - "conda create -q -y -n pyfvs_python --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
     - "activate pyfvs_python"
     
