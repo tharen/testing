@@ -705,7 +705,7 @@ if (WITH_PYMOD)
             set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.pyd)
 	    endif ()
     else ()
-		set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cp${PYTHON_VER}-${PYTHON_PLATFORM}.so)
+		set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.so)
     endif()
 
 	install(
