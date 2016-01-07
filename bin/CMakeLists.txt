@@ -669,8 +669,21 @@ if (WITH_PYMOD)
     string(REGEX REPLACE "[;]" " " foo "${pymod_source}")
     file(WRITE ./pymod_source.txt "${foo}")
 
+    # Discover Python configuration variables
+    set(PYTHON_EXE python)
+    execute_process(
+            COMMAND ${PYTHON_EXE} -c "import sysconfig as s\nprint(s.get_platform().replace('-','_'))"
+            OUTPUT_VARIABLE PYTHON_PLATFORM
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+    execute_process(
+            COMMAND ${PYTHON_EXE} -c "import sysconfig as s\nprint(s.get_python_version().replace('.',''))"
+            OUTPUT_VARIABLE PYTHON_VER
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            )
+    
     # Execute the F2PY shell script to generate the extension
-    # FIXME: Need to generate the name of the extension library file
+    # FIXME: This should be a custom command calling python setup build_ext instead of F2PY command line
     if (CMAKE_GENERATOR MATCHES "MinGW Makefiles")
         set(cmd cmd.exe /c ..\\..\\build_python_ext.bat ${variant})
     else ()
@@ -684,20 +697,14 @@ if (WITH_PYMOD)
             )
     
     if (WIN32)
-        install(CODE "
-            file(GLOB pymod_fn \"${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}*.pyd\")
-            file(INSTALL DESTINATION python
-                TYPE FILE
-                FILES \${pymod_fn})
-            ")
+        # FIXME: The naming convention should be similar on windows and linux, see PEP 3149
+        install(
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cp${PYTHON_VER}-${PYTHON_PLATFORM}.pyd
+            DESTINATION python${PYTHON_VER})
     else ()
-        # FIXME: Extension naming is different with Python 3
-        install(CODE "
-            file(GLOB pymod_fn \"${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}*.so\")
-            file(INSTALL DESTINATION python
-                TYPE FILE
-                FILES \${pymod_fn})
-            ")
+        install(
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.so
+            DESTINATION python${PYTHON_VER})
     endif()
 
     # List output files to be cleaned
