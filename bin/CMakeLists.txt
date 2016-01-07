@@ -705,9 +705,16 @@ if (WITH_PYMOD)
             set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.pyd)
 	    endif ()
     else ()
-		set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.so)
+        if ($PYTHON_VER GREATER 27)
+            # pyfvspnc.cpython-35m-x86_64-linux-gnu.so
+            # FIXME: This should not be hard-coded
+            set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cpython-${PYTHON_VER}m-${PYTHON_PLATFORM}-linux-gnu.so)
+        else ()
+            set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.so)
+        endif ()
     endif()
-
+    
+    
 	install(
 		FILES ${pymod_files}
 		DESTINATION python${PYTHON_VER})
