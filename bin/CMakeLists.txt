@@ -670,6 +670,7 @@ if (WITH_PYMOD)
     file(WRITE ./pymod_source.txt "${foo}")
 
     # Discover Python configuration variables
+    # FIXME: The wrong python is being called on appveyor, 
     set(PYTHON_EXE python)
     execute_process(
             COMMAND ${PYTHON_EXE} -c "import sysconfig as s\nprint(s.get_platform().replace('-','_'))"
@@ -696,16 +697,20 @@ if (WITH_PYMOD)
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             )
     
-    if (WIN32)
-        # FIXME: The naming convention should be similar on windows and linux, see PEP 3149
-        install(
-            FILES ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cp${PYTHON_VER}-${PYTHON_PLATFORM}.pyd
-            DESTINATION python${PYTHON_VER})
+    # FIXME: The naming convention should be similar on windows and linux, see PEP 3149
+	if (WIN32)
+	    if ($PYTHON_VER GREATER 27)
+			set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cp${PYTHON_VER}-${PYTHON_PLATFORM}.pyd)
+	    else ()
+            set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.pyd)
+	    endif ()
     else ()
-        install(
-            FILES ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.so
-            DESTINATION python${PYTHON_VER})
+		set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cp${PYTHON_VER}-${PYTHON_PLATFORM}.so)
     endif()
+
+	install(
+		FILES ${pymod_files}
+		DESTINATION python${PYTHON_VER})
 
     # List output files to be cleaned
     set_directory_properties(
