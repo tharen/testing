@@ -699,13 +699,13 @@ if (WITH_PYMOD)
     
     # FIXME: The naming convention should be similar on windows and linux, see PEP 3149
 	if (WIN32)
-	    if ($PYTHON_VER GREATER 27)
+	    if (${PYTHON_VER} GREATER 27)
 			set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cp${PYTHON_VER}-${PYTHON_PLATFORM}.pyd)
 	    else ()
             set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.pyd)
 	    endif ()
     else ()
-        if ($PYTHON_VER GREATER 27)
+        if (${PYTHON_VER} GREATER 27)
             # pyfvspnc.cpython-35m-x86_64-linux-gnu.so
             # FIXME: This should not be hard-coded
             set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cpython-${PYTHON_VER}m-${PYTHON_PLATFORM}-linux-gnu.so)
