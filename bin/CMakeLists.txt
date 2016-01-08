@@ -707,13 +707,13 @@ if (WITH_PYMOD)
             OUTPUT ${pymod_fn}
             COMMAND ${cmd}
             DEPENDS ${fvslib_static}
-            COMMENT Compile python extension.
+            COMMENT "Compile python extension."
             )
     add_custom_target(${pymod_name}_ext ALL DEPENDS ${pymod_fn})
     
     install(
-		FILES ${pymod_fn}
-		DESTINATION python${PYTHON_VER})
+        FILES ${pymod_fn}
+        DESTINATION python${PYTHON_VER})
     
     # Add intermediate files to the clean list
     # NOTE: pymod_source.txt should not be cleaned
