@@ -4,12 +4,10 @@ python:
   - '3.5'
 
 env:
-  global:
-    - FVS_STATUS=alpha
-    - BUILD_ROOT=${TRAVIS_BUILD_DIR}/bin/build
-
   - ARCHIVE_NAME=open-fvs-${TRAVIS_TAG}-Python${TRAVIS_PYTHON_VERSION}_64-${TRAVIS_OS_NAME}-ci.zip
-  
+    FVS_STATUS=alpha
+    BUILD_ROOT=${TRAVIS_BUILD_DIR}/bin/build
+
 addons:
   apt:
     sources:
