@@ -73,6 +73,7 @@ deploy:
     access_key_id: AKIAJJEBC4GKLPLOX5XA
     secret_access_key:
       secure: mTfB4nkuYfAyFVsIGxMCeNVDaf0OY806kVdvis1Nxn0c7zMf0hNjt239clC3PDh6vmyk/iaSTxk3hDfKGdGTAZSZDd5tJcRdVqfz2uNqW09bL5eZj+0Y80gXhHpsB8QZPgjlNuBBw7AlnIjOPUlos50aMOrSvv832fiujBYX7ZFQvq9WEp2/O8Jcr7T2fwX7uS7Iw68ipSiP75LaWYYojhZw4Ij3vSd7O95SNwR7qjtUJb9oc4VAELej2TYNSnJUU8VAXcA1ZAi8CvlqbftZki57XUvoAmUPpp27Ywg/KOzzvhdzx+D34vFzCMK/X+a0AHdsyAuScpfC7jLdrXLa7ueZLMrnuVpwAKgBc0d/r4NFPeOl+ccbmHyyREi775NB7LOSWPAwJPVvRjKm7lhrjbIY5kKVCF3QpsA14vguDV+KHZmz+Gd+8l8/VslUNxdnSh3h9+ytWxhmEuMe+xarD4/bJbIgdpPmNITlGG1fNsZ14v53ldgyqqI1ZqRaOtzTcowRWDaU5GbV7BJnkgzwDDtUdFZZj/RQNkh2g+CYzALIjcnMBjw8tCOTs65c0M36MIMFtJ9nbAGcq/NY6y5YBKiFEgC+/3/54iQgaAwDh5spFi5viL9qcqBHW/u/IieMJRhDGkPIFcLCVusYzoOmAwgeoXPJPOO+ZMRlAnhonh0=
+    region: us-west-2
     bucket: free5
     local-dir: ${BUILD_ROOT}/Open-FVS
     upload-dir: travis-builds
