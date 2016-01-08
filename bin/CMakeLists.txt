@@ -131,7 +131,9 @@ endif ()
 
 if (CMAKE_COMPILER_IS_GNUCC)
     message(STATUS "Add GCC compiler flags.")
-
+    
+    # TODO: These may be clobbering CMAKE FLAGS
+    
     # CMAKE_BUILD_TYPE = Debug
     set(debug_flags "-g3 -mfpmath=sse -msse -ffpe-trap=invalid,zero,overflow,underflow")
     set(CMAKE_Fortran_FLAGS_DEBUG "${debug_flags}")
@@ -285,6 +287,8 @@ add_custom_command(
 
 # Create a dummy target so the DBSTYPEDEFS.F77 generator will be called.
 add_custom_target(gen_dbstypedefs ALL DEPENDS ${dbstypedefs_f77})
+
+# TODO: use find_library to locate the correct odbc library
 
 # Compile the SQL object library
 if (NOT STATIC_LINK)
@@ -690,39 +694,33 @@ if (WITH_PYMOD)
     else ()
         set(cmd sh ../../build_ext_py3.sh ${variant})
     endif ()
-    add_custom_command(
-            TARGET ${fvslib_static}
-            POST_BUILD
-            COMMAND ${cmd}
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    
+    # Call a Python script to determine extension name to be generated
+    execute_process(
+            COMMAND ${PYTHON_EXE} ../platform_ext.py ${pymod_name}
+            OUTPUT_VARIABLE pymod_fn
+            OUTPUT_STRIP_TRAILING_WHITESPACE
             )
     
-    # FIXME: The naming convention should be similar on windows and linux, see PEP 3149
-	if (WIN32)
-	    if (${PYTHON_VER} GREATER 27)
-			set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cp${PYTHON_VER}-${PYTHON_PLATFORM}.pyd)
-	    else ()
-            set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.pyd)
-	    endif ()
-    else ()
-        if (${PYTHON_VER} GREATER 27)
-            # pyfvspnc.cpython-35m-x86_64-linux-gnu.so
-            # FIXME: This should not be hard-coded
-            set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.cpython-${PYTHON_VER}m-${PYTHON_PLATFORM}-linux-gnu.so)
-        else ()
-            set (pymod_files ${CMAKE_CURRENT_BINARY_DIR}/${pymod_name}.so)
-        endif ()
-    endif()
-    
+    # Compile the Python extension library
+    add_custom_command(
+            OUTPUT ${pymod_fn}
+            COMMAND ${cmd}
+            DEPENDS ${fvslib_static}
+            COMMENT Compile python extension.
+            )
+    add_custom_target(pymod_ext ALL DEPENDS ${pymod_fn})
     
 	install(
-		FILES ${pymod_files}
+		FILES ${pymod_fn}
 		DESTINATION python${PYTHON_VER})
-
-    # List output files to be cleaned
+    
+    # Add intermediate files to the clean list
+    # NOTE: pymod_source.txt should not be cleaned
+    set(cf ${pymod_name}.pyf)
     set_directory_properties(
-            PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES
-            "${pymod_fn};${pymod_name}.pyf;pymod_source.txt"
+            PROPERTIES
+            ADDITIONAL_MAKE_CLEAN_FILES "${cf}"
             )
 
 #   # Generate a PyDoc HTML file for the module
