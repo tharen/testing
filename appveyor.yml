@@ -53,17 +53,17 @@ on_failure:
     - appveyor PushArtifact bin\build\f2py_*.log
     
 artifacts:
-    - path: bin\build\%ARCHIVE_NAME%
+    - path: bin\build\*.zip
       name: open-fvs
       type: zip
 
 deploy:
   # release: myproduct-v$(appveyor_build_version)
-  description: 'Automated build release.'
+  description: 'Appveyor CI build.'
   provider: GitHub
   auth_token:
     secure: zBeKVZXAsxJBErcR7yENdMW9tIXYu/q5tDVj/S6dMbWA1FAty6BDjCWRXZj6R0rG
-  artifact: bin\build\%ARCHIVE_NAME%
+  artifact: bin\build\*.zip
   draft: true
   prerelease: false
   on:
