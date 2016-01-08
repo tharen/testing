@@ -4,7 +4,7 @@ python:
   - '3.5'
 
 env:
-  - ARCHIVE_NAME=open-fvs-${TRAVIS_TAG}-Python${TRAVIS_PYTHON_VERSION}_64-${TRAVIS_OS_NAME}-ci.zip
+  # - ARCHIVE_NAME=
   
   global:
     - FVS_STATUS=alpha
@@ -54,7 +54,7 @@ after_failure:
 - "cat ${BUILD_ROOT}/f2py_pnc.log"
 
 after_success:
-- cd ${BUILD_ROOT} && 7z a -bd ${ARCHIVE_NAME} Open-FVS/*
+- cd ${BUILD_ROOT} && 7z a -bd open-fvs-${TRAVIS_TAG}-Python${TRAVIS_PYTHON_VERSION}_64-${TRAVIS_OS_NAME}-ci.zip Open-FVS/*
 - ls ${BUILD_ROOT}
 - ls ${BUILD_ROOT}/Open-FVS
 
@@ -63,7 +63,7 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: tBbPX/kELwmJlxO/2YgqZfYM80DMnTr2z+pz0ukCR7hBakxkHnrJXrfsm479kStdEmOAekxHB7K3PiDNq+gVzj0xJBcGy8uAmh7LAGfdjLV7YGzfAFTYzCFOFu6Fc9dU8o+cn4nP33sePzbJ7HEyS8GMLWsLEDYGCeE1s0TF8tUF0zo+YdkAeZSno0zvZh5EvzUdB7j6XCJzYRYzzTvz0k2i8wgdc4sOty82yCECBuNsbxnHz3GzZ/HBOd9vTEFERDPOeyhJsXbjOQgfjK+gpeWYkFSR2B8YUqvk7jJhUqRtR3Ti9HlPRFx9uuTcRSEAF8WcdMzYXIf6kfh1wKEzsU4heZRaPB6aLHeQhy9bfWEeE550XYOskLQQZOGfA76Vts00sp8Z361CYOhiyY0WCYLzrLjH0Q2NtFhduBl3xmHt3+jXDA1zFrEhc4Ur1fdvAwjoJkupdXZtRHXn8Q+N7+QRV3NEAEMI2XtfAcT8IwHREyGEqQtKERwAFJFuU0/nKcxCJE1nDxO/MvJAKtSIjFovZMMidaJBnJpP8m710gHjvecbSNkKdcGQlT+Yx61WTP8tURrLgLoS4hqHfHsIeJI6R+mknUUlC8HBGdpjRl0eL7+TCm4IMsF6B2O5Iy/QBRuPKZ+HkHUy4ZJAAeaMAGLRByMyXY850YWiRLs08eg=
-  file: ${BUILD_ROOT}/${ARCHIVE_NAME}
+  file: ${BUILD_ROOT}/open-fvs-${TRAVIS_TAG}-Python${TRAVIS_PYTHON_VERSION}_64-${TRAVIS_OS_NAME}-ci.zip
   on:
     repo: tharen/testing
     tags: true

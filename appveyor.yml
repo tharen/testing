@@ -63,9 +63,9 @@ deploy:
   provider: GitHub
   auth_token:
     secure: zBeKVZXAsxJBErcR7yENdMW9tIXYu/q5tDVj/S6dMbWA1FAty6BDjCWRXZj6R0rG
-  artifact: open-fvs-zip
-  draft: true
-  prerelease: false
+  artifact: open-fvs-zip  # Using artifact name works consistently
+  draft: false
+  prerelease: true
   on:
     # branch: master                 # release from master branch only
     appveyor_repo_tag: true        # deploy on tag push only
