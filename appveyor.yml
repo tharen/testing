@@ -54,7 +54,7 @@ on_failure:
     
 artifacts:
     - path: bin\build\*.zip
-      name: open-fvs
+      name: open-fvs-zip
       type: zip
 
 deploy:
@@ -63,7 +63,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: zBeKVZXAsxJBErcR7yENdMW9tIXYu/q5tDVj/S6dMbWA1FAty6BDjCWRXZj6R0rG
-  artifact: bin\build\*.zip
+  artifact: open-fvs-zip
   draft: true
   prerelease: false
   on:
