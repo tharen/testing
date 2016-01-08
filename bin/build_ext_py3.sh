@@ -10,8 +10,7 @@ then
 else
   
   py_ver=$(python -c "import sys;print(sys.version_info[0])")
-  if [ $py_ver = 3 ]
-  then
+  if [ $py_ver = 3 ] || [ -e f2py3 ]; then
     f2py=f2py3
   else
     f2py=f2py
