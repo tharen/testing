@@ -46,12 +46,12 @@ build_script:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
     
 after_build:
-    - pushd bin
+    - pushd bin\build
     - 7z a -bd open-fvs.zip Open-FVS\*
     - popd
 
 artifacts:
-    - path: bin\open-fvs.zip
+    - path: bin\build\open-fvs.zip
       name: open-fvs
       type: zip
     
