@@ -1,7 +1,8 @@
 
 set proj_root=%~dp0
 
-set PATH=C:\progs\mingw-w64\bin;C:\Windows\System32;C:\Windows
+::set PATH=C:\progs\mingw-w64\bin;C:\Windows\System32;C:\Windows
+set PATH=C:\progs\msys64\mingw64\bin;C:\Windows\System32;C:\Windows
 set PATH=C:\progs\cmake\bin;%PATH%
 set PATH=C:\Ruby22-x64\bin;%PATH%
 

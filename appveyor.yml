@@ -25,7 +25,7 @@ environment:
       # PYTHON_ARCH: "64"
 
     - PYTHON: "C:\\Miniconda-x64"
-      PYTHON_VERSION: "2.7.x"
+      PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
 
     # - PYTHON: "C:\\Python27-x64"
@@ -40,21 +40,20 @@ install:
     - "activate pyfvs_python"
     
 build_script:
-    # - bash --login -c "cd ${APPVEYOR_BUILD_FOLDER} && .appveyor/configure.sh"
-    # - bash --login -c "cd ${APPVEYOR_BUILD_FOLDER} && .appveyor/build.sh"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
+    - "set ARCHIVE_NAME=open-fvs-%APPVEYOR_REPO_TAG_NAME%-Python%PYTHON_VERSION%_%PYTHON_ARCH%-windows-ci.zip"
 
 after_build:
     - pushd bin\build
-    - 7z a -bd open-fvs.zip Open-FVS\*
+    - 7z a -bd %ARCHIVE_NAME% Open-FVS\*
 
 on_failure:
     - appveyor PushArtifact bin\build\build_err.log
     - appveyor PushArtifact bin\build\f2py_*.log
     
 artifacts:
-    - path: bin\build\open-fvs.zip
+    - path: bin\build\%ARCHIVE_NAME%
       name: open-fvs
       type: zip
 
@@ -64,7 +63,7 @@ deploy:
   provider: GitHub
   auth_token:
     secure: zBeKVZXAsxJBErcR7yENdMW9tIXYu/q5tDVj/S6dMbWA1FAty6BDjCWRXZj6R0rG
-  artifact: .*\.zip
+  artifact: bin\build\%ARCHIVE_NAME%
   draft: true
   prerelease: false
   on:
