@@ -692,7 +692,7 @@ if (WITH_PYMOD)
     if (CMAKE_GENERATOR MATCHES "MinGW Makefiles")
         set(cmd cmd.exe /c ..\\..\\build_python_ext.bat ${variant})
     else ()
-        set(cmd sh ../../build_ext_py3.sh ${variant})
+        set(cmd bash ../../build_ext_py3.sh ${variant})
     endif ()
     
     # Call a Python script to determine extension name to be generated
@@ -709,9 +709,9 @@ if (WITH_PYMOD)
             DEPENDS ${fvslib_static}
             COMMENT Compile python extension.
             )
-    add_custom_target(pymod_ext ALL DEPENDS ${pymod_fn})
+    add_custom_target(${pymod_name}_ext ALL DEPENDS ${pymod_fn})
     
-	install(
+    install(
 		FILES ${pymod_fn}
 		DESTINATION python${PYTHON_VER})
     

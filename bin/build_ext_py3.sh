@@ -8,8 +8,8 @@ then
 
 else
   
-  v=$(python -c "import sys;print(sys.version_info[0])")
-  if [ $v = 3 ]
+  py_ver=$(python -c "import sys;print(sys.version_info[0])")
+  if [ $py_ver = 3 ]
   then
     f2py=f2py3
   else
