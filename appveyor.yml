@@ -1,6 +1,6 @@
 # Drawing from: https://github.com/ogrisel/python-appveyor-demo/blob/master/appveyor.yml
 
-version: 0.0.{build}-alpha
+version: 0.0.0-{build}
 
 # init:
   # # Display remote desktop details
@@ -34,10 +34,12 @@ environment:
       
 install:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
-    - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-    - "del C:\\msys64\\Mingw64\\bin\\python.exe"
+    - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%" # Add the matrix row Python to PATH
+    - "del C:\\msys64\\Mingw64\\bin\\python.exe" # Conflicts with the target Python
     - "conda create -q -y -n pyfvs_python --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
     - "activate pyfvs_python"
+    - "echo %PATH%"
+    - "echo %PYTHONPATH%"
     
 build_script:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
@@ -49,6 +51,7 @@ after_build:
     - 7z a -bd %ARCHIVE_NAME% Open-FVS\*
 
 on_failure:
+    # Post error logs to the build log
     - appveyor PushArtifact bin\build\build_err.log
     - appveyor PushArtifact bin\build\f2py_*.log
     

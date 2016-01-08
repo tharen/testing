@@ -39,31 +39,42 @@ install:
   # Create an environment and install dependencies
   - conda create -q -n pyfvs python=$TRAVIS_PYTHON_VERSION --file requirements.txt
   - source activate pyfvs
+  # Define the name to be used for the archive of compiled products.
   - export ARCHIVE_NAME=open-fvs-${TRAVIS_TAG}-Python${TRAVIS_PYTHON_VERSION}_64-${TRAVIS_OS_NAME}-ci.zip
 
 script:
-- mkdir -p ${BUILD_ROOT}
-- cd ${BUILD_ROOT} && cmake -G"Unix Makefiles" .. -DFVS_VARIANTS=pnc
-  -DWITH_PYMOD=Yes -DCMAKE_SYSTEM_NAME=Linux -DCMAKE_INSTALL_PREFIX=Open-FVS
-- cd ${BUILD_ROOT} && make -j2 2> build_err.log
-- cd ${BUILD_ROOT} && make install 2>> build_err.log
+- source .travis-ci/configure.sh
+- cd ${BUILD_ROOT} && make -j2 install 2> build_err.log
   
 after_failure:
-- "cat ${BUILD_ROOT}/build_err.log"
-- "cat ${BUILD_ROOT}/f2py_pnc.log"
+  # Push error logs to the console output
+  - "cat ${BUILD_ROOT}/build_err.log"
+  - "cat ${BUILD_ROOT}/f2py_pnc.log"
 
 after_success:
-- cd ${BUILD_ROOT} && 7z a -bd ${ARCHIVE_NAME} Open-FVS/*
-- ls ${BUILD_ROOT}
-- ls ${BUILD_ROOT}/Open-FVS
+  - ls ${BUILD_ROOT}/Open-FVS
+  - cd ${BUILD_ROOT} && 7z a -bd ${ARCHIVE_NAME} Open-FVS/*
+  - ls ${BUILD_ROOT}
 
 deploy:
-  skip_cleanup: true
-  provider: releases
-  prerelease: true
-  api_key:
-    secure: tBbPX/kELwmJlxO/2YgqZfYM80DMnTr2z+pz0ukCR7hBakxkHnrJXrfsm479kStdEmOAekxHB7K3PiDNq+gVzj0xJBcGy8uAmh7LAGfdjLV7YGzfAFTYzCFOFu6Fc9dU8o+cn4nP33sePzbJ7HEyS8GMLWsLEDYGCeE1s0TF8tUF0zo+YdkAeZSno0zvZh5EvzUdB7j6XCJzYRYzzTvz0k2i8wgdc4sOty82yCECBuNsbxnHz3GzZ/HBOd9vTEFERDPOeyhJsXbjOQgfjK+gpeWYkFSR2B8YUqvk7jJhUqRtR3Ti9HlPRFx9uuTcRSEAF8WcdMzYXIf6kfh1wKEzsU4heZRaPB6aLHeQhy9bfWEeE550XYOskLQQZOGfA76Vts00sp8Z361CYOhiyY0WCYLzrLjH0Q2NtFhduBl3xmHt3+jXDA1zFrEhc4Ur1fdvAwjoJkupdXZtRHXn8Q+N7+QRV3NEAEMI2XtfAcT8IwHREyGEqQtKERwAFJFuU0/nKcxCJE1nDxO/MvJAKtSIjFovZMMidaJBnJpP8m710gHjvecbSNkKdcGQlT+Yx61WTP8tURrLgLoS4hqHfHsIeJI6R+mknUUlC8HBGdpjRl0eL7+TCm4IMsF6B2O5Iy/QBRuPKZ+HkHUy4ZJAAeaMAGLRByMyXY850YWiRLs08eg=
-  file: ${BUILD_ROOT}/${ARCHIVE_NAME}
-  on:
-    repo: tharen/testing
-    tags: true
+  - provider: releases
+    skip_cleanup: true
+    prerelease: true
+    api_key:
+      secure: tBbPX/kELwmJlxO/2YgqZfYM80DMnTr2z+pz0ukCR7hBakxkHnrJXrfsm479kStdEmOAekxHB7K3PiDNq+gVzj0xJBcGy8uAmh7LAGfdjLV7YGzfAFTYzCFOFu6Fc9dU8o+cn4nP33sePzbJ7HEyS8GMLWsLEDYGCeE1s0TF8tUF0zo+YdkAeZSno0zvZh5EvzUdB7j6XCJzYRYzzTvz0k2i8wgdc4sOty82yCECBuNsbxnHz3GzZ/HBOd9vTEFERDPOeyhJsXbjOQgfjK+gpeWYkFSR2B8YUqvk7jJhUqRtR3Ti9HlPRFx9uuTcRSEAF8WcdMzYXIf6kfh1wKEzsU4heZRaPB6aLHeQhy9bfWEeE550XYOskLQQZOGfA76Vts00sp8Z361CYOhiyY0WCYLzrLjH0Q2NtFhduBl3xmHt3+jXDA1zFrEhc4Ur1fdvAwjoJkupdXZtRHXn8Q+N7+QRV3NEAEMI2XtfAcT8IwHREyGEqQtKERwAFJFuU0/nKcxCJE1nDxO/MvJAKtSIjFovZMMidaJBnJpP8m710gHjvecbSNkKdcGQlT+Yx61WTP8tURrLgLoS4hqHfHsIeJI6R+mknUUlC8HBGdpjRl0eL7+TCm4IMsF6B2O5Iy/QBRuPKZ+HkHUy4ZJAAeaMAGLRByMyXY850YWiRLs08eg=
+    file: ${BUILD_ROOT}/${ARCHIVE_NAME}
+    on:
+      repo: tharen/testing
+      tags: true
+
+  # Amazon S3 Storage
+  - provider: s3
+    access_key_id: AKIAJJEBC4GKLPLOX5XA
+    secret_access_key:
+      secure: mTfB4nkuYfAyFVsIGxMCeNVDaf0OY806kVdvis1Nxn0c7zMf0hNjt239clC3PDh6vmyk/iaSTxk3hDfKGdGTAZSZDd5tJcRdVqfz2uNqW09bL5eZj+0Y80gXhHpsB8QZPgjlNuBBw7AlnIjOPUlos50aMOrSvv832fiujBYX7ZFQvq9WEp2/O8Jcr7T2fwX7uS7Iw68ipSiP75LaWYYojhZw4Ij3vSd7O95SNwR7qjtUJb9oc4VAELej2TYNSnJUU8VAXcA1ZAi8CvlqbftZki57XUvoAmUPpp27Ywg/KOzzvhdzx+D34vFzCMK/X+a0AHdsyAuScpfC7jLdrXLa7ueZLMrnuVpwAKgBc0d/r4NFPeOl+ccbmHyyREi775NB7LOSWPAwJPVvRjKm7lhrjbIY5kKVCF3QpsA14vguDV+KHZmz+Gd+8l8/VslUNxdnSh3h9+ytWxhmEuMe+xarD4/bJbIgdpPmNITlGG1fNsZ14v53ldgyqqI1ZqRaOtzTcowRWDaU5GbV7BJnkgzwDDtUdFZZj/RQNkh2g+CYzALIjcnMBjw8tCOTs65c0M36MIMFtJ9nbAGcq/NY6y5YBKiFEgC+/3/54iQgaAwDh5spFi5viL9qcqBHW/u/IieMJRhDGkPIFcLCVusYzoOmAwgeoXPJPOO+ZMRlAnhonh0=
+    bucket: free5
+    local-dir: bin/build/Open-FVS
+    upload-dir: travis-builds
+    acl: public_read
+    on:
+      repo: tharen/testing
