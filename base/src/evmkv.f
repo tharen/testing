@@ -1,0 +1,24 @@
+      SUBROUTINE EVMKV(CTOK)
+      use prgprm_mod
+      implicit none
+C----------
+C  $Id$
+C----------
+C
+C     CREATES A NEW VARIABLE, IF IT CAN!
+C
+      INCLUDE 'OPCOM.F77'
+C
+      CHARACTER*(*) CTOK
+
+      IF (ITST5.LT.MXTST5) THEN
+         ITST5=ITST5+1
+         CTSTV5(ITST5)=CTOK
+         LTSTV5(ITST5)=.FALSE.
+         LEVUSE=.TRUE.
+      ELSE
+         CALL ERRGRO (.TRUE.,10)
+         CALL ERRGRO (.TRUE.,12)
+      ENDIF
+      RETURN
+      END
