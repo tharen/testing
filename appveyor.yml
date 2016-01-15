@@ -22,31 +22,27 @@ environment:
       # PYTHON_VERSION: "3.5.x"
       # PYTHON_ARCH: "64"
 
-    # - PYTHON: "C:\\Miniconda-x64"
-      # PYTHON_VERSION: "2.7"
-      # PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python27-x64"
+    - PYTHON: "C:\\Miniconda-x64"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
+
+    # - PYTHON: "C:\\Python27-x64"
+      # PYTHON_VERSION: "2.7"
+      # PYTHON_ARCH: "64"
       
 install:
-    # - "%PYTHON%\\Scripts\\conda create -q -y -n pyfvs_python --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
-    # - "%PYTHON%\\Scripts\\activate pyfvs_python"
-    # - "echo %PATH%"
-    # - "echo %PYTHONPATH%"
-    - "%PYTHON%\\Scripts\\pip install virtualenv"
-    - "%PYTHON%\\Scripts\\virtualenv pyfvs_python"
-    - "pyfvs_python\\Scripts\\activate"
-    # - "curl -fsS -o numpy.whl http://www.lfd.uci.edu/~gohlke/pythonlibs/wkvprmqy/numpy-1.10.4+vanilla-cp27-none-win_amd64.whl"
-    - "pip install -i https://pypi.anaconda.org/carlkl/simple numpy"
-    - "pip install git+https://github.com/wolever/nose-parameterized.git"
-    - "pip list"
+    - "%PYTHON%\\Scripts\\conda create -q -y python=2.7 --name=py-x64 --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
+    - "%PYTHON%\\Scripts\\activate py-x64"
+    - "%PYTHON%\\Scripts\\pip install git+https://github.com/wolever/nose-parameterized.git"
+    - "%PYTHON%\\Scripts\\pip list"
     - "del C:\\msys64\\Mingw64\\bin\\python.exe" # Conflicts with the target Python
     
 build_script:
     - "set OLDPATH=%PATH%"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
+    - "set PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
+    - "echo %PATH%"
+    - "echo %PYTHONPATH%"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
     - "set PATH=%OLDPATH%"
