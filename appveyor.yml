@@ -42,12 +42,11 @@ install:
     - "pip install -i https://pypi.anaconda.org/carlkl/simple numpy"
     - "pip install git+https://github.com/wolever/nose-parameterized.git"
     - "pip list"
-    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
     - "del C:\\msys64\\Mingw64\\bin\\python.exe" # Conflicts with the target Python
     
 build_script:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
-    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
+    - "cmd /c %APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
     - "set ARCHIVE_NAME=open-fvs-%APPVEYOR_REPO_TAG_NAME%-Python%PYTHON_VERSION%_%PYTHON_ARCH%-windows-ci.zip"
 
 after_build:
