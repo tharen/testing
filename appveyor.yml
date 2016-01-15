@@ -45,8 +45,11 @@ install:
     - "del C:\\msys64\\Mingw64\\bin\\python.exe" # Conflicts with the target Python
     
 build_script:
-    - "cmd /c %APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
-    - "cmd /c %APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
+    - "set OLDPATH=%PATH%"
+    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\set_path.bat"
+    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
+    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
+    - "set PATH=%OLDPATH%"
     - "set ARCHIVE_NAME=open-fvs-%APPVEYOR_REPO_TAG_NAME%-Python%PYTHON_VERSION%_%PYTHON_ARCH%-windows-ci.zip"
 
 after_build:
@@ -55,6 +58,7 @@ after_build:
     - move /y %ARCHIVE_NAME% %APPVEYOR_BUILD_FOLDER%
 
 on_failure:
+    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
     # Post error logs to the build log
     - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\build\build_err.log
     - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\build\f2py_*.log
@@ -90,6 +94,6 @@ deploy:
     folder: appveyor-builds
     artifact: open-fvs-zip
     
-on_finish:
-  # Pause the build for remote desktop access
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# on_finish:
+  # # Pause the build for remote desktop access
+  # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
