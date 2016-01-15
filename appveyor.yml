@@ -31,16 +31,18 @@ environment:
       # PYTHON_ARCH: "64"
       
 install:
-    - "%PYTHON%\\Scripts\\conda create -q -y python=2.7 --name=py-x64 --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
-    - "%PYTHON%\\Scripts\\activate py-x64"
-    - "%PYTHON%\\Scripts\\pip install git+https://github.com/wolever/nose-parameterized.git"
-    - "%PYTHON%\\Scripts\\pip list"
-    - "del C:\\msys64\\Mingw64\\bin\\python.exe" # Conflicts with the target Python
+    - "%PYTHON%\\Scripts\\conda create -q -y --name=py27-x64 --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
+    - "%PYTHON%\\Scripts\\activate py27-x64"
+    - "set PYTHON_HOME=%PYTHON%\\envs\\py27-x64"
+    - "%PYTHON_HOME%\\Scripts\\pip install git+https://github.com/wolever/nose-parameterized.git"
+    - "%PYTHON_HOME%\\Scripts\\pip list"
+    - "del C:\\msys64\\Mingw64\\bin\\python.exe"
+    - "del C:\\msys64\\Mingw64\\bin\\cmake.exe"
     
 build_script:
     - "set OLDPATH=%PATH%"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
-    - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+    - "set PATH=%PYTHON_HOME%;%PYTHON_HOME%\\Scripts;%PATH%"
     - "echo %PATH%"
     - "echo %PYTHONPATH%"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
