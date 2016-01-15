@@ -40,7 +40,7 @@ install:
 build_script:
     - "set OLDPATH=%PATH%"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
-    - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
+    - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
     - "echo %PATH%"
     - "echo %PYTHONPATH%"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
