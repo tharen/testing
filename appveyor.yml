@@ -46,7 +46,7 @@ install:
     
 build_script:
     - "set OLDPATH=%PATH%"
-    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\set_path.bat"
+    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
     - "set PATH=%OLDPATH%"
