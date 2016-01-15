@@ -39,9 +39,13 @@ install:
     # - "echo %PYTHONPATH%"
     - "%PYTHON%\\Scripts\\pip install virtualenv"
     - "%PYTHON%\\Scripts\\virtualenv pyfvs_python"
-    - "%PYTHON%\\Scripts\\activate pyfvs_python"
+    - "pyfvs_python\Scripts\activate"
     - "pip install -r requirements.txt"
     - "pip list"
+    - "git clone https://github.com/wolever/nose-parameterized.git"
+    - "pushd nose-parameterized"
+    - "python setup.py install"
+    - "popd"
     
 build_script:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
