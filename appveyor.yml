@@ -40,12 +40,10 @@ install:
     - "%PYTHON%\\Scripts\\pip install virtualenv"
     - "%PYTHON%\\Scripts\\virtualenv pyfvs_python"
     - "pyfvs_python\\Scripts\\activate"
-    - "pip install -r requirements.txt"
+    - "appveyor DownloadFile http://www.lfd.uci.edu/~gohlke/pythonlibs/wkvprmqy/numpy-1.10.4+vanilla-cp27-none-win_amd64.whl -FileName numpy.whl
+    - "pip install numpy.whl"
     - "pip list"
-    - "git clone https://github.com/wolever/nose-parameterized.git"
-    - "pushd nose-parameterized"
-    - "python setup.py install"
-    - "popd"
+    - "pip install git+https://github.com/wolever/nose-parameterized.git"
     
 build_script:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
