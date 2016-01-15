@@ -22,21 +22,26 @@ environment:
       # PYTHON_VERSION: "3.5.x"
       # PYTHON_ARCH: "64"
 
-    - PYTHON: "C:\\Miniconda-x64"
+    # - PYTHON: "C:\\Miniconda-x64"
+      # PYTHON_VERSION: "2.7"
+      # PYTHON_ARCH: "64"
+
+    - PYTHON: "C:\\Python27-x64"
       PYTHON_VERSION: "2.7"
       PYTHON_ARCH: "64"
-
-    # - PYTHON: "C:\\Python27-x64"
-      # PYTHON_VERSION: "2.7.x"
-      # PYTHON_ARCH: "64"
       
 install:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
     - "del C:\\msys64\\Mingw64\\bin\\python.exe" # Conflicts with the target Python
-    - "%PYTHON%\\Scripts\\conda create -q -y -n pyfvs_python --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
+    # - "%PYTHON%\\Scripts\\conda create -q -y -n pyfvs_python --file %APPVEYOR_BUILD_FOLDER%\\requirements.txt"
+    # - "%PYTHON%\\Scripts\\activate pyfvs_python"
+    # - "echo %PATH%"
+    # - "echo %PYTHONPATH%"
+    - "%PYTHON%\\Scripts\\pip install virtualenv"
+    - "%PYTHON%\\Scripts\\virtualenv pyfvs_python"
     - "%PYTHON%\\Scripts\\activate pyfvs_python"
-    - "echo %PATH%"
-    - "echo %PYTHONPATH%"
+    - "pip install -r requirements.txt"
+    - "pip list"
     
 build_script:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
