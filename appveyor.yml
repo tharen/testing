@@ -39,7 +39,7 @@ install:
     # - "echo %PYTHONPATH%"
     - "%PYTHON%\\Scripts\\pip install virtualenv"
     - "%PYTHON%\\Scripts\\virtualenv pyfvs_python"
-    - "pyfvs_python\Scripts\activate"
+    - "pyfvs_python\\Scripts\\activate"
     - "pip install -r requirements.txt"
     - "pip list"
     - "git clone https://github.com/wolever/nose-parameterized.git"
