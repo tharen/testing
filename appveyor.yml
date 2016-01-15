@@ -40,7 +40,7 @@ install:
 build_script:
     - "set OLDPATH=%PATH%"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\setpath.bat"
-    - "set PATH=%PYTHON%;%PYTHON%\Scripts;%PATH%
+    - "set PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
     - "echo %PATH%"
     - "echo %PYTHONPATH%"
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
@@ -50,14 +50,14 @@ build_script:
 
 after_build:
     - pushd bin\build
-    - 7z a -bd %ARCHIVE_NAME% Open-FVS\*
+    - 7z a -bd %ARCHIVE_NAME% Open-FVS\\*
     - move /y %ARCHIVE_NAME% %APPVEYOR_BUILD_FOLDER%
 
 on_failure:
     - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
     # Post error logs to the build log
-    - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\build\build_err.log
-    - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\build\f2py_*.log
+    - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\build_err.log
+    - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\f2py_*.log
 
 test_script:
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\run_tests.bat"
