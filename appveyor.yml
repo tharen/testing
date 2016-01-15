@@ -45,7 +45,7 @@ install:
     - "del C:\\msys64\\Mingw64\\bin\\python.exe" # Conflicts with the target Python
     
 build_script:
-    - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
+    - "cmd /c %APPVEYOR_BUILD_FOLDER%\\.appveyor\\configure.bat"
     - "cmd /c %APPVEYOR_BUILD_FOLDER%\\.appveyor\\build.bat"
     - "set ARCHIVE_NAME=open-fvs-%APPVEYOR_REPO_TAG_NAME%-Python%PYTHON_VERSION%_%PYTHON_ARCH%-windows-ci.zip"
 

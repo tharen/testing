@@ -1,3 +1,5 @@
+set PATH=%PYTHON%;C:\\msys64\\mingw64\\bin
+
 mkdir bin\build
 pushd bin\build
 cmake -G "MinGW Makefiles" .. ^
