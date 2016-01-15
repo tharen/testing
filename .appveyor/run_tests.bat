@@ -1,5 +1,5 @@
 %PYTHON%\Scripts\pip install --upgrade nose-parameterized
-%PYTHON%\Scripts\conda update -y
+%PYTHON%\Scripts\conda update -y --all
 
 set PYTHONPATH=%APPVEYOR_BUILD_FOLDER%\bin\build\Open-FVS\python;%PYTHONPATH%
 
