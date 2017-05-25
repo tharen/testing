@@ -14,6 +14,7 @@ else
   exit
 fi
 
+conda install twine --yes
 twine upload *.whl --skip-existing
 twine upload *.gz --skip-existing
 
