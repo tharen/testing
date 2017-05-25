@@ -14,6 +14,7 @@ else
   exit
 fi
 
+pip install twine
 twine upload dist/*.whl --skip-existing
 twine upload dist/*.gz --skip-existing
 
