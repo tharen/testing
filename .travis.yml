@@ -46,7 +46,6 @@ before_install:
   - source .travis-ci/install_miniconda.sh
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
-  - conda config --set always_yes yes --set changeps1 no
   # Useful for debugging any issues with conda
   - conda info -a
   # Edit the environment.yml file for the target Python version
