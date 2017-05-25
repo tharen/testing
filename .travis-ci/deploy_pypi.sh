@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # Deploy compiled wheels and source archives to PYPI
 # TWINE_USERNAME and TWINE_PASSWORD should set as global variables
 
@@ -11,11 +11,11 @@ elif [ $TRAVIS_BRANCH = 'master' ] && [ -z ${TRAVIS_TAG+x}]; then
   TWINE_REPOSITORY_URL=https://pypi.python.org
 else
   popd
-  exit
+  exit 0
 fi
 
-pip install twine
 twine upload dist/*.whl --skip-existing
 twine upload dist/*.gz --skip-existing
 
 popd
+exit 0

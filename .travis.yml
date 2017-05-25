@@ -1,10 +1,10 @@
 sudo: false
-cache:
-    apt: true
-    directories:
-    - $HOME/.cache/pip
-    - $HOME/miniconda
-    - $HOME/download
+# cache:
+    # apt: true
+    # directories:
+    # - $HOME/.cache/pip
+    # - $HOME/miniconda
+    # - $HOME/download
 
 language: python
 python:
@@ -78,7 +78,7 @@ after_failure:
 
 after_success:
   - ls ${TRAVIS_BUILD_DIR}/artifacts
-  - source ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+  - chmod +x ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
 
 deploy:
   # # GitHub Releases
@@ -109,8 +109,8 @@ deploy:
       # repo: tharen/PyFVS
       # all_branches: true
       
-  # - provider: script
-    # skip_cleanup: true
-    # script: bash ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
-    # on:
-      # all_branches: true
+  - provider: script
+    skip_cleanup: true
+    script: ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+    on:
+      all_branches: true

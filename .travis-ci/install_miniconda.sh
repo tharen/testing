@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Use miniconda in travis-ci http://conda.pydata.org/docs/travis.html
 # We do this conditionally because it saves us some downloading if the
