@@ -14,9 +14,6 @@ else
   exit
 fi
 
-source $HOME/miniconda/bin/activate pyfvs
-conda install twine --yes
-
 twine upload dist/*.whl --skip-existing
 twine upload dist/*.gz --skip-existing
 
