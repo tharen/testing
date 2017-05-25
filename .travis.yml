@@ -111,6 +111,6 @@ deploy:
       
   - provider: script
     skip_cleanup: true
-    script: ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+    script: sh ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
     on:
       all_branches: true
