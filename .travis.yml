@@ -3,7 +3,7 @@ cache:
     apt: true
     directories:
     - $HOME/.cache/pip
-    - $HOME/miniconda
+#    - $HOME/miniconda
     - $HOME/download
 
 language: python
@@ -111,6 +111,6 @@ deploy:
       
   - provider: script
     skip_cleanup: true
-    script: sh ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+    script: source ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
     on:
       all_branches: true
