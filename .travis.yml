@@ -3,7 +3,7 @@ cache:
     apt: true
     directories:
     - $HOME/.cache/pip
-#    - $HOME/miniconda
+    - $HOME/miniconda
     - $HOME/download
 
 language: python
@@ -47,7 +47,6 @@ before_install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
   # Edit the environment.yml file for the target Python version
@@ -111,6 +110,6 @@ deploy:
       
   - provider: script
     skip_cleanup: true
-    script: source ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+    script: bash ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
     on:
       all_branches: true

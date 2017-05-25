@@ -21,6 +21,7 @@ else
     
     chmod +x $HOME/download/miniconda.sh
     $HOME/download/miniconda.sh -b -p $HOME/miniconda
-
+    conda update -q conda
+    
 fi
 
