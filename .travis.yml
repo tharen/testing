@@ -78,7 +78,7 @@ after_failure:
 
 after_success:
   - ls ${TRAVIS_BUILD_DIR}/artifacts
-  - ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+  - source ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
 
 deploy:
   # # GitHub Releases
