@@ -67,6 +67,11 @@ after_build:
     # Create a zip file package of the compiled libraries and python package
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\bundle_archive.bat"
 
+test_script:
+    # Run tests against the final package
+    - conda install matplotlib
+    - call "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\run_tests.bat"
+
 on_success:
   # Adapted from: https://github.com/AndrewAnnex/SpiceyPy/blob/master/appveyor.yml
   - call .appveyor\\deploy_pypi.bat
@@ -79,11 +84,6 @@ on_failure:
     # Report remote desktop connection parameters and wait
     # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
     
-test_script:
-    # Run tests against the final package
-    - conda install matplotlib
-    - call "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\run_tests.bat"
-
 artifacts:
     - path: pyfvs*.zip
       name: pyfvs-zip
