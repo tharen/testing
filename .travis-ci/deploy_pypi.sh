@@ -7,18 +7,18 @@ pushd ${TRAVIS_BUILD_DIR}/bin/build/Open-FVS/python
 
 if [ $TRAVIS_BRANCH = 'dev' ]; then
   echo "On dev branch, upload to testpypi."
+  export TWINE_REPOSITORY=https://testpypi.python.org
   export TWINE_REPOSITORY_URL=https://testpypi.python.org
 
 elif [ $TRAVIS_BRANCH = 'master' ] && [ -z ${TRAVIS_TAG+x}]; then
   echo "On master branch with tag, upload to pypi."
+  export TWINE_REPOSITORY=https://pypi.python.org
   export TWINE_REPOSITORY_URL=https://pypi.python.org
 
 else
   popd
   exit 0
 fi
-
-echo $TWINE_REPOSITORY_URL
 
 twine upload dist/*.gz --skip-existing
 

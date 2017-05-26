@@ -7,6 +7,7 @@ pushd %APPVEYOR_BUILD_FOLDER%\python
 
 if "%APPVEYOR_REPO_BRANCH%" == "dev" (
     echo On dev branch, deploy to PYPI test.
+    set TWINE_REPOSITORY=https://testpypi.python.org/pypi
     set TWINE_REPOSITORY_URL=https://testpypi.python.org/pypi
     goto upload
 )
@@ -14,6 +15,7 @@ if "%APPVEYOR_REPO_BRANCH%" == "dev" (
 if "%APPVEYOR_REPO_BRANCH%" == "master" (
     if "%APPVEYOR_REPO_TAG%" == "true" (
         echo Tagged commit on master, deploying to pypi.
+        set TWINE_REPOSITORY=https://pypi.python.org/pypi
         set TWINE_REPOSITORY_URL=https://pypi.python.org/pypi
         goto upload
     )
