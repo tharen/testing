@@ -1,6 +1,6 @@
 # This file is automatically updated during packaging.
 # The version is extracted from the current Git tag using setup.py version.
 
-__version__ = '0.0.13dev'
+__version__ = '0.0.13rc'
 __git_describe__ = ''
 __git_commit__ = ''
