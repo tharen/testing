@@ -21,8 +21,8 @@ env:
     # - FVS_VARIANTS="pnc;wcc;soc;cac;ecc;oc;op"
     
     - TWINE_USERNAME="tod.haren"
-    # travis encrypt TWINE_PASSWORD=<plain text> -r tharen/pyfvs
-    - secure: "K+A4sLHlXDoVdPY3b5qna8RYcskXnb4D3yk6Eu4zySXuKtvzY1wgXACQCaJ0QBUoZAS2ZkhETkc8ZTt0KbGwiiAb2VEA8XA+FC5xWh6QOwW/Ty3Dsfp2SmDam2YX2/KAO/bpOLWOKgsTBBuQquztJ3mxaTXSQaCjGnV5iW7TeJKxbsci33cBrCumO7VlXPhBsNpjbCbnifctDgZAtuxSD+JJhyRU+PycfqyVAjNmiPCKwqMIf5Bp5rSeMtHAr0CErG8VlXOHJGFArNkQM4s5GOq2B341/QLk/v/+zFV+EnevoSgNZfURJU94W0bt+n8ihMB1qFRK7nKq1TUKR4UI6SE1AOfEWoj5SL1Qv1lXQxp+2AEn0s3cj7guiMbJTuYEuuXxoj5/w7fyoCw+cFfp7uk0H7Eh7VPLsqFo2hArjJgxUuqOxHUmg9GodD5Fg0CCp1UmxB4y6Lp0hZAiihN7BTd/nr9iTV8JVF1V5Nfsw1dBLJASJHli+e8kx5c7B+05+voDqFqj5LWlCG0li568ZB37F80+52nb/UdoRikQWRmBEoRUxrYU+wi+zxOo3LHpAWmI4qREfxaQpEBxt0LURSydov8GDCjOzB9SL5aZZlU1QF7x8gP73iNywsf2wG1oB720yFuF2ys58Qbsj0nDbAu1HhNDKatudzdBN4KxhwE="
+    # travis encrypt TWINE_PASSWORD=<plain text> -r tharen/testing
+    - secure: "srfuDKb4QWIE5U/u3h7qlsZc/3rokbgAEdagWL5wzrh3MQTqpL8RW0eQFbdp21QD2ZS9CXzeKQDyzqjaMmF5FNE9FqYL3Y66EC9UBhYAqAG6Lf0CbCiBMEK20yHrXyGQ3+bewY4WyTvVidow9pEeW5GdLVZJPTHautKsaNdEXqiqvBUwSNrCtWUVxippka6SizIKI1+yYzlbB/smia4BAOPnw/vkhNhX4iicnADrG+NvPbH6VyXtJqETXTgZ3yFrpa1mTw6isV4HArLSf82puTwPKUWVgOfku0Mmgxcd7RfdvfqO6rMvQH2KtgOyHHCUZqMEX32BGNt1c/fkSrhLpDMZHExUhscePfgyRxCOZE+2QrlcoMjtpZMTWtuYJvk5iNXleGi04jmY5QbAxlaFHjS/En6mnAWH77RkDZoEnO8FxTAXjdPs3Ubq65lr4VhK6VWU4hlbvZyB12lvxZfSm7veE/coFks2YczvZgq95FCNxw57KF4fCxhGqr94R/t3ZVhLRlNp1aMU4xx8VoSza4BhQbAUA2asazQHnbkA3sYd1bnz8vKwGc5t507ktcxCU9WA8w2vFpuBIbvIf5KiyqQFw7SdBso0s45FFdESlY+szGR56g3a3rFlDjIl6jw9ayh4yN0wtI+6gnrIoXBweGt3tK5qb7uqZ+UA+tKd7oU="
     
     - MPLBACKEND="agg"
 
