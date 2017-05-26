@@ -39,7 +39,7 @@ environment:
     
 init:
     # Display remote desktop details
-    # - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+    - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
     - echo PYTHON_VERSION - %PYTHON_VERSION%
     - echo MINICONDA - %MINICONDA%
     
@@ -67,13 +67,17 @@ after_build:
     # Create a zip file package of the compiled libraries and python package
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\bundle_archive.bat"
 
+on_success:
+  # Adapted from: https://github.com/AndrewAnnex/SpiceyPy/blob/master/appveyor.yml
+  - call .appveyor\\deploy_pypi.bat
+
 on_failure:
     # Post error logs to the build log
     - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\build_err.log
     - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\pypnc_f2py.log
     
     # Report remote desktop connection parameters and wait
-    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+    # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
     
 test_script:
     # Run tests against the final package
@@ -114,11 +118,6 @@ artifacts:
     # folder: pyfvs/%APPVEYOR_REPO_BRANCH%
     # artifact: pyfvs-zip pyfvs-wheel
 
-deploy_script:
-  # Adapted from: https://github.com/AndrewAnnex/SpiceyPy/blob/master/appveyor.yml
-  - echo "Upload to PyPI."
-  - call .appveyor\\deploy_pypi.bat
-    
 # on_finish:
   # # Pause the build for remote desktop access
   # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
