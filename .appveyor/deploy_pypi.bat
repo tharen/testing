@@ -22,7 +22,9 @@ echo Not a tag on master, nor dev, skipping pypi deploy.
 goto exit
 
 :upload
-twine upload --skip-existing dist/* 2>$null
+echo Call twine to upload packages.
+twine upload --skip-existing dist/*
+echo Done.
 
 :exit
 popd
