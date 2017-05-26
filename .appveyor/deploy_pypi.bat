@@ -2,7 +2,8 @@
 :: Deploy compiled wheels and source archives to PYPI
 :: TWINE_USERNAME and TWINE_PASSWORD should set as global variables
 
-pushd %APPVEYOR_BUILD_FOLDER%\bin\build\Open-FVS\python
+REM pushd %APPVEYOR_BUILD_FOLDER%\bin\build\Open-FVS\python
+pushd %APPVEYOR_BUILD_FOLDER%\python
 
 if "%APPVEYOR_REPO_BRANCH%" == "dev" (
     echo On dev branch, deploy to PYPI test.

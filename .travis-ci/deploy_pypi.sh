@@ -18,7 +18,8 @@ else
   exit 0
 fi
 
-conda install twine --yes -c conda-forge
+echo $TWINE_REPOSITORY_URL
+
 twine upload dist/*.gz --skip-existing
 
 ## PYPI doesn't accept binary wheels for linux

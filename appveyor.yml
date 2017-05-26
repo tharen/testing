@@ -68,32 +68,32 @@ after_build:
     # Create a zip file package of the compiled libraries and python package
     - "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\bundle_archive.bat"
 
-test_script:
-    # Run tests against the final package
-    - conda install matplotlib
-    - call "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\run_tests.bat"
+# test_script:
+    # # Run tests against the final package
+    # - conda install matplotlib
+    # - call "%APPVEYOR_BUILD_FOLDER%\\.appveyor\\run_tests.bat"
 
 on_success:
   # Adapted from: https://github.com/AndrewAnnex/SpiceyPy/blob/master/appveyor.yml
   - conda install twine --yes -c conda-forge
   - call .appveyor\\deploy_pypi.bat
 
-on_failure:
-    # Post error logs to the build log
-    - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\build_err.log
-    - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\pypnc_f2py.log
+# on_failure:
+    # # Post error logs to the build log
+    # - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\build_err.log
+    # - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\pypnc_f2py.log
     
-    # Report remote desktop connection parameters and wait
-    # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+    # # Report remote desktop connection parameters and wait
+    # # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
     
-artifacts:
-    - path: pyfvs*.zip
-      name: pyfvs-zip
-      type: zip
+# artifacts:
+    # - path: pyfvs*.zip
+      # name: pyfvs-zip
+      # type: zip
 
-    - path: pyfvs*.whl
-      name: pyfvs-wheel
-      type: whl
+    # - path: pyfvs*.whl
+      # name: pyfvs-wheel
+      # type: whl
 
 # deploy:
   # - provider: GitHub

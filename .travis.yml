@@ -79,6 +79,7 @@ after_failure:
 
 after_success:
   - ls ${TRAVIS_BUILD_DIR}/artifacts
+  - conda install twine --yes -c conda-forge
   - chmod +x ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh && ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
   
 deploy:
