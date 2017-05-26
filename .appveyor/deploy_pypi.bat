@@ -22,9 +22,8 @@ echo Not a tag on master, nor dev, skipping pypi deploy.
 goto exit
 
 :upload
-conda install twine --yes -c conda-forge
 echo Call twine to upload packages.
-twine upload --skip-existing dist/*
+call twine upload --skip-existing dist/*
 echo Done.
 
 :exit

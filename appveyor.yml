@@ -52,6 +52,7 @@ install:
     - set PATH=%MINICONDA%;%MINICONDA%\Scripts;%PATH%
     - set PATH=%MINGW_PATH%\bin;%PATH%
     - conda config --set always_yes yes --set changeps1 no
+    - conda config --add channels conda-forge
     - conda update -q conda
     # Edit the environment.yml file for the target Python version
     - call sed -i -E 's/(python=)(.*)/\1'%PYTHON_VERSION%'/' ./environment.yml
@@ -74,6 +75,7 @@ test_script:
 
 on_success:
   # Adapted from: https://github.com/AndrewAnnex/SpiceyPy/blob/master/appveyor.yml
+  - conda install twine --yes -c conda-forge
   - call .appveyor\\deploy_pypi.bat
 
 on_failure:
