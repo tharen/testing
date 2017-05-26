@@ -78,8 +78,8 @@ after_failure:
 
 after_success:
   - ls ${TRAVIS_BUILD_DIR}/artifacts
-  - chmod +x ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
-
+  - chmod +x ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh && ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+  
 deploy:
   # # GitHub Releases
   # - provider: releases
@@ -108,9 +108,3 @@ deploy:
     # on:
       # repo: tharen/PyFVS
       # all_branches: true
-      
-  - provider: script
-    skip_cleanup: true
-    script: ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
-    on:
-      all_branches: true

@@ -1,3 +1,4 @@
+@echo off
 :: Deploy compiled wheels and source archives to PYPI
 :: TWINE_USERNAME and TWINE_PASSWORD should set as global variables
 
