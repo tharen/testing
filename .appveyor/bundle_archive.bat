@@ -3,8 +3,7 @@
 call activate pyfvs
 set ARCHIVE_NAME=pyfvs-%PKG_VERSION%-Python%PYTHON_VERSION%_%PYTHON_ARCH%-windows-ci.zip
 
-REM cd Open-FVS\python
-cd %APPVEYOR_BUILD_FOLDER%\python
+cd Open-FVS\python
 
 :: Create the wheel as source archive
 call python setup.py build_ext --inplace --compiler=mingw32
