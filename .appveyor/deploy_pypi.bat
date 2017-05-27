@@ -25,7 +25,7 @@ goto exit
 
 :upload
 echo Call twine to upload packages.
-call twine upload --skip-existing dist/* && (
+call twine upload dist/* --skip-existing && (
     echo twine upload complete.
     (call )
 ) || (

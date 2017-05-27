@@ -17,7 +17,7 @@ env:
   global:
     - FVS_STATUS=alpha
     - BUILD_ROOT=${TRAVIS_BUILD_DIR}/bin/build
-    - FVS_VARIANTS="pnc"
+    - FVS_VARIANTS="pnc;wcc"
     # - FVS_VARIANTS="pnc;wcc;soc;cac;ecc;oc;op"
     
     - TWINE_USERNAME="tod.haren"
