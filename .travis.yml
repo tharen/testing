@@ -66,7 +66,7 @@ script:
   
     # Test the wheel if the build was successful
     && pip install --no-index --find-links ${TRAVIS_BUILD_DIR}/artifacts pyfvs \
-    && pyfvs --run-tests \
+    # && pyfvs --run-tests \
     && pytest -rsx --pyargs pyfvs.test \
     && conda install matplotlib \
     && pytest ${TRAVIS_BUILD_DIR}/python/pyfvs/examples/demo.py \
