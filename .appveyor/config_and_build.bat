@@ -40,17 +40,17 @@ if %PYTHON_VERSION%=="2.7" (
 :: Configure CMake
 mkdir bin\build
 cd bin\build
-REM cmake -G "MinGW Makefiles" .. ^
-    REM -DFVS_VARIANTS=%FVS_VARIANTS% ^
-    REM -DCMAKE_SYSTEM_NAME=Windows ^
-    REM -DNATIVE_ARCH=No ^
-    REM -D32BIT_TARGET=%win32% ^
-    REM -DWITH_PYEXT=Yes ^
-    REM -DCMAKE_BUILD_TYPE=Release ^
-    REM -DCMAKE_INSTALL_PREFIX=Open-FVS || goto :error_configure
+cmake -G "MinGW Makefiles" .. ^
+    -DFVS_VARIANTS=%FVS_VARIANTS% ^
+    -DCMAKE_SYSTEM_NAME=Windows ^
+    -DNATIVE_ARCH=No ^
+    -D32BIT_TARGET=%win32% ^
+    -DWITH_PYEXT=Yes ^
+    -DCMAKE_BUILD_TYPE=Release ^
+    -DCMAKE_INSTALL_PREFIX=Open-FVS || goto :error_configure
 
-REM :: Compile and install locally
-REM cmake --build . --target install 2> build_err.log || goto :error_build
+:: Compile and install locally
+cmake --build . --target install 2> build_err.log || goto :error_build
 
 :: Exit clean
 goto :exit
