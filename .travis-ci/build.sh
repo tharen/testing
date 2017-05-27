@@ -1,3 +1,5 @@
+#!/bin/bash
+set -ev
 cd ${TRAVIS_BUILD_DIR}
 
 # Ensure the version information is consistent
