@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ev
+
 cd ${TRAVIS_BUILD_DIR}
 
 # Ensure the version information is consistent
@@ -19,7 +19,7 @@ cmake -G"Unix Makefiles" .. \
     -DUNIX_TARGET=Yes \
     -DCMAKE_SYSTEM_NAME=Linux \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=Open-FVS    
+    -DCMAKE_INSTALL_PREFIX=Open-FVS
 
 # Build the Open-FVS binaries
 # the install target will copy the Python files over
