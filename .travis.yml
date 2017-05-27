@@ -63,10 +63,7 @@ install:
 script:
   # build.sh compiles the Open-FVS binaries and builds the Python wheel and archive
   - source ${TRAVIS_BUILD_DIR}/.travis-ci/build.sh \
-  
-    # Test the wheel if the build was successful
     && pip install --no-index --find-links ${TRAVIS_BUILD_DIR}/artifacts pyfvs \
-    # && pyfvs --run-tests \
     && pytest -rsx --pyargs pyfvs.test \
     && conda install matplotlib \
     && pytest ${TRAVIS_BUILD_DIR}/python/pyfvs/examples/demo.py \
