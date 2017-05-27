@@ -54,6 +54,7 @@ install:
     - conda config --set always_yes yes --set changeps1 no
     - conda config --add channels conda-forge
     - conda update -q conda
+    
     # Edit the environment.yml file for the target Python version
     - call sed -i -E 's/(python=)(.*)/\1'%PYTHON_VERSION%'/' ./environment.yml
     - conda env create -q -n pyfvs -f environment.yml
@@ -62,7 +63,7 @@ install:
     
 build_script:
     # Configure the CMake project and execute the build
-    - call .appveyor\\config_and_build.bat
+    - call %APPVEYOR_BUILD_FOLDER%\\.appveyor\\config_and_build.bat
 
 after_build:
     # Create a zip file package of the compiled libraries and python package
@@ -84,7 +85,7 @@ on_failure:
     - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\\bin\\build\\pypnc_f2py.log
     
     # Report remote desktop connection parameters and wait
-    - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+    # - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
     
 artifacts:
     - path: pyfvs*.zip

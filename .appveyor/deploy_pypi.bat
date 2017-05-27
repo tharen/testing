@@ -25,8 +25,13 @@ goto exit
 
 :upload
 echo Call twine to upload packages.
-call twine upload --skip-existing dist/*
-echo Done.
+call twine upload --skip-existing dist/* && (
+    echo twine upload complete.
+    (call )
+) || (
+    echo twine upload failed!
+)
 
 :exit
 popd
+exit 0
