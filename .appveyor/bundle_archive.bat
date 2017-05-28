@@ -12,9 +12,9 @@ call python setup.py sdist --formats=zip
 
 cp dist/* %APPVEYOR_BUILD_FOLDER%
 
-REM :: Create the zip archive
-REM :: FIXME: adapt this to use `sdist` after the install target is changed
-REM cd %APPVEYOR_BUILD_FOLDER%\bin\build
-REM 7z a -bd %APPVEYOR_BUILD_FOLDER%\%ARCHIVE_NAME% Open-FVS\*
+:: Create the zip archive
+:: FIXME: adapt this to use `sdist` after the install target is changed
+cd %APPVEYOR_BUILD_FOLDER%\bin\build
+7z a -bd %APPVEYOR_BUILD_FOLDER%\%ARCHIVE_NAME% Open-FVS\*
 
 exit /b 0
