@@ -6,7 +6,7 @@ import subprocess
 
 from setuptools import setup, Extension, Command
 from Cython.Build import cythonize
-from Cython.Distutils import build_ext as _build_ext
+from Cython.Distutils import build_ext
 import numpy
 
 # NOTE: Python 2.7 C compiler for Windows
@@ -128,16 +128,19 @@ else:
     args = []
     defs = []
 
-# Collect all Cython source files as a list of extensions
-extensions = [
+def get_extensions():
+    """Return all Cython source files as a list of extensions."""
+    ext = cythonize([
         Extension("pyfvs.*"
             , sources=["pyfvs/*.pyx"]
             , include_dirs=[numpy.get_include()]
             , extra_compile_args=args
             , extra_link_args=args
             , define_macros=defs
-            )]
-
+            )
+        ])
+    return ext
+    
 setup(
     name='pyfvs'
     , version=get_version()
@@ -150,7 +153,7 @@ setup(
     , setup_requires=['cython', 'numpy>=1.11', 'pytest-runner','twine']
     , tests_require=['pytest']
     , install_requires=['numpy>=1.11', 'pandas']
-    , ext_modules=cythonize(extensions)
+    , ext_modules=get_extensions()
     , packages=['pyfvs', 'pyfvs.keywords']
     , package_data={
             '':['*.pyd', '*.cfg', '*.so', 'README.*']
@@ -171,5 +174,5 @@ setup(
             , 'Programming Language :: Fortran'
             ]
     , keywords=''
-    , cmdclass={"version": Version, }
+    , cmdclass={"version": Version, "build_ext": build_ext}
     )
