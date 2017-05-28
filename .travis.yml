@@ -77,9 +77,10 @@ after_failure:
 
 after_success:
   # Deploy here to run in the build environment
-  - conda install twine
-  - chmod +x ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
-  - ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+  # PYPI doesn't accept compiled wheels for Linux.
+  # - conda install twine
+  # - chmod +x ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
+  # - ${TRAVIS_BUILD_DIR}/.travis-ci/deploy_pypi.sh
   
 deploy:
   # GitHub Releases
